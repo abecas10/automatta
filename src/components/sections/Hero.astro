@@ -30,7 +30,8 @@ const sentences = es.hero.title.match(/[^.!?]+[.!?]?/g)?.map((t) => t.trim()) ??
           ))
         }
       </h1>
-      <p class="hero-in mt-7 max-w-xl text-lg leading-relaxed text-paper/75 sm:text-xl" data-hero-in>
+      <!-- Visible desde el primer pintado (es el elemento LCP): solo se desliza, no aparece con fundido -->
+      <p class="mt-7 max-w-xl text-lg leading-relaxed text-paper/75 sm:text-xl" data-hero-sub>
         {es.hero.subtitle}
       </p>
       <div class="hero-in mt-10 flex flex-col gap-3 sm:flex-row sm:items-center" data-hero-in>

@@ -31,6 +31,7 @@ export function initHero({ mobile }: Opts) {
     { opacity: 0, y: 24 },
     { opacity: 1, y: 0, duration: 1, stagger: 0.09, delay: 0.35 },
   );
+  gsap.from('[data-hero-sub]', { y: 16, duration: 1, ease: 'expo.out', delay: 0.3 });
 
   // Parallax suave de la ilustración al salir del hero.
   if (!mobile) {
