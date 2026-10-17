@@ -7,7 +7,8 @@ export const cleanText = (el: HTMLElement) => (el.textContent ?? '').replace(/\s
 
 /** Revelado genérico al hacer scroll: titulares por palabras y bloques con fade-up. */
 export function initReveals() {
-  document.querySelectorAll<HTMLElement>('[data-split]').forEach((el) => {
+  // Solo titulares: SplitText añade aria-label, que no está permitido en <p>.
+  document.querySelectorAll<HTMLElement>(':is(h1, h2, h3, h4, h5, h6)[data-split]').forEach((el) => {
     const label = cleanText(el);
     SplitText.create(el, {
       type: 'words,lines',

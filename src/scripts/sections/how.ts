@@ -37,7 +37,9 @@ export function initHow({ mobile }: Opts) {
     const pills = q('.cb-pill');
     gsap.set(q('.cb-check-circle, .cb-check-mark'), { drawSVG: '0%' });
     gsap.set(q('.cb-progress'), { scaleX: 0 });
-    gsap.set(nodes, { opacity: 0.35 });
+    // Solo se atenúa el círculo: el texto de cada paso siempre se lee bien.
+    const dots = nodes.map((n) => n.querySelector('.cb-dot')!);
+    gsap.set(dots, { opacity: 0.35 });
     gsap.set(q('.cb-mail'), { opacity: 0, x: -20 });
 
     const tl = scrubbed(cobros);
@@ -47,11 +49,7 @@ export function initHow({ mobile }: Opts) {
         .fromTo(pills[to], { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.25 }, at + 0.1);
     nodes.forEach((node, i) => {
       const at = i * 0.9;
-      tl.to(node, { opacity: 1, duration: 0.2 }, at).from(
-        node.querySelector('.cb-dot'),
-        { scale: 0.6, duration: 0.3, ease: 'back.out(2)' },
-        at,
-      );
+      tl.to(dots[i], { opacity: 1, duration: 0.2 }, at).from(dots[i], { scale: 0.6, duration: 0.3, ease: 'back.out(2)' }, at);
       if (i < 2) {
         swap(i, i + 1, at + 0.1);
         tl.fromTo(q('.cb-mail'), { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.3 }, at + 0.15).to(
