@@ -1,0 +1,60 @@
+---
+import Base from './Base.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/sections/Footer.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  updated: string;
+}
+const { title, description, updated } = Astro.props;
+---
+
+<Base title={`${title} · Automatta`} description={description}>
+  <Navbar />
+  <main id="contenido">
+    <header class="dark relative overflow-hidden bg-ink pt-36 pb-16 text-paper">
+      <div class="grid-bg absolute inset-0" aria-hidden="true"></div>
+      <div class="container-x relative">
+        <h1 class="font-display text-5xl font-extrabold sm:text-6xl">{title}</h1>
+        <p class="mt-4 text-paper/60">Última actualización: {updated}</p>
+      </div>
+    </header>
+    <article class="legal container-x max-w-3xl py-16 sm:py-24">
+      <slot />
+    </article>
+  </main>
+  <Footer showCta={false} />
+</Base>
+
+<style>
+  .legal :global(h2) {
+    margin-top: 2.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+  .legal :global(p),
+  .legal :global(li) {
+    margin-top: 0.9rem;
+    color: var(--color-muted);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+  }
+  .legal :global(ul) {
+    list-style: disc;
+    padding-left: 1.25rem;
+  }
+  .legal :global(a) {
+    color: var(--color-violet);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .legal :global(mark) {
+    background: rgb(255 107 107 / 0.15);
+    color: var(--color-alert-dark);
+    padding: 0 0.25em;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+</style>

@@ -1,0 +1,68 @@
+---
+import Button from '../Button.astro';
+import es from '../../content/es';
+import { SURVEY_URL, MAILTO_CALL, CONTACT_EMAIL } from '../../config';
+
+const s = es.survey;
+const icons = [
+  'M12 7v5l3 2M12 21a9 9 0 100-18 9 9 0 000 18z',
+  'M6 10V8a6 6 0 1112 0v2M5 10h14v10H5z',
+  'M7 3h7l5 5v13H7zM14 3v5h5M10 13h6M10 17h6',
+  'M5 12l4 4L19 6',
+];
+---
+
+<section id="encuesta" class="dark relative isolate overflow-hidden bg-ink py-24 text-paper sm:py-36" aria-labelledby="encuesta-title">
+  <div class="survey-bg pointer-events-none absolute inset-0 -z-10" aria-hidden="true"></div>
+  <div class="mesh -z-10 !opacity-70" aria-hidden="true"><span></span><span></span><span></span></div>
+
+  <div class="container-x">
+    <div class="mx-auto max-w-4xl text-center">
+      <p class="eyebrow text-money" data-reveal>{s.eyebrow}</p>
+      <h2 id="encuesta-title" class="mt-6 font-display text-[2.6rem] leading-[0.98] font-extrabold sm:text-6xl lg:text-[5.5rem]" data-split>
+        {s.title}
+      </h2>
+      <p class="mx-auto mt-7 max-w-2xl text-lg leading-relaxed text-paper/80 sm:text-xl" data-reveal>{s.text}</p>
+    </div>
+
+    <ul class="mx-auto mt-14 grid max-w-5xl gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        s.bullets.map((b, i) => (
+          <li class="rounded-2xl border border-white/10 bg-white/[0.05] p-5 backdrop-blur-sm" data-reveal>
+            <span class="grid h-10 w-10 place-items-center rounded-xl bg-money/15 text-money">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d={icons[i]} />
+              </svg>
+            </span>
+            <p class="mt-4 font-display text-xl font-bold">{b.title}</p>
+            <p class="mt-1 text-paper/70">{b.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="mt-14 flex flex-col items-center gap-6" data-reveal>
+      <div class="magnet-zone grid place-items-center p-6 sm:p-10">
+        <Button href={SURVEY_URL} external size="lg" magnetic arrow class="survey-btn !min-h-[4.5rem] !px-10 !text-xl">
+          {s.cta}
+        </Button>
+      </div>
+      <p class="text-center text-paper/75">
+        {s.altPrefix}{' '}
+        <a href={MAILTO_CALL} class="font-semibold text-money underline decoration-money/40 underline-offset-4 hover:decoration-money">
+          {s.altLink}
+        </a>
+        <span class="block text-sm text-paper/50 sm:inline sm:before:content-['_·_']">{CONTACT_EMAIL}</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .survey-bg {
+    background:
+      radial-gradient(60% 50% at 50% 100%, rgb(43 214 123 / 0.28), transparent 70%),
+      radial-gradient(50% 60% at 15% 10%, rgb(108 92 231 / 0.45), transparent 70%),
+      linear-gradient(180deg, #0b1020, #141040);
+  }
+</style>

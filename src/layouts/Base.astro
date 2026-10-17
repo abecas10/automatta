@@ -1,0 +1,103 @@
+---
+import '@fontsource-variable/inter';
+import '@fontsource-variable/bricolage-grotesque';
+import '../styles/global.css';
+import interLatin from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
+import bricolageLatin from '@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-wght-normal.woff2?url';
+import es from '../content/es';
+import { SITE_URL, SITE_NAME, CONTACT_EMAIL } from '../config';
+
+interface Props {
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+}
+
+const { title = es.meta.title, description = es.meta.description, noindex = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? SITE_URL).href;
+const ogImage = new URL('/og.png', Astro.site ?? SITE_URL).href;
+
+const orgJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: SITE_NAME,
+  url: SITE_URL,
+  logo: new URL('/logo.png', SITE_URL).href,
+  email: CONTACT_EMAIL,
+  description: es.meta.description,
+  founder: es.team.founders.map((f) => ({ '@type': 'Person', name: f.name })),
+  address: { '@type': 'PostalAddress', addressLocality: 'Barcelona', addressCountry: 'ES' },
+  areaServed: ['Barcelona', 'Catalunya', 'España'],
+};
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta name="theme-color" content="#0B1020" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <link rel="preload" href={bricolageLatin} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={interLatin} as="font" type="font/woff2" crossorigin />
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={es.meta.ogAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(orgJsonLd)} />
+
+    <!--
+      Analítica: cuando queráis medir visitas sin cookies, activad Vercel Web Analytics
+      en el panel de Vercel e instalad `@vercel/analytics`. Después añadid aquí:
+        import Analytics from '@vercel/analytics/astro';
+        <Analytics />
+      (No usa cookies, así que no hace falta banner.)
+    -->
+
+    <!-- Marca el documento para animar solo si hay JS y no se pide movimiento reducido.
+         Si el JS no llega a ejecutarse en 4 s, se muestra todo igualmente. -->
+    <script is:inline>
+      (function () {
+        var d = document.documentElement;
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          d.classList.add('js-motion');
+          window.__motionFallback = setTimeout(function () {
+            d.classList.remove('js-motion');
+          }, 4000);
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <a
+      href="#contenido"
+      class="sr-only z-[200] rounded-full bg-money px-4 py-2 font-semibold text-ink focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
+      >{es.nav.skip}</a
+    >
+    <slot />
+    <div class="cursor-dot" aria-hidden="true"></div>
+    <script>
+      import '../scripts/motion';
+    </script>
+  </body>
+</html>

@@ -1,0 +1,56 @@
+---
+import Legal from '../layouts/Legal.astro';
+import { CONTACT_EMAIL, MAILTO, SITE_URL } from '../config';
+---
+
+<Legal
+  title="Aviso legal"
+  description="Aviso legal de la web de Automatta, startup de Barcelona."
+  updated="octubre de 2026"
+>
+  <p>
+    En cumplimiento de la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y de Comercio
+    Electrónico (LSSI-CE), te informamos de los datos del titular de esta web.
+  </p>
+
+  <h2>Titular de la web</h2>
+  <ul>
+    <li>Denominación: Automatta <mark>[PENDIENTE: razón social definitiva; la sociedad está en constitución]</mark></li>
+    <li>NIF: <mark>[PENDIENTE: NIF]</mark></li>
+    <li>Domicilio: <mark>[PENDIENTE: domicilio]</mark>, Barcelona</li>
+    <li>Datos registrales: <mark>[PENDIENTE: Registro Mercantil]</mark></li>
+    <li>Correo electrónico: <a href={MAILTO}>{CONTACT_EMAIL}</a></li>
+    <li>Web: {SITE_URL}</li>
+  </ul>
+
+  <h2>Objeto</h2>
+  <p>
+    Esta web informa sobre el proyecto Automatta, una herramienta en desarrollo para automatizar los cobros y la tesorería
+    de las pymes, e invita a participar en una encuesta de investigación de mercado. Actualmente no se vende ningún
+    producto ni servicio a través de ella.
+  </p>
+
+  <h2>Condiciones de uso</h2>
+  <p>
+    El acceso a esta web es gratuito y no requiere registro. Te comprometes a hacer un uso adecuado de sus contenidos y a
+    no emplearlos para actividades ilícitas o contrarias a la buena fe.
+  </p>
+
+  <h2>Propiedad intelectual</h2>
+  <p>
+    Los textos, diseños, logotipos e ilustraciones de esta web son propiedad de Automatta o se usan con autorización. Las
+    pantallas del producto que aparecen son ilustraciones de cómo funcionará y utilizan datos ficticios.
+  </p>
+
+  <h2>Enlaces externos</h2>
+  <p>
+    La encuesta se aloja en Google Forms, un servicio de terceros. Automatta no se hace responsable de los contenidos ni
+    de las políticas de webs de terceros.
+  </p>
+
+  <h2>Legislación aplicable</h2>
+  <p>
+    Este aviso legal se rige por la legislación española. Para cualquier controversia, las partes se someten a los
+    juzgados y tribunales de Barcelona, salvo que la normativa aplicable disponga otra cosa.
+  </p>
+</Legal>

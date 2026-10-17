@@ -1,0 +1,42 @@
+---
+// Avatar de fundador. Hoy muestra iniciales; cuando haya foto, pasa `photo`
+// (por ejemplo, una imagen importada de src/assets) y se mostrará en su lugar.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  initials: string;
+  name: string;
+  photo?: ImageMetadata;
+  variant?: 'green' | 'violet';
+  class?: string;
+}
+const { initials, name, photo, variant = 'green', class: className = '' } = Astro.props;
+const gradient =
+  variant === 'green'
+    ? 'from-money via-[#7be8ad] to-violet'
+    : 'from-violet via-[#9b8ff2] to-money';
+---
+
+<div class:list={['relative aspect-square shrink-0 rounded-full p-[3px] bg-gradient-to-br', gradient, className]}>
+  {
+    photo ? (
+      <Image src={photo} alt={name} class="h-full w-full rounded-full object-cover" widths={[160, 320]} sizes="160px" />
+    ) : (
+      <div
+        class="relative grid h-full w-full place-items-center overflow-hidden rounded-full bg-ink text-paper"
+        role="img"
+        aria-label={name}
+      >
+        <span
+          class="absolute inset-0 opacity-60"
+          style="background: radial-gradient(circle at 30% 20%, rgb(108 92 231 / .55), transparent 60%), radial-gradient(circle at 80% 90%, rgb(43 214 123 / .45), transparent 55%);"
+          aria-hidden="true"
+        />
+        <span class="relative font-display text-[2.4em] font-bold tracking-tight" aria-hidden="true">
+          {initials}
+        </span>
+      </div>
+    )
+  }
+</div>

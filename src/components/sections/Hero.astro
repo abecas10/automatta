@@ -1,0 +1,57 @@
+---
+import Button from '../Button.astro';
+import HeroFlow from '../illustrations/HeroFlow.astro';
+import es from '../../content/es';
+import { SURVEY_URL } from '../../config';
+
+// Cada frase en su línea; la última, destacada en verde.
+const sentences = es.hero.title.match(/[^.!?]+[.!?]?/g)?.map((t) => t.trim()) ?? [es.hero.title];
+---
+
+<section class="dark relative isolate overflow-hidden bg-ink text-paper" aria-labelledby="hero-title">
+  <div class="mesh" aria-hidden="true"><span></span><span></span><span></span></div>
+  <div class="grid-bg absolute inset-0 -z-0" aria-hidden="true"></div>
+
+  <div
+    class="container-x relative grid min-h-[100svh] items-center gap-12 pt-28 pb-16 lg:grid-cols-[1.08fr_1fr] lg:gap-10 lg:pt-32 lg:pb-24"
+  >
+    <div class="relative max-w-2xl">
+      <p class="eyebrow hero-in text-money" data-hero-in>{es.hero.eyebrow}</p>
+      <h1
+        id="hero-title"
+        class="hero-title mt-6 font-display text-[3rem] leading-[0.95] font-extrabold sm:text-7xl lg:text-[5.4rem]"
+        data-hero-title
+      >
+        {
+          sentences.map((t, i) => (
+            <span class:list={['block', i === sentences.length - 1 && sentences.length > 1 && 'text-money']}>{t}</span>
+          ))
+        }
+      </h1>
+      <p class="hero-in mt-7 max-w-xl text-lg leading-relaxed text-paper/75 sm:text-xl" data-hero-in>
+        {es.hero.subtitle}
+      </p>
+      <div class="hero-in mt-10 flex flex-col gap-3 sm:flex-row sm:items-center" data-hero-in>
+        <Button href={SURVEY_URL} external size="lg" arrow magnetic>{es.hero.primary}</Button>
+        <Button href="#como-funciona" variant="ghost" size="lg">{es.hero.secondary}</Button>
+      </div>
+      <p class="hero-in mt-5 text-sm text-paper/55" data-hero-in>{es.hero.note}</p>
+    </div>
+
+    <div class="hero-in relative mx-auto w-full max-w-[520px] lg:max-w-none" data-hero-in data-hero-visual>
+      <div class="absolute -inset-8 -z-10 rounded-[40px] bg-violet/20 blur-3xl" aria-hidden="true"></div>
+      <HeroFlow />
+    </div>
+  </div>
+
+  <div class="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-ink" aria-hidden="true"></div>
+</section>
+
+<style>
+  :global(.js-motion) [data-hero-in] {
+    opacity: 0;
+  }
+  :global(.js-motion) [data-hero-title] {
+    visibility: hidden;
+  }
+</style>

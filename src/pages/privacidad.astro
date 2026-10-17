@@ -1,0 +1,69 @@
+---
+import Legal from '../layouts/Legal.astro';
+import { CONTACT_EMAIL, MAILTO } from '../config';
+---
+
+<Legal
+  title="Política de privacidad"
+  description="Cómo trata Automatta los datos personales de quien visita la web o responde la encuesta."
+  updated="octubre de 2026"
+>
+  <p>
+    En Automatta nos tomamos en serio tu privacidad. Aquí te explicamos, de forma clara, qué datos tratamos y para qué,
+    conforme al Reglamento General de Protección de Datos (RGPD) y la Ley Orgánica 3/2018 (LOPDGDD).
+  </p>
+
+  <h2>Responsable del tratamiento</h2>
+  <ul>
+    <li>Automatta <mark>[PENDIENTE: razón social; la sociedad está en constitución]</mark></li>
+    <li>NIF: <mark>[PENDIENTE: NIF]</mark></li>
+    <li>Domicilio: <mark>[PENDIENTE: domicilio]</mark>, Barcelona</li>
+    <li>Contacto: <a href={MAILTO}>{CONTACT_EMAIL}</a></li>
+  </ul>
+
+  <h2>Esta web no usa cookies</h2>
+  <p>
+    Esta web no instala cookies propias ni de terceros y no utiliza herramientas de analítica que rastreen tu actividad.
+    Por eso no verás ningún banner de cookies.
+  </p>
+
+  <h2>Qué datos tratamos y para qué</h2>
+  <ul>
+    <li>
+      <strong>Respuestas a la encuesta.</strong> Las usamos únicamente para este estudio de investigación de mercado. Son
+      confidenciales y solo publicaremos resultados agregados, sin identificar a ninguna empresa ni persona.
+    </li>
+    <li>
+      <strong>Datos de contacto que nos dejes de forma voluntaria</strong> (por ejemplo, nombre, empresa y correo). Los
+      usamos para enviarte el informe con los resultados y, si lo pides, darte acceso prioritario al piloto gratuito.
+    </li>
+    <li>
+      <strong>Correos que nos envíes.</strong> Los usamos para responderte y, si lo solicitas, organizar una llamada.
+    </li>
+  </ul>
+
+  <h2>Base legal</h2>
+  <p>
+    Tu consentimiento, que das al responder la encuesta, dejarnos tus datos o escribirnos. Puedes retirarlo en cualquier
+    momento escribiéndonos.
+  </p>
+
+  <h2>Con quién compartimos los datos</h2>
+  <p>
+    No vendemos ni cedemos tus datos. La encuesta se gestiona con Google Forms y el correo con Gmail (Google), que actúan
+    como proveedores de servicio. <mark>[PENDIENTE: revisar transferencias internacionales y cláusulas de Google]</mark>
+  </p>
+
+  <h2>Cuánto tiempo los guardamos</h2>
+  <p>
+    Mientras dure el estudio y el piloto, y como máximo <mark>[PENDIENTE: plazo, por ejemplo 24 meses]</mark>, salvo que
+    nos pidas antes que los borremos.
+  </p>
+
+  <h2>Tus derechos</h2>
+  <p>
+    Puedes pedir acceso, rectificación, supresión, oposición, limitación y portabilidad de tus datos escribiendo a
+    <a href={MAILTO}>{CONTACT_EMAIL}</a>. Si crees que no hemos atendido bien tu solicitud, puedes reclamar ante la
+    Agencia Española de Protección de Datos (<a href="https://www.aepd.es" rel="noopener" target="_blank">aepd.es</a>).
+  </p>
+</Legal>

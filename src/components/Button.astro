@@ -1,0 +1,51 @@
+---
+import es from '../content/es';
+
+interface Props {
+  href: string;
+  variant?: 'primary' | 'ghost';
+  external?: boolean;
+  size?: 'md' | 'lg';
+  magnetic?: boolean;
+  class?: string;
+  arrow?: boolean;
+}
+const {
+  href,
+  variant = 'primary',
+  external = false,
+  size = 'md',
+  magnetic = false,
+  class: className = '',
+  arrow = false,
+} = Astro.props;
+---
+
+<a
+  href={href}
+  class:list={[
+    'btn group',
+    variant === 'primary' ? 'btn-primary' : 'btn-ghost',
+    size === 'lg' && 'min-h-16 px-9 text-lg',
+    className,
+  ]}
+  target={external ? '_blank' : undefined}
+  rel={external ? 'noopener' : undefined}
+  data-magnetic={magnetic ? '0.3' : undefined}
+  data-survey-link={external ? '' : undefined}
+>
+  <slot />
+  {
+    arrow && (
+      <svg
+        class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+        viewBox="0 0 16 16"
+        fill="none"
+        aria-hidden="true"
+      >
+        <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    )
+  }
+  {external && <span class="sr-only">{es.common.newTab}</span>}
+</a>
