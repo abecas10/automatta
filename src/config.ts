@@ -12,7 +12,7 @@ export const MAILTO_CALL = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent
 /** Fecha de entrada en vigor de Verifactu para sociedades (hora peninsular). */
 export const VERIFACTU_DATE = '2027-01-01T00:00:00+01:00';
 
-/** Dominio definitivo. Cámbialo cuando tengáis dominio propio (también en astro.config.mjs). */
-export const SITE_URL = 'https://automatta.vercel.app';
+/** Dominio público: se define en site.config.mjs (raíz del proyecto). */
+export { SITE_URL } from '../site.config.mjs';
 
 export const SITE_NAME = 'Automatta';

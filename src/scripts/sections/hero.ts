@@ -1,5 +1,6 @@
 import { gsap } from 'gsap';
 import { SplitText } from 'gsap/SplitText';
+import { cleanText } from '../reveal';
 
 type Opts = { mobile: boolean };
 
@@ -8,11 +9,13 @@ export function initHero({ mobile }: Opts) {
   if (!title) return;
 
   const intro = gsap.timeline({ defaults: { ease: 'expo.out' } });
+  const label = cleanText(title);
   SplitText.create(title, {
     type: 'words,lines',
     mask: 'lines',
     autoSplit: true,
     onSplit: (self) => {
+      title.setAttribute('aria-label', label);
       gsap.set(title, { visibility: 'visible' });
       return gsap.from(self.words, {
         yPercent: 115,

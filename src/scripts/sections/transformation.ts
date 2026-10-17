@@ -1,4 +1,5 @@
 import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 type Opts = { mobile: boolean };
 
@@ -31,6 +32,17 @@ export function initTransformation({ mobile }: Opts) {
   const line = section.querySelector<SVGPathElement>('.tf-line')!;
   const area = section.querySelector<SVGPathElement>('.tf-area')!;
 
+  // En móvil, si el panel no cabe en la pantalla mientras está fijado, se escala el escenario.
+  const pin = section.querySelector<HTMLElement>('.tf-pin')!;
+  const fit = () => {
+    if (!mobile) return;
+    const top = offsetIn(stage, pin).y - stage.offsetHeight / 2;
+    const available = window.innerHeight - top - 12;
+    gsap.set(stage, { scale: Math.min(1, available / stage.offsetHeight), transformOrigin: '50% 0%' });
+  };
+  fit();
+  ScrollTrigger.addEventListener('refreshInit', fit);
+
   const delta = (from: HTMLElement, to: HTMLElement) => {
     const a = offsetIn(from, stage);
     const b = offsetIn(to, stage);
@@ -56,7 +68,7 @@ export function initTransformation({ mobile }: Opts) {
       trigger: section,
       start: 'top top',
       end: mobile ? '+=190%' : '+=260%',
-      pin: section.querySelector('.tf-pin'),
+      pin,
       scrub: 0.8,
       invalidateOnRefresh: true,
       anticipatePin: 1,

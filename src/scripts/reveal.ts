@@ -2,21 +2,27 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText } from 'gsap/SplitText';
 
+/** Texto del elemento sin saltos de línea ni espacios dobles (para aria-label). */
+export const cleanText = (el: HTMLElement) => (el.textContent ?? '').replace(/\s+/g, ' ').trim();
+
 /** Revelado genérico al hacer scroll: titulares por palabras y bloques con fade-up. */
 export function initReveals() {
   document.querySelectorAll<HTMLElement>('[data-split]').forEach((el) => {
+    const label = cleanText(el);
     SplitText.create(el, {
       type: 'words,lines',
       mask: 'lines',
       autoSplit: true,
-      onSplit: (self) =>
-        gsap.from(self.words, {
+      onSplit: (self) => {
+        el.setAttribute('aria-label', label);
+        return gsap.from(self.words, {
           yPercent: 110,
           duration: 0.9,
           ease: 'expo.out',
           stagger: 0.04,
           scrollTrigger: { trigger: el, start: 'top 85%', once: true },
-        }),
+        });
+      },
     });
   });
 

@@ -40,7 +40,8 @@ Otros datos están en [`src/config.ts`](src/config.ts):
 - `SURVEY_URL`: el enlace de la encuesta. **Todos** los botones de la encuesta salen de aquí.
 - `CONTACT_EMAIL`: el correo de contacto.
 - `VERIFACTU_DATE`: la fecha de la cuenta atrás.
-- `SITE_URL`: el dominio. Cámbialo también en `astro.config.mjs` (`site`) y en `public/robots.txt` cuando tengáis dominio propio.
+
+El **dominio** se cambia en un solo sitio: [`site.config.mjs`](site.config.mjs). De ahí salen el canonical, Open Graph, el sitemap, `robots.txt` y los datos estructurados.
 
 Textos legales: `src/pages/aviso-legal.astro` y `src/pages/privacidad.astro`. Busca `[PENDIENTE` para ver qué falta.
 
@@ -75,7 +76,7 @@ Astro las optimiza automáticamente.
 
 ### Dominio propio
 
-En Vercel: **Project → Settings → Domains → Add** y sigue las instrucciones para apuntar el DNS. Después actualiza `SITE_URL` en `src/config.ts`, `site` en `astro.config.mjs` y la línea `Sitemap:` de `public/robots.txt`.
+En Vercel: **Project → Settings → Domains → Add** y sigue las instrucciones para apuntar el DNS. Después cambia `SITE_URL` en `site.config.mjs`, haz commit y push.
 
 ### Analítica sin cookies (opcional)
 
@@ -103,7 +104,9 @@ src/
     reveal.ts               Revelados al hacer scroll y microinteracciones
     sections/               Animación de cada sección
   pages/                    index, aviso-legal, privacidad, 404
-public/                     favicon, og.png, robots.txt
+public/                     favicon, og.png, logo
+site.config.mjs             Dominio público (único sitio donde cambiarlo)
+vercel.json                 URLs limpias (/privacidad en vez de /privacidad.html)
 scripts/generate-assets.mjs Genera la imagen para redes y los iconos
 ```
 

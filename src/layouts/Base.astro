@@ -14,14 +14,16 @@ interface Props {
 }
 
 const { title = es.meta.title, description = es.meta.description, noindex = false } = Astro.props;
-const canonical = new URL(Astro.url.pathname, Astro.site ?? SITE_URL).href;
-const ogImage = new URL('/og.png', Astro.site ?? SITE_URL).href;
+// URLs limpias: /index.html → /, /aviso-legal.html → /aviso-legal
+const cleanPath = Astro.url.pathname.replace(/(index)?\.html$/, '').replace(/(.)\/$/, '$1') || '/';
+const canonical = new URL(cleanPath, SITE_URL).href;
+const ogImage = new URL('/og.png', SITE_URL).href;
 
 const orgJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: SITE_NAME,
-  url: SITE_URL,
+  url: `${SITE_URL}/`,
   logo: new URL('/logo.png', SITE_URL).href,
   email: CONTACT_EMAIL,
   description: es.meta.description,

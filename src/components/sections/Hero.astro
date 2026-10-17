@@ -24,7 +24,9 @@ const sentences = es.hero.title.match(/[^.!?]+[.!?]?/g)?.map((t) => t.trim()) ??
       >
         {
           sentences.map((t, i) => (
-            <span class:list={['block', i === sentences.length - 1 && sentences.length > 1 && 'text-money']}>{t}</span>
+            <span class:list={['block', i === sentences.length - 1 && sentences.length > 1 && 'text-money']}>
+              {t}{i < sentences.length - 1 ? ' ' : ''}
+            </span>
           ))
         }
       </h1>

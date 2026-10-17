@@ -57,6 +57,7 @@ const es = {
     ],
     inbox: {
       title: 'Bandeja de entrada',
+      unread: 'correos sin leer',
       subject: 'Recordatorio: factura vencida',
       items: [
         'Talleres Ejemplo SL',
@@ -80,15 +81,16 @@ const es = {
       'Cada cobro encaja con su factura.',
       'Y ves tu caja de las próximas semanas.',
     ],
-    tag: 'Así funcionará',
+    tag: 'Así funcionará · datos de ejemplo',
+    tagShort: 'Datos de ejemplo',
     dashboard: {
       title: 'Panel de Automatta',
       kpis: [
-        { label: 'Pendiente de cobro', value: '48.000 €' },
-        { label: 'Cobrado esta semana', value: '12.000 €' },
+        { label: 'Pendiente de cobro', value: '9.000 €' },
+        { label: 'Cobrado esta semana', value: '6.500 €' },
         { label: 'Caja en 8 semanas', value: '35.000 €' },
       ],
-      listTitle: 'Facturas',
+      listTitle: 'Facturas de esta semana',
       rows: [
         { client: 'Talleres Ejemplo SL', amount: '4.000 €', status: 'Cobrada' },
         { client: 'Distribuciones Muestra SA', amount: '6.000 €', status: 'Recordatorio enviado' },

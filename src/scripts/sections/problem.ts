@@ -28,7 +28,11 @@ export function initProblem({ mobile }: Opts) {
         n: items.length * 8,
         duration: tl.duration(),
         ease: 'power1.in',
-        onUpdate: () => (count.textContent = String(Math.max(1, Math.round(counter.n)))),
+        onUpdate: () => {
+          const n = String(Math.max(1, Math.round(counter.n)));
+          count.textContent = n;
+          count.setAttribute('aria-label', count.getAttribute('aria-label')!.replace(/^\d+/, n));
+        },
       },
       0,
     );
