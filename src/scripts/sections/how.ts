@@ -47,7 +47,7 @@ export function initHow({ mobile }: Opts) {
       tl
         .to(pills[from], { opacity: 0, y: -8, duration: 0.25 }, at)
         .fromTo(pills[to], { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.25 }, at + 0.1);
-    nodes.forEach((node, i) => {
+    dots.forEach((_, i) => {
       const at = i * 0.9;
       tl.to(dots[i], { opacity: 1, duration: 0.2 }, at).from(dots[i], { scale: 0.6, duration: 0.3, ease: 'back.out(2)' }, at);
       if (i < 2) {

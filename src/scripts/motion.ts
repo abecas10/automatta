@@ -48,13 +48,22 @@ mm.add(
 
     const opts = { mobile: !!mobile, fine: !!fine };
     initHero(opts);
-    initReveals();
-    initProblem(opts);
-    initTransformation(opts);
-    initHow(opts);
-    initRoadmap();
-    initVerifactu();
-    if (fine) initMicro();
+
+    // El resto de secciones está por debajo del primer pantallazo: se preparan cuando
+    // el navegador queda libre, para no bloquear la carga inicial.
+    const rest = () => {
+      initReveals();
+      initProblem(opts);
+      initTransformation(opts);
+      initHow(opts);
+      initRoadmap();
+      initVerifactu();
+      if (fine) initMicro();
+      ScrollTrigger.refresh();
+    };
+    const idle = window.requestIdleCallback ?? ((cb: () => void) => setTimeout(cb, 200));
+    // ctx.add mantiene estas animaciones dentro del contexto (se revierten con matchMedia).
+    idle(() => ctx.add(rest), { timeout: 1200 });
 
     // Recalcula posiciones cuando las fuentes terminan de cargar.
     document.fonts?.ready.then(() => ScrollTrigger.refresh());
