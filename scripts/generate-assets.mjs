@@ -28,12 +28,8 @@ const og = `${base}
   <div style="position:absolute;width:900px;height:900px;border-radius:50%;background:radial-gradient(circle,rgba(108,92,231,.55),transparent 65%);left:-300px;top:-200px;filter:blur(40px)"></div>
   <div style="position:absolute;width:800px;height:800px;border-radius:50%;background:radial-gradient(circle,rgba(43,214,123,.4),transparent 65%);right:-250px;bottom:-400px;filter:blur(40px)"></div>
   <div style="position:relative;display:flex;align-items:center;gap:18px">${symbol(56)}<span style="font-family:B;font-weight:700;font-size:44px;letter-spacing:-1.5px">automatta</span></div>
-  <div style="position:relative;margin-top:auto;font-family:B;font-weight:800;font-size:104px;line-height:.95;letter-spacing:-4px">Cobra antes.<br>Sabe tu caja.<br><span style="color:#2BD67B">Sin Excel.</span></div>
-  <div style="position:relative;margin-top:36px;font-size:26px;color:rgba(247,247,242,.7)">Cobros y tesorería automáticos para pymes · Barcelona</div>
-  <svg style="position:absolute;right:80px;top:150px" width="420" height="260" viewBox="0 0 420 260">
-    <path d="M10 230 C 60 215, 90 220, 130 200 S 200 185, 240 160 S 320 130, 410 40" fill="none" stroke="#2BD67B" stroke-width="8" stroke-linecap="round" opacity=".9"/>
-    <circle cx="410" cy="40" r="14" fill="#2BD67B"/>
-  </svg>
+  <div style="position:relative;margin-top:auto;font-family:B;font-weight:800;font-size:96px;line-height:.98;letter-spacing:-3.5px;max-width:900px">Tu departamento financiero, <span style="color:#2BD67B">en piloto automático.</span></div>
+  <div style="position:relative;margin-top:32px;font-size:26px;color:rgba(247,247,242,.7)">Facturas, cobros, banco e impuestos · para pymes</div>
 </div>`;
 
 const logo = `${base}<div style="width:512px;height:512px;display:grid;place-items:center;background:transparent">${symbol(512)}</div>`;

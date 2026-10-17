@@ -4,16 +4,19 @@
 
 const es = {
   meta: {
-    title: 'Automatta · Cobra antes y sabe tu caja',
+    title: 'Automatta · Tu departamento financiero, en piloto automático',
     description:
-      'Automatta automatiza los cobros y la tesorería de las pymes: reclama facturas, cuadra el banco y te dice cuánta caja tendrás. Ayúdanos con una encuesta de 5 minutos.',
-    ogAlt: 'Automatta: cobra antes, sabe tu caja, sin Excel.',
+      'Automatta pone en piloto automático la administración de pymes de 1 a 70 empleados: facturas, cobros, banco e impuestos. Ayúdanos a construirlo con una encuesta de 5 minutos.',
+    ogAlt: 'Automatta: tu departamento financiero, en piloto automático.',
+    orgDescription:
+      'Startup de Barcelona que automatiza la administración financiera de las pymes: facturas de proveedores y clientes, cobros, tesorería, cierre contable e impuestos.',
   },
 
   nav: {
     links: [
       { href: '#problema', label: 'El problema' },
       { href: '#como-funciona', label: 'Cómo funciona' },
+      { href: '#para-quien', label: 'Para quién' },
       { href: '#verifactu', label: 'Verifactu' },
       { href: '#equipo', label: 'Quiénes somos' },
       { href: '#faq', label: 'Preguntas' },
@@ -26,35 +29,43 @@ const es = {
 
   hero: {
     eyebrow: 'Startup de Barcelona · en fase de investigación',
-    title: 'Cobra antes. Sabe tu caja. Sin Excel.',
+    // Cada línea se muestra en su propia fila; la última va en verde.
+    titleLines: ['Tu departamento financiero,', 'en piloto automático.'],
     subtitle:
-      'Automatta reclama tus facturas, cuadra el banco y te dice cuánta caja tendrás en las próximas semanas.',
+      'Automatta registra tus facturas, reclama a quien no paga, cuadra el banco y te prepara los impuestos. Dejas de pagar por trabajo de robot y sabes cómo va tu negocio hoy.',
     primary: 'Ayúdanos con 5 minutos',
     secondary: 'Ver cómo funciona',
     note: 'Encuesta de 5 minutos · respuestas confidenciales',
     illustrationLabel:
-      'Ilustración: tus facturas se convierten en cobros que entran en el banco y en una previsión de caja.',
+      'Ilustración: tus facturas se registran solas, los cobros entran en el banco y se dibuja la previsión de caja a 90 días.',
+    company: 'Taller Puig SL',
+    forecastTitle: 'Previsión de caja',
+    forecastRange: 'próximos 90 días',
+    forecastLabels: ['Hoy', '30 días', '60 días', '90 días'],
   },
 
   problem: {
     eyebrow: 'El problema',
     title: 'Así se vive hoy en muchas pymes.',
-    intro:
-      'Vendes a 60 o 90 días. Y luego empieza el otro trabajo: perseguir, cuadrar y adivinar.',
+    intro: 'Tres problemas que se repiten en casi todas las empresas, sean pequeñas o medianas.',
     cards: [
       {
-        title: 'Reclamar facturas',
-        text: 'Cada semana se van horas en emails y llamadas para recordar a los clientes que te deben dinero.',
+        title: 'Pagar a personas por teclear datos',
+        text: 'Las facturas llegan en PDF y alguien las copia una a una en el programa de contabilidad. En una empresa pequeña lo hace una gestoría a la que pagas cada mes; en una mediana, un equipo que se pasa horas tecleando.',
       },
       {
-        title: 'Cuadrar el banco a mano',
-        text: 'Movimiento a movimiento, en Excel, buscando qué cobro corresponde a qué factura.',
+        title: 'Los cobros tardíos ahogan la caja',
+        text: 'Vendes a 60 o 90 días y las facturas vencidas se reclaman cuando alguien se acuerda. El dinero de lo que ya has vendido está fuera de tu empresa justo cuando lo necesitas para nóminas y proveedores.',
       },
       {
-        title: 'No saber tu caja',
-        text: 'Nadie sabe con seguridad cuánta caja habrá dentro de 4 u 8 semanas. Las sorpresas llegan tarde.',
+        title: 'Cero visibilidad en tiempo real',
+        text: '“¿Llegaremos a las nóminas de este mes?” En una mediana hay que montar un Excel; en una pequeña dependes de que la gestoría te pase los números, a menudo un trimestre tarde.',
       },
     ],
+    conclusion: 'Tres problemas, una misma causa: procesos manuales.',
+    conclusionText:
+      'La mayor parte de ese trabajo es copiar datos de un sitio a otro y acordarse de fechas. Eso lo hace mejor un programa.',
+    conclusionLink: 'Mira cómo se ordena',
     inbox: {
       title: 'Bandeja de entrada',
       unread: 'correos sin leer',
@@ -69,7 +80,12 @@ const es = {
       ],
     },
     sheet: {
-      title: 'cobros_FINAL_v7.xlsx',
+      title: 'facturas_proveedores_FINAL_v7.xlsx',
+      columns: ['Factura', 'Importe', 'IVA', 'Cuenta'],
+    },
+    fog: {
+      title: 'Caja',
+      question: '¿Llegamos a las nóminas?',
     },
   },
 
@@ -77,9 +93,9 @@ const es = {
     eyebrow: 'Con Automatta',
     title: 'Del caos a saber dónde estás.',
     steps: [
-      'Los recordatorios salen solos.',
-      'Cada cobro encaja con su factura.',
-      'Y ves tu caja de las próximas semanas.',
+      'Los cobros se reclaman solos.',
+      'Los datos se registran y se cuadran solos.',
+      'Y ves tus números en tiempo real.',
     ],
     tag: 'Así funcionará · datos de ejemplo',
     tagShort: 'Datos de ejemplo',
@@ -88,7 +104,7 @@ const es = {
       kpis: [
         { label: 'Pendiente de cobro', value: '9.000 €' },
         { label: 'Cobrado esta semana', value: '6.500 €' },
-        { label: 'Caja en 8 semanas', value: '35.000 €' },
+        { label: 'Caja en 90 días', value: '35.000 €' },
       ],
       listTitle: 'Facturas de esta semana',
       rows: [
@@ -97,44 +113,94 @@ const es = {
         { client: 'Ingeniería Ficticia SL', amount: '2.500 €', status: 'Conciliada' },
         { client: 'Logística Demo SL', amount: '3.000 €', status: 'Llamar hoy' },
       ],
-      chartTitle: 'Previsión de caja · 8 semanas',
+      chartTitle: 'Previsión de caja · 90 días',
+      chartLabels: ['Hoy', '30 d', '60 d', '90 d'],
     },
-    reducedNote: 'Antes: emails, Excel y sorpresas. Después: un panel con todo en orden.',
+    reducedNote: 'Antes: PDFs, emails, Excel y sorpresas. Después: un panel con todo en orden.',
   },
 
   how: {
     eyebrow: 'Cómo funciona',
-    title: 'Tres piezas que trabajan por ti.',
-    intro: 'Se conectan entre sí. Tú solo miras el resultado.',
+    title: 'Cinco módulos, un solo sistema.',
+    intro:
+      'Automatta hace el trabajo repetitivo y te pasa solo las excepciones. Lo que necesita criterio (decidir, negociar, los casos raros) lo sigue haciendo una persona.',
     tag: 'Así funcionará · datos de ejemplo',
+    startHere: 'Por aquí empezamos',
+    excluded: 'Las nóminas y los contratos laborales no están incluidos por ahora.',
     pieces: [
       {
-        id: 'cobros',
+        id: 'proveedores',
         number: '01',
-        title: 'Cobros automáticos',
-        text: 'Detecta las facturas vencidas o a punto de vencer y envía recordatorios a tus clientes, con el tono adecuado en cada momento. Y te avisa de los casos que necesitan una llamada.',
-        points: ['Recordatorios automáticos', 'Tono adaptado a cada momento', 'Aviso cuando toca llamar'],
+        kicker: 'Cuentas a pagar',
+        title: 'Facturas de proveedores',
+        text: 'Las facturas llegan a un buzón y se leen solas: proveedor, importe, IVA y vencimiento. Se comprueban contra el pedido y el albarán, el responsable las aprueba desde el móvil con un clic y, el día de pago, se preparan todas las transferencias de golpe.',
+        points: ['Cada factura se lee sola', 'Comprobada con pedido y albarán', 'Aprobación con un clic desde el móvil'],
+        start: false,
       },
       {
-        id: 'conciliacion',
+        id: 'cobros',
         number: '02',
-        title: 'Conciliación bancaria',
-        text: 'Se conecta a tu banco y cuadra cada cobro con su factura. Sin que nadie tenga que hacerlo a mano.',
-        points: ['Conexión con tu banco', 'Cada cobro con su factura', 'Adiós al Excel de cuadre'],
+        kicker: 'Cuentas a cobrar',
+        title: 'Facturas a clientes y cobros',
+        text: 'La factura se crea y se envía sola, con el formato que pide Verifactu. Si el cliente no paga, Automatta le reclama de forma escalonada: un recordatorio amable, después uno firme con la factura adjunta y, si sigue sin pagar, te avisa para que le llames. Cuando el dinero llega al banco, marca la factura como cobrada.',
+        points: ['Facturas creadas y enviadas solas', 'Reclamación escalonada', 'Cobrada en cuanto llega el dinero'],
+        start: true,
       },
       {
-        id: 'prevision',
+        id: 'tesoreria',
         number: '03',
-        title: 'Previsión de caja',
-        text: 'Te dice cuánta caja tendrás en las próximas semanas a partir de lo que tienes pendiente de cobrar y pagar. Para que no haya sustos.',
-        points: ['Próximas 8 semanas', 'Cobros y pagos pendientes', 'Avisos antes del problema'],
+        kicker: 'Bancos y caja',
+        title: 'Tesorería',
+        text: 'Se conecta a todos tus bancos de forma segura (open banking, la normativa europea PSD2, siempre con tu permiso), clasifica los movimientos y cuadra cada cobro con su factura. Dibuja tu previsión de caja a 90 días y te avisa con semanas de antelación si la curva baja demasiado.',
+        points: ['Todos tus bancos en un sitio', 'Cada cobro cuadrado con su factura', 'Previsión de caja a 90 días'],
+        start: false,
+      },
+      {
+        id: 'cierre',
+        number: '04',
+        kicker: 'Contabilidad',
+        title: 'Cierre del mes y números en vivo',
+        text: 'Los apuntes que se repiten cada mes se generan solos y, en vez del Excel, tienes un panel siempre al día con ventas, gastos y beneficio. Cada apunte queda enlazado a su factura.',
+        points: ['Apuntes recurrentes automáticos', 'Ventas, gastos y beneficio al día', 'Cada apunte enlazado a su factura'],
+        start: false,
+      },
+      {
+        id: 'impuestos',
+        number: '05',
+        kicker: 'Tickets e IVA',
+        title: 'Gastos e impuestos',
+        text: 'Haces una foto al ticket con el móvil y se registra solo. Como todas las facturas ya han entrado con su IVA, los borradores de los impuestos trimestrales (como el modelo 303 del IVA) se preparan solos: solo hay que revisar y presentar.',
+        points: ['Foto al ticket y listo', 'Borradores de impuestos trimestrales', 'Tú revisas y presentas'],
+        start: false,
       },
     ],
+    demoPayables: {
+      inbox: 'facturas@tuempresa.es',
+      file: 'factura_proveedor.pdf',
+      fields: [
+        { label: 'Proveedor', value: 'Maderas Ejemplo SL' },
+        { label: 'Importe', value: '1.210 €' },
+        { label: 'IVA', value: '21 % · 210 €' },
+        { label: 'Vence', value: 'en 30 días' },
+      ],
+      checks: ['Pedido', 'Albarán'],
+      approve: 'Aprobar',
+      approved: 'Aprobada',
+      transfer: 'Transferencia lista para el día de pago',
+    },
     demoCobros: {
       invoice: 'Factura F-2041',
       client: 'Talleres Ejemplo SL',
       amount: '4.000 €',
-      states: ['Vencida', 'Recordatorio enviado', 'Cobrada'],
+      // Estado de la factura en cada momento
+      states: ['Vencida', 'Recordatorio amable', 'Recordatorio firme', 'Cobrada'],
+      // Escalada
+      steps: [
+        { day: 'Día 3', label: 'Recordatorio amable' },
+        { day: 'Día 20', label: 'Firme + factura' },
+        { day: 'Día 40', label: 'Te avisamos para llamar' },
+      ],
+      mail: 'Recordatorio para Talleres Ejemplo SL',
     },
     demoRecon: {
       bankTitle: 'Banco',
@@ -147,16 +213,43 @@ const es = {
       done: 'Todo cuadrado',
     },
     demoForecast: {
-      title: 'Caja prevista',
-      weeks: ['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8'],
-      alert: 'Semana 6: caja ajustada',
+      title: 'Caja prevista · 90 días',
+      labels: ['Hoy', '30 días', '60 días', '90 días'],
+      alert: 'Dentro de 7 semanas: caja ajustada',
+    },
+    demoClose: {
+      title: 'Este mes · en vivo',
+      kpis: [
+        { label: 'Ventas', value: '42.000 €' },
+        { label: 'Gastos', value: '31.000 €' },
+        { label: 'Beneficio', value: '11.000 €' },
+      ],
+      recurringTitle: 'Apuntes del mes',
+      recurring: ['Alquiler del local', 'Seguro', 'Software de diseño'],
+      linked: 'Enlazado a su factura',
+      months: ['Oct', 'Nov', 'Dic', 'Ene', 'Feb', 'Mar'],
+    },
+    demoTaxes: {
+      ticket: 'Ticket · Gasolinera',
+      ticketAmount: '60 €',
+      registered: 'Gasto registrado',
+      formTitle: 'Modelo 303 · 1.er trimestre',
+      draft: 'Borrador listo',
+      rows: [
+        { label: 'IVA de tus ventas', value: '8.400 €' },
+        { label: 'IVA de tus gastos', value: '5.200 €' },
+        { label: 'A ingresar', value: '3.200 €' },
+      ],
+      cta: 'Revisar y presentar',
     },
   },
 
   verifactu: {
-    eyebrow: 'Verifactu',
-    title: 'Verifactu llega el\u00a01\u00a0de\u00a0enero de\u00a02027.',
-    text: 'Verifactu es el sistema de facturación verificable de Hacienda, obligatorio para las sociedades a partir del 1 de enero de 2027. Automatta será compatible con Verifactu, para que no tengas que preocuparte de eso también.',
+    eyebrow: 'Verifactu y por qué ahora',
+    title: 'Verifactu llega el 1 de enero de 2027.',
+    text: 'Verifactu es el sistema de facturación verificable de Hacienda: cada factura queda registrada y no se puede alterar. Será obligatorio para las sociedades a partir del 1 de enero de 2027, y Automatta será compatible.',
+    why: 'La administración es el último rincón de las pymes sin automatizar, y la ley obliga a todas a cambiar su forma de facturar: primero Verifactu y, en los próximos años, la factura electrónica obligatoria entre empresas.',
+    quote: 'Si tienes que cambiar igualmente, cambia a algo que lo haga todo.',
     countdownLabel: 'Tiempo hasta el 1 de enero de 2027',
     units: { days: 'días', hours: 'horas', minutes: 'minutos', seconds: 'segundos' },
     arrived: 'Verifactu ya es obligatorio para las sociedades.',
@@ -165,33 +258,91 @@ const es = {
 
   audience: {
     eyebrow: 'Para quién es',
-    title: 'Pymes que facturan a otras empresas.',
-    text: 'De 5 a 50 empleados. Empezamos por Barcelona y Catalunya.',
-    facts: [
-      { value: '5–50', label: 'empleados' },
-      { value: 'B2B', label: 'facturas a empresas' },
-      { value: 'BCN', label: 'Barcelona y Catalunya' },
+    title: 'Para pymes de 1 a 70 empleados.',
+    text: 'Lo que cambia es quién hace hoy el trabajo. Empezamos por Cataluña.',
+    exampleTag: 'Ejemplo',
+    segments: [
+      {
+        range: '1–29 empleados',
+        name: 'Empresas pequeñas',
+        headline: 'Deja de pagar a la gestoría por teclear tus facturas.',
+        text: 'Hoy pagas a una gestoría y no sabes cómo va tu negocio hasta que te pasa los números. Automatta se encarga de la contabilidad, la facturación compatible con Verifactu y los impuestos trimestrales y anuales, y tú ves tus números en tiempo real.',
+        example: {
+          name: 'Taller Puig SL · 6 empleados',
+          text: 'Paga una gestoría cada mes y se entera de cómo van sus números semanas después.',
+        },
+      },
+      {
+        range: '30–70 empleados',
+        name: 'Empresas medianas',
+        headline: 'Tu equipo deja de hacer trabajo de robot.',
+        text: 'Tu equipo de administración se pasa horas copiando datos. Automatta les quita el trabajo repetitivo para que se dediquen a lo que necesita criterio, y la empresa puede crecer sin tener que contratar más gente para administración.',
+        example: {
+          name: 'Muebles García SL · 50 empleados',
+          text: 'Marta y Jorge pasan cada mes horas tecleando unas 200 facturas.',
+        },
+      },
     ],
+    sectorsTitle: 'Sectores',
     sectors: [
       'Industria',
+      'Comercio',
       'Distribución',
-      'Servicios profesionales',
-      'Ingeniería',
+      'Hostelería',
+      'Talleres',
+      'Clínicas',
+      'Despachos profesionales',
       'Construcción',
-      'Tecnología',
       'Logística',
+      'Tecnología',
+    ],
+  },
+
+  roadmap: {
+    eyebrow: 'Hoja de ruta',
+    title: 'Paso a paso, y con las empresas.',
+    here: 'Estamos aquí',
+    items: [
+      {
+        when: '2026',
+        title: 'Escuchar y validar',
+        text: 'Encuesta y entrevistas con dueños de pymes. Constitución de la empresa.',
+        current: true,
+      },
+      {
+        when: '2026–2027',
+        title: 'Construir',
+        text: 'Primera versión con facturación Verifactu y cobros automáticos, junto a las primeras empresas.',
+        current: false,
+      },
+      {
+        when: '2027',
+        title: 'Lanzar en Cataluña',
+        text: 'De la mano de asociaciones de pymes. Y sumar contabilidad, impuestos y tesorería.',
+        current: false,
+      },
+      {
+        when: 'Después',
+        title: 'Toda España',
+        text: 'Nóminas y empresas más grandes.',
+        current: false,
+      },
     ],
   },
 
   survey: {
     eyebrow: 'La encuesta',
     title: 'Lo estamos construyendo contigo.',
-    text: 'Antes de lanzar nada, queremos escuchar a empresas como la tuya. Cuéntanos cómo cobras hoy y qué te quita tiempo.',
+    text: 'Antes de lanzar nada, queremos escuchar a empresas como la tuya. Cuéntanos cómo llevas hoy facturas, cobros e impuestos, y qué te quita tiempo.',
+    program: {
+      title: 'Buscamos a nuestras primeras 5-10 empresas: usarán Automatta gratis durante 2 años.',
+      text: 'A cambio, nos ayudan a darle forma: una sesión de feedback al mes y, si les va bien, contarlo como caso de éxito.',
+    },
     bullets: [
       { title: '5 minutos', text: 'Preguntas cortas, sin rodeos.' },
       { title: 'Confidencial', text: 'Tus respuestas solo se usan para este estudio.' },
       { title: 'Te llevas el informe', text: 'Si nos dejas tu contacto, te enviamos los resultados.' },
-      { title: 'Acceso prioritario', text: 'Y entras primero en el piloto gratuito.' },
+      { title: 'Prioridad', text: 'Para ser una de las primeras empresas, gratis durante 2 años.' },
     ],
     cta: 'Responder la encuesta',
     altPrefix: '¿Prefieres contárnoslo en 15 minutos?',
@@ -201,10 +352,10 @@ const es = {
   team: {
     eyebrow: 'Quiénes somos',
     title: 'Dos personas de Barcelona con una idea clara.',
-    text: 'Vemos a muchas pymes de aquí perder tiempo y dinero cobrando. Queremos que cobrar sea lo fácil, y que dediquen sus horas a lo que de verdad hacen bien.',
+    text: 'Queremos llegar a las pymes a través de quien ya tiene su confianza y quitarles de encima el papeleo, lo haga hoy una gestoría o su propio equipo. Para que se dediquen a su negocio.',
     founders: [
-      { name: 'Alex Castella', role: 'Cofundador', initials: 'AC' },
-      { name: 'Alex Llagostera', role: 'Cofundador', initials: 'AL' },
+      { name: 'Alex Llagostera', role: 'Fundador y Co-CEO', initials: 'AL' },
+      { name: 'Alex Castella', role: 'Cofundador y Co-CEO', initials: 'AC' },
     ],
     place: 'Barcelona',
   },
@@ -215,19 +366,27 @@ const es = {
     items: [
       {
         q: '¿Ya puedo usar Automatta?',
-        a: 'Todavía no. Estamos en fase de investigación y preparando un piloto gratuito. Si respondes la encuesta y nos dejas tu contacto, tendrás acceso prioritario.',
+        a: 'Todavía no. Estamos escuchando a empresas y construyendo la primera versión. Las primeras 5-10 empresas la usarán gratis durante 2 años. Si respondes la encuesta y nos dejas tu contacto, tendrás prioridad.',
       },
       {
         q: '¿Cuánto costará?',
-        a: 'Aún lo estamos definiendo. Precisamente es una de las cosas que preguntamos en la encuesta.',
+        a: 'Lo estamos definiendo, y precisamente lo preguntamos en la encuesta. La idea es una cuota mensual según el tamaño de tu empresa, por menos de lo que hoy te cuesta la gestoría o el trabajo manual.',
       },
       {
         q: '¿Sustituye a mi gestoría?',
-        a: 'No, la complementa. Tu gestoría sigue con lo suyo; Automatta te quita el trabajo de cobrar y de controlar la caja.',
+        a: 'Si tu empresa es pequeña, la idea es que sí en la parte contable y fiscal: facturación, contabilidad e impuestos. Las nóminas y los contratos laborales no están incluidos por ahora, así que para eso seguirías necesitando a alguien.',
+      },
+      {
+        q: 'Tengo un equipo de administración, ¿lo sustituye?',
+        a: 'No. Les quita el trabajo repetitivo (teclear facturas, cuadrar el banco, perseguir cobros) para que se centren en lo que necesita criterio.',
       },
       {
         q: '¿Qué es Verifactu?',
-        a: 'Es el sistema de facturación verificable de Hacienda. Será obligatorio para las sociedades a partir del 1 de enero de 2027. Automatta será compatible con Verifactu.',
+        a: 'Es el sistema de facturación verificable de Hacienda: cada factura queda registrada y no se puede alterar. Será obligatorio para las sociedades a partir del 1 de enero de 2027. Automatta será compatible con Verifactu.',
+      },
+      {
+        q: '¿Es seguro conectar mis bancos?',
+        a: 'Nos conectaremos mediante open banking, la normativa europea (PSD2) que permite a software autorizado leer tus movimientos, siempre con tu permiso.',
       },
       {
         q: '¿Mis datos están seguros?',
@@ -242,7 +401,7 @@ const es = {
   },
 
   footer: {
-    tagline: 'Cobros y tesorería automáticos para pymes.',
+    tagline: 'Tu departamento financiero, en piloto automático.',
     made: 'Hecho en Barcelona',
     contact: 'Contacto',
     legal: 'Aviso legal',

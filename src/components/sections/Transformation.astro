@@ -128,7 +128,7 @@ const chartPath = 'M0 92 C 20 88, 30 70, 50 72 S 80 60, 100 62 S 130 44, 150 50 
                 <path class="tf-line" d={chartPath} fill="none" stroke="#2BD67B" stroke-width="2.5" stroke-linecap="round"></path>
               </svg>
               <div class="tnum mt-1.5 flex justify-between text-[9px] text-paper/40 md:text-[10px]" aria-hidden="true">
-                {es.how.demoForecast.weeks.map((w) => <span>{w}</span>)}
+                {d.chartLabels.map((w) => <span>{w}</span>)}
               </div>
             </div>
           </div>

@@ -4,8 +4,8 @@ import HeroFlow from '../illustrations/HeroFlow.astro';
 import es from '../../content/es';
 import { SURVEY_URL } from '../../config';
 
-// Cada frase en su línea; la última, destacada en verde.
-const sentences = es.hero.title.match(/[^.!?]+[.!?]?/g)?.map((t) => t.trim()) ?? [es.hero.title];
+// Cada línea del titular en su fila; la última, destacada en verde.
+const lines = es.hero.titleLines;
 ---
 
 <section class="dark relative isolate overflow-hidden bg-ink text-paper" aria-labelledby="hero-title">
@@ -19,13 +19,13 @@ const sentences = es.hero.title.match(/[^.!?]+[.!?]?/g)?.map((t) => t.trim()) ??
       <p class="eyebrow hero-in text-money" data-hero-in>{es.hero.eyebrow}</p>
       <h1
         id="hero-title"
-        class="hero-title mt-6 font-display text-[3rem] leading-[0.95] font-extrabold sm:text-7xl lg:text-[5.4rem]"
+        class="hero-title mt-6 font-display text-[2.4rem] leading-[0.98] font-extrabold min-[400px]:text-[2.6rem] sm:text-6xl lg:text-[3.9rem] xl:text-[4.2rem]"
         data-hero-title
       >
         {
-          sentences.map((t, i) => (
-            <span class:list={['block', i === sentences.length - 1 && sentences.length > 1 && 'text-money']}>
-              {t}{i < sentences.length - 1 ? ' ' : ''}
+          lines.map((t, i) => (
+            <span class:list={['block', i === lines.length - 1 && lines.length > 1 && 'text-money']}>
+              {t}{i < lines.length - 1 ? ' ' : ''}
             </span>
           ))
         }

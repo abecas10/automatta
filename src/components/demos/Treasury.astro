@@ -1,0 +1,157 @@
+---
+// 03 · Tesorería: conciliación de movimientos + previsión de caja a 90 días.
+import es from '../../content/es';
+const r = es.how.demoRecon;
+const f = es.how.demoForecast;
+
+// Caja semanal prevista para 13 semanas (≈90 días), valores ficticios en miles.
+// La semana 8 (índice 7) queda por debajo del mínimo.
+const cash = [30, 33, 31, 35, 32, 27, 21, 13, 19, 26, 30, 33, 36];
+const low = 7;
+const max = 40;
+const W = 400;
+const H = 230;
+const pad = { l: 12, r: 12, t: 48, b: 28 };
+const bw = (W - pad.l - pad.r) / cash.length;
+const yOf = (v: number) => pad.t + (H - pad.t - pad.b) * (1 - v / max);
+const pts = cash.map((v, i) => [pad.l + bw * i + bw / 2, yOf(v)] as const);
+const linePath = pts.map(([x, y], i) => `${i ? 'L' : 'M'}${x.toFixed(1)} ${y.toFixed(1)}`).join(' ');
+const threshold = yOf(18);
+const labelX = (i: number) => pad.l + ((W - pad.l - pad.r) * i) / (f.labels.length - 1);
+---
+
+<div class="pt-8" data-treasury>
+  <!-- Conciliación -->
+  <div data-recon>
+    <div
+      class="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] gap-x-2 text-[11px] font-semibold tracking-wide text-muted uppercase sm:gap-x-3"
+    >
+      <span>{r.bankTitle}</span>
+      <span></span>
+      <span>{r.invoicesTitle}</span>
+    </div>
+    <ul class="mt-3 flex flex-col gap-2.5">
+      {
+        r.pairs.map((p, i) => (
+          <li class="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-x-2 sm:gap-x-3" data-i={i}>
+            <div class="rc-bank relative rounded-xl border border-black/8 bg-ink px-3 py-2 text-paper shadow-md">
+              <p class="truncate text-[11px] text-paper/70">{p.bank}</p>
+              <p class="tnum text-sm font-semibold">+{p.amount}</p>
+            </div>
+            <div class="relative flex w-8 items-center justify-center sm:w-12">
+              <span class="rc-link absolute inset-x-0 top-1/2 h-0.5 origin-left -translate-y-1/2 bg-money" />
+              <span class="rc-check relative grid h-6 w-6 place-items-center rounded-full bg-money text-ink">
+                <svg viewBox="0 0 16 16" class="h-3.5 w-3.5" fill="none">
+                  <path d="M3.5 8.5l3 3L12.5 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+            </div>
+            <div class="rc-invoice rounded-xl border border-black/8 bg-paper px-3 py-2">
+              <p class="truncate text-[11px] text-muted">{p.invoice}</p>
+              <p class="tnum text-sm font-semibold">{p.amount}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="rc-done mt-4 inline-flex items-center gap-2 rounded-full bg-money/15 px-3 py-1.5 text-sm font-semibold text-money-dark">
+      <span class="h-2 w-2 rounded-full bg-money"></span>
+      {r.done}
+    </p>
+  </div>
+
+  <!-- Previsión a 90 días -->
+  <div class="mt-6 border-t border-black/8 pt-5" data-forecast>
+    <p class="text-sm font-semibold">{f.title}</p>
+    <div class="relative mt-2">
+      <svg viewBox={`0 0 ${W} ${H}`} class="h-auto w-full overflow-visible">
+        <defs>
+          <linearGradient id="fc-bar" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#6C5CE7" stop-opacity=".35"></stop>
+            <stop offset="1" stop-color="#6C5CE7" stop-opacity=".08"></stop>
+          </linearGradient>
+        </defs>
+        {
+          [0.25, 0.5, 0.75].map((t) => (
+            <line
+              x1={pad.l}
+              x2={W - pad.r}
+              y1={pad.t + (H - pad.t - pad.b) * t}
+              y2={pad.t + (H - pad.t - pad.b) * t}
+              stroke="#0B1020"
+              stroke-opacity=".06"
+            />
+          ))
+        }
+        <rect
+          class="fc-zone"
+          x={pad.l + bw * low + 1}
+          y={pad.t - 18}
+          width={bw - 2}
+          height={H - pad.t - pad.b + 18}
+          rx="6"
+          fill="#FF6B6B"
+          fill-opacity=".1"></rect>
+        {
+          cash.map((v, i) => (
+            <rect
+              class="fc-bar"
+              x={pad.l + bw * i + bw * 0.2}
+              y={yOf(v)}
+              width={bw * 0.6}
+              height={H - pad.b - yOf(v)}
+              rx="4"
+              fill={i === low ? '#FF6B6B' : 'url(#fc-bar)'}
+              fill-opacity={i === low ? 0.55 : 1}
+            />
+          ))
+        }
+        <line
+          class="fc-threshold"
+          x1={pad.l}
+          x2={W - pad.r}
+          y1={threshold}
+          y2={threshold}
+          stroke="#FF6B6B"
+          stroke-width="1.5"
+          stroke-dasharray="4 5"></line>
+        <path class="fc-line" d={linePath} fill="none" stroke="#2BD67B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+        ></path>
+        {
+          pts.map(([x, y], i) => (
+            <circle
+              class="fc-dot"
+              cx={x}
+              cy={y}
+              r={i === low ? 5 : 3}
+              fill={i === low ? '#FF6B6B' : '#2BD67B'}
+              stroke="#fff"
+              stroke-width="1.5"
+            />
+          ))
+        }
+        {
+          f.labels.map((l, i) => (
+            <text
+              x={labelX(i)}
+              y={H - 8}
+              text-anchor={i === 0 ? 'start' : i === f.labels.length - 1 ? 'end' : 'middle'}
+              font-size="12"
+              fill="#5B6275"
+            >
+              {l}
+            </text>
+          ))
+        }
+      </svg>
+      <div class="absolute -translate-x-1/2" style={`left:${((pad.l + bw * (low + 0.5)) / W) * 100}%;top:0`}>
+        <div
+          class="fc-alert flex items-center gap-1.5 rounded-lg bg-ink px-2.5 py-1.5 text-[11px] font-semibold whitespace-nowrap text-paper shadow-lg sm:text-xs"
+        >
+          <span class="h-2 w-2 rounded-full bg-alert"></span>
+          {f.alert}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

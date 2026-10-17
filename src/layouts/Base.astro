@@ -26,10 +26,10 @@ const orgJsonLd = {
   url: `${SITE_URL}/`,
   logo: new URL('/logo.png', SITE_URL).href,
   email: CONTACT_EMAIL,
-  description: es.meta.description,
-  founder: es.team.founders.map((f) => ({ '@type': 'Person', name: f.name })),
+  description: es.meta.orgDescription,
+  founder: es.team.founders.map((f) => ({ '@type': 'Person', name: f.name, jobTitle: f.role })),
   address: { '@type': 'PostalAddress', addressLocality: 'Barcelona', addressCountry: 'ES' },
-  areaServed: ['Barcelona', 'Catalunya', 'España'],
+  areaServed: 'Cataluña',
 };
 ---
 

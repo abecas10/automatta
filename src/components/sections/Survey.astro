@@ -8,7 +8,7 @@ const icons = [
   'M12 7v5l3 2M12 21a9 9 0 100-18 9 9 0 000 18z',
   'M6 10V8a6 6 0 1112 0v2M5 10h14v10H5z',
   'M7 3h7l5 5v13H7zM14 3v5h5M10 13h6M10 17h6',
-  'M5 12l4 4L19 6',
+  'M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z',
 ];
 ---
 
@@ -25,7 +25,17 @@ const icons = [
       <p class="mx-auto mt-7 max-w-2xl text-lg leading-relaxed text-paper/80 sm:text-xl" data-reveal>{s.text}</p>
     </div>
 
-    <ul class="mx-auto mt-14 grid max-w-5xl gap-3 sm:grid-cols-2 lg:grid-cols-4">
+    <!-- Programa de primeras empresas -->
+    <div
+      class="program relative mx-auto mt-14 max-w-4xl overflow-hidden rounded-3xl border border-money/40 bg-money/10 p-6 text-center sm:p-10"
+      data-reveal
+    >
+      <span class="program-glow pointer-events-none absolute inset-0" aria-hidden="true"></span>
+      <p class="relative font-display text-2xl leading-tight font-bold sm:text-4xl">{s.program.title}</p>
+      <p class="relative mx-auto mt-4 max-w-2xl text-paper/80 sm:text-lg">{s.program.text}</p>
+    </div>
+
+    <ul class="mx-auto mt-6 grid max-w-5xl gap-3 sm:grid-cols-2 lg:grid-cols-4">
       {
         s.bullets.map((b, i) => (
           <li class="rounded-2xl border border-white/10 bg-white/[0.05] p-5 backdrop-blur-sm" data-reveal>
@@ -59,6 +69,9 @@ const icons = [
 </section>
 
 <style>
+  .program-glow {
+    background: radial-gradient(60% 80% at 50% 0%, rgb(43 214 123 / 0.25), transparent 70%);
+  }
   .survey-bg {
     background:
       radial-gradient(60% 50% at 50% 100%, rgb(43 214 123 / 0.28), transparent 70%),

@@ -13,7 +13,7 @@ import { initReveals, initMicro } from './reveal';
 import { initHero } from './sections/hero';
 import { initProblem } from './sections/problem';
 import { initTransformation } from './sections/transformation';
-import { initHow } from './sections/how';
+import { initHow, initRoadmap } from './sections/how';
 import { initVerifactu } from './sections/verifactu';
 
 gsap.registerPlugin(ScrollTrigger, SplitText, MotionPathPlugin, DrawSVGPlugin);
@@ -52,6 +52,7 @@ mm.add(
     initProblem(opts);
     initTransformation(opts);
     initHow(opts);
+    initRoadmap();
     initVerifactu();
     if (fine) initMicro();
 

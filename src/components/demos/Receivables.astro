@@ -1,0 +1,83 @@
+---
+// 02 · Facturas a clientes y cobros: reclamación escalonada (día 3 → 20 → 40) hasta que se cobra.
+import es from '../../content/es';
+const c = es.how.demoCobros;
+const pillStyle = [
+  'bg-alert/15 text-alert-dark',
+  'bg-violet/15 text-violet',
+  'bg-violet/25 text-[#4b3fc4]',
+  'bg-money/20 text-money-dark',
+];
+const nodeStyle = ['border-violet text-violet', 'border-violet text-violet', 'border-alert text-alert-dark'];
+---
+
+<div class="pt-8" data-cobros>
+  <div class="rounded-xl border border-black/8 bg-paper p-4">
+    <div class="flex items-start justify-between gap-3">
+      <div>
+        <p class="text-xs text-muted">{c.invoice}</p>
+        <p class="mt-0.5 font-semibold">{c.client}</p>
+      </div>
+      <p class="tnum font-display text-2xl font-bold">{c.amount}</p>
+    </div>
+    <div class="relative mt-4 h-7">
+      {
+        c.states.map((s, i) => (
+          <span class:list={['cb-pill absolute left-0 rounded-full px-3 py-1 text-xs font-semibold', `cb-pill-${i}`, pillStyle[i]]}>
+            {s}
+          </span>
+        ))
+      }
+    </div>
+  </div>
+
+  <ol class="relative mt-6 grid grid-cols-3 gap-2">
+    <span class="absolute top-[13px] right-[16%] left-[16%] h-0.5 bg-black/8"></span>
+    <span class="cb-progress absolute top-[13px] right-[16%] left-[16%] h-0.5 origin-left bg-violet"></span>
+    {
+      c.steps.map((s, i) => (
+        <li class="cb-node relative flex flex-col items-center gap-1.5 text-center" data-i={i}>
+          <span
+            class:list={[
+              'cb-dot grid h-7 w-7 place-items-center rounded-full border-2 bg-white text-[11px] font-bold',
+              nodeStyle[i],
+            ]}
+          >
+            {i + 1}
+          </span>
+          <span class="tnum text-xs font-bold">{s.day}</span>
+          <span class="text-[11px] leading-tight text-muted">{s.label}</span>
+        </li>
+      ))
+    }
+  </ol>
+
+  <div class="mt-6 flex items-center gap-4">
+    <div class="cb-mail flex min-w-0 items-center gap-2 rounded-lg border border-black/8 bg-white px-3 py-2 text-xs shadow-sm">
+      <svg class="h-4 w-4 shrink-0 text-violet" viewBox="0 0 16 16" fill="none">
+        <path d="M1.5 7.5L14.5 2l-4 12-3-5-6-1.5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"></path>
+      </svg>
+      <span class="truncate">{c.mail}</span>
+    </div>
+    <svg class="cb-check ml-auto h-14 w-14 shrink-0" viewBox="0 0 56 56" fill="none">
+      <circle class="cb-check-circle" cx="28" cy="28" r="25" stroke="#2BD67B" stroke-width="3"></circle>
+      <path class="cb-check-mark" d="M17 29l7.5 7.5L40 21" stroke="#0B7A40" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
+    </svg>
+  </div>
+</div>
+
+<style>
+  /* Sin animación se ve el estado final (Cobrada); con animación, el inicial (Vencida). */
+  .cb-pill {
+    opacity: 0;
+  }
+  .cb-pill-3 {
+    opacity: 1;
+  }
+  :global(.js-motion) .cb-pill-0 {
+    opacity: 1;
+  }
+  :global(.js-motion) .cb-pill-3 {
+    opacity: 0;
+  }
+</style>
