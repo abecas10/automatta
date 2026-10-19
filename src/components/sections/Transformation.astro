@@ -6,10 +6,10 @@ const t = es.transformation;
 const d = t.dashboard;
 
 const statusStyle: Record<string, string> = {
-  Cobrada: 'bg-money/15 text-money',
-  'Recordatorio enviado': 'bg-violet/25 text-violet-light',
-  Conciliada: 'bg-money/15 text-money',
-  'Llamar hoy': 'bg-alert/15 text-alert',
+  Cobrada: 'bg-mint/20 text-mint',
+  'Recordatorio enviado': 'bg-paper/10 text-paper/80',
+  Conciliada: 'bg-mint/20 text-mint',
+  'Llamar hoy': 'bg-red/25 text-[#F3A099]',
 };
 
 // Elementos del caos (eco de la sección anterior). x/y en %, r en grados.
@@ -32,59 +32,46 @@ const chaosCells = [
 const chartPath = 'M0 92 C 20 88, 30 70, 50 72 S 80 60, 100 62 S 130 44, 150 50 S 185 76, 205 70 S 240 40, 260 34 S 290 22, 300 18';
 ---
 
-<section
-  id="transformacion"
-  class="dark relative bg-ink text-paper"
-  aria-labelledby="transformacion-title"
-  data-transform
->
+<section id="transformacion" class="relative border-t border-line" aria-labelledby="transformacion-title" data-transform>
   <div class="tf-pin relative overflow-hidden">
-    <div class="pointer-events-none absolute inset-0" aria-hidden="true">
-      <div class="absolute top-1/2 left-[65%] h-[70vmax] w-[70vmax] -translate-x-1/2 -translate-y-1/2 rounded-full bg-violet/15 blur-[120px]"></div>
-    </div>
-
-    <div
-      class="tf-inner container-x relative grid h-full gap-6 py-20 md:gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center lg:py-28"
-    >
+    <div class="tf-inner container-x relative grid h-full gap-8 py-20 md:gap-10 lg:grid-cols-12 lg:items-center lg:py-28">
       <!-- Texto + pasos -->
-      <div class="tf-copy">
-        <p class="tf-eyebrow eyebrow text-money">{t.eyebrow}</p>
-        <h2 id="transformacion-title" class="h-section mt-4 !text-[2rem] sm:!text-5xl lg:!text-6xl">{t.title}</h2>
-        <ol class="mt-6 flex flex-col gap-2 md:mt-10 md:gap-4">
+      <div class="tf-copy lg:col-span-5">
+        <p class="tf-eyebrow section-name !pt-0">{t.eyebrow}</p>
+        <h2 id="transformacion-title" class="h-section mt-4 max-w-[16ch]">{t.title}</h2>
+        <ol class="mt-6 flex flex-col gap-2 md:mt-10 md:gap-3">
           {
             t.steps.map((s, i) => (
               <li class="tf-step flex items-center gap-3 md:gap-4" data-step={i}>
-                <span class="tf-step-num tnum grid h-7 w-7 shrink-0 place-items-center rounded-full border border-white/20 text-xs font-semibold md:h-9 md:w-9 md:text-sm">
+                <span class="tf-step-num tnum grid h-7 w-7 shrink-0 place-items-center rounded-full border border-ink/25 text-xs font-medium md:h-8 md:w-8 md:text-sm">
                   {i + 1}
                 </span>
-                <span class="text-[15px] font-medium md:text-xl">{s}</span>
+                <span class="text-[15px] font-medium md:text-lg">{s}</span>
               </li>
             ))
           }
         </ol>
-        <p class="tf-reduced-note mt-6 text-paper/60">{t.reducedNote}</p>
+        <p class="tf-reduced-note mt-6 text-muted">{t.reducedNote}</p>
       </div>
 
       <!-- Escenario -->
-      <div class="tf-stage relative" data-tf-stage>
+      <div class="tf-stage relative lg:col-span-7" data-tf-stage>
         <!-- Panel limpio -->
-        <div class="tf-dash card-dark relative overflow-hidden p-3.5 backdrop-blur md:p-6" data-tf-dash>
+        <div class="tf-dash doc-ink relative overflow-hidden p-3.5 md:p-6" data-tf-dash>
           <div class="flex items-center justify-between gap-3">
             <div class="flex items-center gap-2.5">
-              <Logo symbolOnly class="h-6 w-6" />
-              <span class="text-sm font-semibold whitespace-nowrap">{d.title}</span>
+              <Logo symbolOnly tone="light" class="text-[15px]" />
+              <span class="text-sm font-medium whitespace-nowrap">{d.title}</span>
             </div>
-            <span class="tag-illus shrink-0 border-white/15 text-paper/70"
-              ><span class="md:hidden" aria-hidden="true">{t.tagShort}</span>{' '}<span class="max-md:sr-only">{t.tag}</span></span
-            >
+            <span class="tag shrink-0 bg-paper/10 text-muted-dark">{t.tag}</span>
           </div>
 
           <div class="mt-3 grid grid-cols-3 gap-2 md:mt-5 md:gap-3">
             {
               d.kpis.map((k, i) => (
-                <div class="tf-kpi rounded-xl border border-white/8 bg-white/[0.03] p-2.5 md:p-4" data-tf-kpi={i}>
-                  <p class="text-[10px] leading-tight text-paper/60 md:text-xs">{k.label}</p>
-                  <p class="tnum mt-1 font-display text-base font-bold md:mt-2 md:text-2xl" data-value={k.value}>
+                <div class="tf-kpi rounded-md border border-paper/10 bg-paper/[0.04] p-2.5 md:p-4" data-tf-kpi={i}>
+                  <p class="t-data text-[11px] leading-tight text-muted-dark md:text-xs">{k.label}</p>
+                  <p class="t-display tnum mt-1 text-base md:mt-2 md:text-2xl" data-value={k.value}>
                     {k.value}
                   </p>
                 </div>
@@ -93,41 +80,34 @@ const chartPath = 'M0 92 C 20 88, 30 70, 50 72 S 80 60, 100 62 S 130 44, 150 50 
           </div>
 
           <div class="mt-3 grid gap-3 md:mt-4 md:grid-cols-[1.1fr_1fr] md:gap-4">
-            <div class="rounded-xl border border-white/8 bg-white/[0.03] p-2.5 md:p-4">
-              <p class="text-xs font-semibold text-paper/70">{d.listTitle}</p>
+            <div class="rounded-md border border-paper/10 bg-paper/[0.04] p-2.5 md:p-4">
+              <p class="t-data text-xs text-muted-dark">{d.listTitle}</p>
               <ul class="mt-2 flex flex-col gap-1.5 md:mt-3 md:gap-2">
                 {
                   d.rows.map((r, i) => (
-                    <li
-                      class="tf-row flex items-center gap-2 rounded-lg bg-white/[0.04] px-2.5 py-1.5 md:py-2"
-                      data-tf-row={i}
-                    >
+                    <li class="tf-row flex items-center gap-2 rounded-md bg-paper/[0.05] px-2.5 py-1.5 md:py-2" data-tf-row={i}>
                       <span class="min-w-0 flex-1 truncate text-[11px] md:text-xs">{r.client}</span>
                       <span class="tnum text-[11px] text-paper/70 md:text-xs">{r.amount}</span>
-                      <span
-                        class:list={['tf-pill shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold', statusStyle[r.status]]}
-                      >
-                        {r.status}
-                      </span>
+                      <span class:list={['tf-pill pill !px-2 !text-[10px]', statusStyle[r.status]]}>{r.status}</span>
                     </li>
                   ))
                 }
               </ul>
             </div>
-            <div class="flex flex-col rounded-xl border border-white/8 bg-white/[0.03] p-2.5 md:p-4">
-              <p class="text-xs font-semibold text-paper/70">{d.chartTitle}</p>
+            <div class="flex flex-col rounded-md border border-paper/10 bg-paper/[0.04] p-2.5 md:p-4">
+              <p class="t-data text-xs text-muted-dark">{d.chartTitle}</p>
               <svg viewBox="0 0 300 110" class="mt-2 h-16 w-full md:mt-3 md:h-auto md:min-h-24 md:flex-1" preserveAspectRatio="none" aria-hidden="true">
                 <defs>
                   <linearGradient id="tf-area" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0" stop-color="#2BD67B" stop-opacity=".35"></stop>
-                    <stop offset="1" stop-color="#2BD67B" stop-opacity="0"></stop>
+                    <stop offset="0" stop-color="#8FD3B2" stop-opacity=".3"></stop>
+                    <stop offset="1" stop-color="#8FD3B2" stop-opacity="0"></stop>
                   </linearGradient>
                 </defs>
-                <path d="M0 30H300M0 60H300M0 90H300" stroke="#fff" stroke-opacity=".06"></path>
+                <path d="M0 30H300M0 60H300M0 90H300" stroke="#F5F6F3" stroke-opacity=".08"></path>
                 <path class="tf-area" d={`${chartPath} L300 110 L0 110 Z`} fill="url(#tf-area)"></path>
-                <path class="tf-line" d={chartPath} fill="none" stroke="#2BD67B" stroke-width="2.5" stroke-linecap="round"></path>
+                <path class="tf-line" d={chartPath} fill="none" stroke="#8FD3B2" stroke-width="2.5" stroke-linecap="round"></path>
               </svg>
-              <div class="tnum mt-1.5 flex justify-between text-[9px] text-paper/40 md:text-[10px]" aria-hidden="true">
+              <div class="t-data tnum mt-1.5 flex justify-between text-[10px] text-muted-dark" aria-hidden="true">
                 {d.chartLabels.map((w) => <span>{w}</span>)}
               </div>
             </div>
@@ -139,14 +119,14 @@ const chartPath = 'M0 92 C 20 88, 30 70, 50 72 S 80 60, 100 62 S 130 44, 150 50 
           {
             chaosMails.map((m, i) => (
               <div
-                class:list={['tf-mail absolute flex w-[44%] max-w-[230px] items-center gap-2 rounded-lg bg-white px-2.5 py-2 text-ink shadow-xl', i > 3 && 'max-md:hidden']}
+                class:list={['tf-mail doc absolute flex w-[44%] max-w-[230px] items-center gap-2 !rounded-md px-2.5 py-2', i > 3 && 'max-md:hidden']}
                 style={`left:${m.x}%;top:${m.y}%;--r:${m.r}deg`}
                 data-tf-mail={i}
               >
-                <span class="h-1.5 w-1.5 shrink-0 rounded-full bg-alert" />
+                <span class="h-1.5 w-1.5 shrink-0 rounded-full bg-red" />
                 <span class="min-w-0">
-                  <span class="block truncate text-[11px] font-semibold">{es.problem.inbox.subject}</span>
-                  <span class="block truncate text-[10px] text-muted">{es.problem.inbox.items[i]}</span>
+                  <span class="block truncate text-[12px] font-medium">{es.problem.inbox.subject}</span>
+                  <span class="t-data block truncate text-[11px] text-muted">{es.problem.inbox.items[i]}</span>
                 </span>
               </div>
             ))
@@ -154,7 +134,7 @@ const chartPath = 'M0 92 C 20 88, 30 70, 50 72 S 80 60, 100 62 S 130 44, 150 50 
           {
             chaosCells.map((c, i) => (
               <div
-                class:list={['tf-cell tnum absolute rounded-md border border-alert/40 bg-[#FFE3E3] px-2.5 py-1 font-mono text-[11px] font-semibold text-alert-dark shadow-lg', i > 3 && 'max-md:hidden']}
+                class:list={['tf-cell t-data tnum absolute rounded-md border border-red/40 bg-red-soft px-2.5 py-1 text-[11px] font-semibold text-red shadow-md', i > 3 && 'max-md:hidden']}
                 style={`left:${c.x}%;top:${c.y}%;--r:${c.r}deg`}
                 data-tf-cell={i}
               >
@@ -192,16 +172,16 @@ const chartPath = 'M0 92 C 20 88, 30 70, 50 72 S 80 60, 100 62 S 130 44, 150 50 
     transition: opacity 0.4s;
   }
   :global(.js-motion) .tf-step {
-    opacity: 0.6;
+    opacity: 0.45;
   }
   :global(.js-motion) .tf-step.is-active {
     opacity: 1;
   }
   .tf-step.is-active .tf-step-num,
   .tf-step.is-done .tf-step-num {
-    background: var(--color-money);
-    border-color: var(--color-money);
-    color: var(--color-ink);
+    background: var(--color-green);
+    border-color: var(--color-green);
+    color: var(--color-paper);
   }
   /* Móviles bajos: compacta el texto para que el panel quepa entero mientras está fijado */
   @media (max-width: 767px) and (max-height: 780px) {

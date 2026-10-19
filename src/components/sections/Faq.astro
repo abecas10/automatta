@@ -1,44 +1,44 @@
 ---
+import SectionHead from '../SectionHead.astro';
 import es from '../../content/es';
 
 const f = es.faq;
 ---
 
-<section id="faq" class="relative bg-paper-2 py-24 sm:py-32" aria-labelledby="faq-title">
-  <div class="container-x grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
-    <div>
-      <p class="eyebrow text-violet" data-reveal>{f.eyebrow}</p>
-      <h2 id="faq-title" class="h-section mt-5" data-split>{f.title}</h2>
-    </div>
+<section id="faq" class="section" aria-labelledby="faq-title">
+  <div class="container-x">
+    <SectionHead name={f.eyebrow} title={f.title} id="faq-title" />
 
-    <div class="flex flex-col gap-3">
-      {
-        f.items.map((item, i) => (
-          <div class="faq-item rounded-2xl border border-ink/8 bg-white" data-faq-item data-reveal>
-            <h3>
-              <button
-                type="button"
-                class="flex w-full items-center justify-between gap-6 rounded-2xl px-5 py-5 text-left font-display text-lg font-semibold sm:px-7 sm:text-xl"
-                aria-expanded="false"
-                aria-controls={`faq-panel-${i}`}
-                id={`faq-button-${i}`}
-                data-faq-button
-              >
-                {item.q}
-                <span class="faq-icon relative grid h-8 w-8 shrink-0 place-items-center rounded-full bg-paper-2" aria-hidden="true">
-                  <span class="absolute h-0.5 w-3.5 rounded bg-ink" />
-                  <span class="faq-v absolute h-3.5 w-0.5 rounded bg-ink" />
-                </span>
-              </button>
-            </h3>
-            <div id={`faq-panel-${i}`} role="region" aria-labelledby={`faq-button-${i}`} class="faq-panel">
-              <div class="overflow-hidden">
-                <p class="px-5 pb-6 text-muted sm:px-7 sm:text-lg">{item.a}</p>
+    <div class="mt-12 grid lg:mt-16 lg:grid-cols-12 lg:gap-8">
+      <div class="border-t border-line lg:col-span-9 lg:col-start-4">
+        {
+          f.items.map((item, i) => (
+            <div class="faq-item border-b border-line" data-faq-item>
+              <h3>
+                <button
+                  type="button"
+                  class="flex w-full items-center justify-between gap-6 py-5 text-left text-[1.125rem] font-medium sm:text-[1.25rem]"
+                  aria-expanded="false"
+                  aria-controls={`faq-panel-${i}`}
+                  id={`faq-button-${i}`}
+                  data-faq-button
+                >
+                  {item.q}
+                  <span class="faq-icon relative grid h-7 w-7 shrink-0 place-items-center rounded-full border border-ink/20" aria-hidden="true">
+                    <span class="absolute h-px w-3 bg-ink" />
+                    <span class="faq-v absolute h-3 w-px bg-ink" />
+                  </span>
+                </button>
+              </h3>
+              <div id={`faq-panel-${i}`} role="region" aria-labelledby={`faq-button-${i}`} class="faq-panel">
+                <div class="overflow-hidden">
+                  <p class="max-w-[62ch] pb-6 text-muted">{item.a}</p>
+                </div>
               </div>
             </div>
-          </div>
-        ))
-      }
+          ))
+        }
+      </div>
     </div>
   </div>
 </section>
@@ -49,39 +49,37 @@ const f = es.faq;
     grid-template-rows: 0fr;
     visibility: hidden;
     transition:
-      grid-template-rows 0.5s var(--ease-out-expo),
-      visibility 0s linear 0.5s;
+      grid-template-rows 0.45s var(--ease-out-quart),
+      visibility 0s linear 0.45s;
   }
   [data-open] .faq-panel {
     grid-template-rows: 1fr;
     visibility: visible;
     transition:
-      grid-template-rows 0.5s var(--ease-out-expo),
+      grid-template-rows 0.45s var(--ease-out-quart),
       visibility 0s;
   }
   .faq-icon {
     transition:
-      transform 0.5s var(--ease-out-expo),
-      background-color 0.3s;
+      transform 0.45s var(--ease-out-quart),
+      background-color 0.3s,
+      border-color 0.3s;
   }
   .faq-v {
-    transition: transform 0.5s var(--ease-out-expo);
+    transition: transform 0.45s var(--ease-out-quart);
   }
   [data-open] .faq-icon {
-    transform: rotate(180deg);
-    background: var(--color-money);
+    transform: rotate(90deg);
+    background: var(--color-ink);
+    border-color: var(--color-ink);
+  }
+  [data-open] .faq-icon span {
+    background: var(--color-paper);
   }
   [data-open] .faq-v {
     transform: scaleY(0);
   }
-  .faq-item {
-    transition:
-      border-color 0.3s,
-      box-shadow 0.3s;
-  }
-  .faq-item:hover,
-  .faq-item[data-open] {
-    border-color: rgb(108 92 231 / 0.3);
-    box-shadow: 0 12px 30px -16px rgb(11 16 32 / 0.25);
+  .faq-item button:hover .faq-icon {
+    border-color: var(--color-ink);
   }
 </style>

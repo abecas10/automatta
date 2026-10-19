@@ -1,5 +1,6 @@
 ---
 // 03 · Tesorería: conciliación de movimientos + previsión de caja a 90 días.
+import Stamp from '../Stamp.astro';
 import es from '../../content/es';
 const r = es.how.demoRecon;
 const f = es.how.demoForecast;
@@ -20,12 +21,10 @@ const threshold = yOf(18);
 const labelX = (i: number) => pad.l + ((W - pad.l - pad.r) * i) / (f.labels.length - 1);
 ---
 
-<div class="pt-8" data-treasury>
+<div data-treasury>
   <!-- Conciliación -->
   <div data-recon>
-    <div
-      class="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] gap-x-2 text-[11px] font-semibold tracking-wide text-muted uppercase sm:gap-x-3"
-    >
+    <div class="t-data grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] gap-x-2 text-[12px] text-muted sm:gap-x-3">
       <span>{r.bankTitle}</span>
       <span></span>
       <span>{r.invoicesTitle}</span>
@@ -34,64 +33,42 @@ const labelX = (i: number) => pad.l + ((W - pad.l - pad.r) * i) / (f.labels.leng
       {
         r.pairs.map((p, i) => (
           <li class="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-x-2 sm:gap-x-3" data-i={i}>
-            <div class="rc-bank relative rounded-xl border border-black/8 bg-ink px-3 py-2 text-paper shadow-md">
-              <p class="truncate text-[11px] text-paper/70">{p.bank}</p>
-              <p class="tnum text-sm font-semibold">+{p.amount}</p>
+            <div class="rc-bank doc-ink relative !rounded-md px-3 py-2">
+              <p class="t-data truncate text-[11px] text-muted-dark">{p.bank}</p>
+              <p class="tnum text-sm font-medium">+{p.amount}</p>
             </div>
             <div class="relative flex w-8 items-center justify-center sm:w-12">
-              <span class="rc-link absolute inset-x-0 top-1/2 h-0.5 origin-left -translate-y-1/2 bg-money" />
-              <span class="rc-check relative grid h-6 w-6 place-items-center rounded-full bg-money text-ink">
+              <span class="rc-link absolute inset-x-0 top-1/2 h-px origin-left -translate-y-1/2 bg-green" />
+              <span class="rc-check relative grid h-6 w-6 place-items-center rounded-full bg-green text-paper">
                 <svg viewBox="0 0 16 16" class="h-3.5 w-3.5" fill="none">
                   <path d="M3.5 8.5l3 3L12.5 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
               </span>
             </div>
-            <div class="rc-invoice rounded-xl border border-black/8 bg-paper px-3 py-2">
-              <p class="truncate text-[11px] text-muted">{p.invoice}</p>
-              <p class="tnum text-sm font-semibold">{p.amount}</p>
+            <div class="rc-invoice rounded-md border border-line bg-paper px-3 py-2">
+              <p class="t-data truncate text-[11px] text-muted">{p.invoice}</p>
+              <p class="tnum text-sm font-medium">{p.amount}</p>
             </div>
           </li>
         ))
       }
     </ul>
-    <p class="rc-done mt-4 inline-flex items-center gap-2 rounded-full bg-money/15 px-3 py-1.5 text-sm font-semibold text-money-dark">
-      <span class="h-2 w-2 rounded-full bg-money"></span>
-      {r.done}
-    </p>
+    <div class="mt-4 flex justify-end">
+      <Stamp label={r.done} rotate={-6} press class="rc-stamp text-[0.8rem]" />
+    </div>
   </div>
 
   <!-- Previsión a 90 días -->
-  <div class="mt-6 border-t border-black/8 pt-5" data-forecast>
-    <p class="text-sm font-semibold">{f.title}</p>
+  <div class="mt-6 border-t border-line pt-5" data-forecast>
+    <p class="text-sm font-medium">{f.title}</p>
     <div class="relative mt-2">
       <svg viewBox={`0 0 ${W} ${H}`} class="h-auto w-full overflow-visible">
-        <defs>
-          <linearGradient id="fc-bar" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#6C5CE7" stop-opacity=".35"></stop>
-            <stop offset="1" stop-color="#6C5CE7" stop-opacity=".08"></stop>
-          </linearGradient>
-        </defs>
         {
           [0.25, 0.5, 0.75].map((t) => (
-            <line
-              x1={pad.l}
-              x2={W - pad.r}
-              y1={pad.t + (H - pad.t - pad.b) * t}
-              y2={pad.t + (H - pad.t - pad.b) * t}
-              stroke="#0B1020"
-              stroke-opacity=".06"
-            />
+            <line x1={pad.l} x2={W - pad.r} y1={pad.t + (H - pad.t - pad.b) * t} y2={pad.t + (H - pad.t - pad.b) * t} stroke="#14201B" stroke-opacity=".07" />
           ))
         }
-        <rect
-          class="fc-zone"
-          x={pad.l + bw * low + 1}
-          y={pad.t - 18}
-          width={bw - 2}
-          height={H - pad.t - pad.b + 18}
-          rx="6"
-          fill="#FF6B6B"
-          fill-opacity=".1"></rect>
+        <rect class="fc-zone" x={pad.l + bw * low + 1} y={pad.t - 18} width={bw - 2} height={H - pad.t - pad.b + 18} rx="4" fill="#C8372D" fill-opacity=".1"></rect>
         {
           cash.map((v, i) => (
             <rect
@@ -100,55 +77,30 @@ const labelX = (i: number) => pad.l + ((W - pad.l - pad.r) * i) / (f.labels.leng
               y={yOf(v)}
               width={bw * 0.6}
               height={H - pad.b - yOf(v)}
-              rx="4"
-              fill={i === low ? '#FF6B6B' : 'url(#fc-bar)'}
-              fill-opacity={i === low ? 0.55 : 1}
+              rx="3"
+              fill={i === low ? '#C8372D' : '#1F6B4A'}
+              fill-opacity={i === low ? 0.5 : 0.18}
             />
           ))
         }
-        <line
-          class="fc-threshold"
-          x1={pad.l}
-          x2={W - pad.r}
-          y1={threshold}
-          y2={threshold}
-          stroke="#FF6B6B"
-          stroke-width="1.5"
-          stroke-dasharray="4 5"></line>
-        <path class="fc-line" d={linePath} fill="none" stroke="#2BD67B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
-        ></path>
+        <line class="fc-threshold" x1={pad.l} x2={W - pad.r} y1={threshold} y2={threshold} stroke="#C8372D" stroke-width="1.5" stroke-dasharray="4 5"></line>
+        <path class="fc-line" d={linePath} fill="none" stroke="#1F6B4A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
         {
           pts.map(([x, y], i) => (
-            <circle
-              class="fc-dot"
-              cx={x}
-              cy={y}
-              r={i === low ? 5 : 3}
-              fill={i === low ? '#FF6B6B' : '#2BD67B'}
-              stroke="#fff"
-              stroke-width="1.5"
-            />
+            <circle class="fc-dot" cx={x} cy={y} r={i === low ? 5 : 3} fill={i === low ? '#C8372D' : '#1F6B4A'} stroke="#fff" stroke-width="1.5" />
           ))
         }
         {
           f.labels.map((l, i) => (
-            <text
-              x={labelX(i)}
-              y={H - 8}
-              text-anchor={i === 0 ? 'start' : i === f.labels.length - 1 ? 'end' : 'middle'}
-              font-size="12"
-              fill="#5B6275"
-            >
+            <text x={labelX(i)} y={H - 8} text-anchor={i === 0 ? 'start' : i === f.labels.length - 1 ? 'end' : 'middle'} font-size="8.5" fill="#5F6B65">
               {l}
             </text>
           ))
         }
       </svg>
       <div class="absolute -translate-x-1/2" style={`left:${((pad.l + bw * (low + 0.5)) / W) * 100}%;top:0`}>
-        <div
-          class="fc-alert flex items-center gap-1.5 rounded-lg bg-ink px-2.5 py-1.5 text-[11px] font-semibold whitespace-nowrap text-paper shadow-lg sm:text-xs"
-        >
-          <span class="h-2 w-2 rounded-full bg-alert"></span>
+        <div class="fc-alert flex items-center gap-1.5 rounded-md bg-ink px-2.5 py-1.5 text-[11px] font-medium whitespace-nowrap text-paper shadow-lg sm:text-xs">
+          <span class="h-2 w-2 rounded-full bg-red"></span>
           {f.alert}
         </div>
       </div>

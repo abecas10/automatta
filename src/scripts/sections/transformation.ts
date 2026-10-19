@@ -119,9 +119,9 @@ export function initTransformation({ mobile }: Opts) {
         y: () => delta(c, target).y,
         rotate: 0,
         scale: 0.5,
-        backgroundColor: '#2BD67B',
-        borderColor: '#2BD67B',
-        color: '#0B1020',
+        backgroundColor: '#1F6B4A',
+        borderColor: '#1F6B4A',
+        color: '#F5F6F3',
         duration: 0.8,
       },
       1.9 + i * 0.07,
@@ -143,8 +143,8 @@ export function initTransformation({ mobile }: Opts) {
     );
     tl.fromTo(
       k,
-      { borderColor: 'rgba(255,255,255,0.08)' },
-      { borderColor: 'rgba(43,214,123,0.5)', duration: 0.3, yoyo: true, repeat: 1 },
+      { borderColor: 'rgba(245,246,243,0.1)' },
+      { borderColor: 'rgba(143,211,178,0.7)', duration: 0.3, yoyo: true, repeat: 1 },
       2.5 + i * 0.12,
     );
   });

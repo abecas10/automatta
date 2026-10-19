@@ -1,0 +1,20 @@
+---
+// Cabecera de sección: nombre en la columna izquierda, titular e introducción a la derecha.
+interface Props {
+  name: string;
+  title: string;
+  id: string;
+  intro?: string;
+  class?: string;
+}
+const { name, title, id, intro, class: className = '' } = Astro.props;
+---
+
+<div class:list={['section-head', className]}>
+  <p class="section-name">{name}</p>
+  <div class="section-body">
+    <h2 id={id} class="h-section max-w-[18ch]" data-rise>{title}</h2>
+    {intro && <p class="lead mt-5 max-w-[58ch] text-muted">{intro}</p>}
+    <slot />
+  </div>
+</div>
