@@ -97,8 +97,18 @@ mm.add(
             else stopWorld = handle.stop;
           })
           .catch(() => root.classList.add('world-failed'));
-      if (document.readyState === 'complete') idle(boot, { timeout: 1500 });
-      else window.addEventListener('load', () => idle(boot, { timeout: 1500 }), { once: true });
+      // Arranca con la primera interacción (scroll, ratón, toque) o a los 2 s de cargar la página.
+      let booted = false;
+      const go = () => {
+        if (booted) return;
+        booted = true;
+        ['scroll', 'pointermove', 'touchstart', 'keydown'].forEach((ev) => window.removeEventListener(ev, go));
+        idle(boot, { timeout: 800 });
+      };
+      ['scroll', 'pointermove', 'touchstart', 'keydown'].forEach((ev) => window.addEventListener(ev, go, { passive: true, once: true }));
+      const afterLoad = () => setTimeout(go, 2000);
+      if (document.readyState === 'complete') afterLoad();
+      else window.addEventListener('load', afterLoad, { once: true });
     }
 
     // Recalcula posiciones cuando las fuentes terminan de cargar.

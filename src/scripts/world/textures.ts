@@ -60,7 +60,7 @@ export const INVOICE_ANCHORS = {
   number: [0.2, 0.15],
 } as const;
 
-export type InvoiceState = { overdue: boolean; paid: boolean; qr: boolean };
+export type InvoiceState = { overdue: boolean; paid: boolean; qr: boolean; read?: number };
 
 type InvoiceData = { kind: string; number: string; issuer: string; client: string; concept: string; base: string; vat: string; total: string; due: string };
 
@@ -87,6 +87,28 @@ export function drawInvoice(p: Paper, st: InvoiceState, v: InvoiceData = d.invoi
   text(ctx, v.total, W - m, 332, { w: 640, px: 22, align: 'right', st: 'expanded' });
   bars(ctx, m, 372, st.qr ? 190 : W - m * 2, 3, 12);
   text(ctx, v.due, m, 438, { w: 520, px: 13, c: st.overdue && !st.paid ? C.red : C.muted });
+  // Campos que el lector de Automatta ya ha leído (se marcan a medida que pasa la lupa).
+  const read = st.read ?? 0;
+  const boxes: [number, number, number, number][] = [
+    [m - 6, 108, W - m * 2 + 12, 48],
+    [m - 6, 266, W - m * 2 + 12, 26],
+    [m - 6, 308, W - m * 2 + 12, 34],
+    [m - 6, 422, 190, 24],
+  ];
+  if (read > 0 && !st.paid) {
+    for (const [x, y, w, h] of boxes) {
+      const k = Math.max(0, Math.min(1, (read * H - y) / 40));
+      if (k <= 0) continue;
+      ctx.globalAlpha = k;
+      ctx.fillStyle = 'rgba(31,107,74,0.07)';
+      roundRect(ctx, x, y, w, h, 5);
+      ctx.fill();
+      ctx.strokeStyle = C.green;
+      ctx.lineWidth = 1.6;
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+    }
+  }
   if (st.qr) {
     qr(ctx, W - m - 62, 362, 62, 2041);
     text(ctx, 'VERI*FACTU', W - m - 31, 440, { w: 640, px: 9, align: 'center', st: 'expanded' });
@@ -309,7 +331,7 @@ export function drawTax(p: Paper, filled: boolean, draft: boolean) {
 
 export const SUPPLIER_ANCHORS = { fields: [[0.1, 0.33], [0.1, 0.43], [0.1, 0.54], [0.1, 0.64]], stamp: [0.64, 0.92], top: [0.5, -0.05] } as const;
 
-export function drawSupplier(p: Paper, read: boolean, approved: boolean) {
+export function drawSupplier(p: Paper, readProgress: number, approved: boolean) {
   const ctx = p.ctx;
   const v = d.supplier;
   clear(p);
@@ -324,6 +346,7 @@ export function drawSupplier(p: Paper, read: boolean, approved: boolean) {
   const values = [v.issuer, v.total, '21 % (210,00 €)', 'en 30 días'];
   v.fields.forEach((f, i) => {
     const y = 176 + i * 50;
+    const read = readProgress * H > y;
     if (read) {
       ctx.strokeStyle = C.green;
       ctx.lineWidth = 2;
@@ -337,7 +360,7 @@ export function drawSupplier(p: Paper, read: boolean, approved: boolean) {
   });
   bars(ctx, m, 390, W - m * 2, 3, 12);
   if (approved) stamp(ctx, d.stamps.approved, C.green, W * 0.64, 446, -0.14, 26);
-  else if (!read) sticky(ctx, v.note, W - 150, 360, 0.08);
+  else if (readProgress <= 0) sticky(ctx, v.note, W - 150, 360, 0.08);
 }
 
 // ---------- Libro mayor ----------
@@ -380,3 +403,99 @@ export function drawPrevious(p: Paper, n: number) {
 }
 
 export { s as storyCopy };
+
+
+// ---------- Materiales procedurales ----------
+
+/** Relieve de fibra de papel (mapa de normales en tonos neutros). */
+export function paperFibreNormal(size = 256) {
+  const c = document.createElement('canvas');
+  c.width = c.height = size;
+  const ctx = c.getContext('2d')!;
+  const img = ctx.createImageData(size, size);
+  const h = new Float32Array(size * size);
+  let seed = 7;
+  const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+  for (let i = 0; i < h.length; i++) h[i] = rnd();
+  // Fibras: trazos cortos en direcciones aleatorias
+  for (let f = 0; f < size * 6; f++) {
+    let x = rnd() * size;
+    let y = rnd() * size;
+    const a = rnd() * Math.PI;
+    for (let k = 0; k < 14; k++) {
+      x = (x + Math.cos(a) + size) % size;
+      y = (y + Math.sin(a) + size) % size;
+      h[(y | 0) * size + (x | 0)] += 0.8;
+    }
+  }
+  for (let y = 0; y < size; y++)
+    for (let x = 0; x < size; x++) {
+      const at = (xx: number, yy: number) => h[((yy + size) % size) * size + ((xx + size) % size)];
+      const dx = at(x + 1, y) - at(x - 1, y);
+      const dy = at(x, y + 1) - at(x, y - 1);
+      const i = (y * size + x) * 4;
+      img.data[i] = 128 + dx * 22;
+      img.data[i + 1] = 128 + dy * 22;
+      img.data[i + 2] = 255;
+      img.data[i + 3] = 255;
+    }
+  ctx.putImageData(img, 0, 0);
+  return c;
+}
+
+/** Papel kraft del sobre, con la dirección en una ventana. */
+export function drawKraft(p: Paper, withAddress: boolean) {
+  const ctx = p.ctx;
+  clear(p, '#d8c19b');
+  let seed = 11;
+  const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+  for (let i = 0; i < 1400; i++) {
+    ctx.fillStyle = rnd() > 0.5 ? 'rgba(120,90,50,0.08)' : 'rgba(255,250,235,0.1)';
+    ctx.fillRect(rnd() * p.w, rnd() * p.h, 1 + rnd() * 6, 1);
+  }
+  if (!withAddress) return;
+  ctx.fillStyle = 'rgba(255,255,255,0.86)';
+  roundRect(ctx, 30, 110, 200, 76, 4);
+  ctx.fill();
+  text(ctx, d.invoiceA.client, 44, 140, { w: 600, px: 15 });
+  bars(ctx, 44, 152, 150, 2, 11);
+  text(ctx, d.invoiceA.issuer, 30, 44, { w: 560, px: 12, c: '#6b5636' });
+  // Sello de franqueo
+  ctx.fillStyle = '#f7f3ea';
+  roundRect(ctx, 262, 24, 54, 64, 3);
+  ctx.fill();
+  ctx.strokeStyle = C.green;
+  ctx.lineWidth = 2;
+  roundRect(ctx, 267, 29, 44, 54, 2);
+  ctx.stroke();
+  check(ctx, 289, 56, 11);
+}
+
+/** Canto de las hojas del libro (rayas finas). */
+export function drawPageEdge(p: Paper) {
+  const ctx = p.ctx;
+  clear(p, '#f1ede1');
+  for (let y = 0; y < p.h; y += 2) {
+    ctx.fillStyle = y % 4 ? 'rgba(120,110,90,0.12)' : 'rgba(255,255,255,0.5)';
+    ctx.fillRect(0, y, p.w, 1);
+  }
+}
+
+/** Tapa del libro mayor: título en pan de oro. */
+export function drawLedgerCover(p: Paper) {
+  const ctx = p.ctx;
+  ctx.clearRect(0, 0, p.w, p.h);
+  ctx.strokeStyle = '#c9a45c';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(22, 22, p.w - 44, p.h - 44);
+  text(ctx, 'LIBRO MAYOR', p.w / 2, p.h * 0.42, { w: 700, px: 22, c: '#d8b56a', align: 'center', st: 'expanded' });
+  text(ctx, '2026', p.w / 2, p.h * 0.42 + 30, { w: 600, px: 14, c: '#d8b56a', align: 'center' });
+}
+
+/** Banderín de un hito de la hoja de ruta. */
+export function drawFlag(p: Paper, when: string, title: string, current: boolean) {
+  const ctx = p.ctx;
+  clear(p, current ? '#1f6b4a' : '#ffffff');
+  text(ctx, when, 18, 38, { w: 700, px: 22, c: current ? '#f5f6f3' : C.green, st: 'expanded' });
+  text(ctx, title, 18, 66, { w: 560, px: 15, c: current ? '#d8ebe0' : C.ink });
+}

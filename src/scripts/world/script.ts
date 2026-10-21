@@ -15,7 +15,7 @@ const sheet = (o: Partial<Record<string, number>> = {}) => ({ x: 0, y: 0, z: 0, 
 export function buildScript() {
   // ---------- Personajes ----------
   const inv = new Actor({ ...sheet({ rx: -0.12, ry: -0.32, rz: 0.04, s: 0.9, vis: 1, bend: 0.22 }), age: 0, scan: -1 });
-  const excel = new Actor({ ...sheet({ x: 3.6, y: DESK + 0.002, z: -0.4, rx: LIE, rz: -0.06, s: 0.78 }), typed: 0 });
+  const excel = new Actor({ ...sheet({ x: 3.6, y: DESK + 0.025, z: -0.4, rx: LIE, rz: -0.06, s: 0.78, bend: 0 }), typed: 0 });
   const env = new Actor({ ...sheet({ y: -1.8, z: 0.06 }), flap: 1 });
   const letters = [0, 1, 2].map(() => new Actor(sheet({ x: -1.55, y: 0.55, z: 0.1, s: 0.2 })));
   const slip = new Actor(sheet({ x: 3.4, y: 0.2, z: 0.5, rz: 0.25, s: 0.85 }));
@@ -33,7 +33,7 @@ export function buildScript() {
   const cam = new Actor({ x: 0, y: 0, z: 6.2, tx: 0, ty: 0, tz: 0 });
 
   // ---------- Hero → la mesa (0 → 1) ----------
-  inv.to(0.55, 1.05, { x: -0.9, y: DESK + 0.004, z: -0.12, rx: LIE, ry: 0, rz: 0.07, s: 0.78, bend: 0.03 });
+  inv.to(0.55, 1.05, { x: -0.9, y: DESK + 0.03, z: -0.12, rx: LIE, ry: 0, rz: 0.07, s: 0.78, bend: 0 });
   cam.to(0.55, 1.05, { x: 0.05, y: 2.7, z: 3.9, tx: 0.05, ty: DESK, tz: -0.25 });
 
   // ---------- 1 · Alguien teclea sus datos a mano ----------
@@ -244,14 +244,6 @@ export function buildScript() {
     })),
     { text: L.fingerprint, at: { link: 1 }, show: [CH.verifactu + 0.55, CH.verifactu + 0.98], dx: 0, dy: 50, tone: 'mint' },
     { text: (_T, w) => (w.size === 'medium' ? L.medium : L.small), at: { actor: 'inv', uv: [0.5, -0.04] }, show: [CH.audience + 0.25, CH.audience + 0.98], dx: 0, dy: -26 },
-    ...es.roadmap.items.map((it, i) => ({
-      text: `${it.when} · ${it.title}`,
-      at: { marker: i },
-      show: [CH.roadmap + 0.25 + i * 0.07, CH.roadmap + 0.98] as [number, number],
-      dx: 0,
-      dy: -34,
-      tone: it.current ? ('green' as const) : undefined,
-    })),
     { text: es.story.actions.surveyHint, at: { actor: 'inv', uv: [0.5, 1.02] }, show: [CH.survey + 0.45, CH.survey + 0.98], dx: 0, dy: 30, tone: 'green' },
   ];
 
@@ -289,7 +281,9 @@ export function flags(T: number, user: { stamped: boolean; approved: boolean }) 
     qr: T >= CH.verifactu + 0.45,
     filled: T >= CH.impuestos + 0.55,
     draft: T >= CH.impuestos + 0.74,
-    supRead: T >= CH.proveedores + 0.42,
+    // Avance de lectura (0..1) mientras la lupa recorre la hoja; cuantizado para no redibujar sin parar.
+    invRead: Math.round(Math.min(1, Math.max(0, (T - CH.read - 0.45) / 0.3)) * 20) / 20,
+    supRead: Math.round(Math.min(1, Math.max(0, (T - CH.proveedores - 0.3) / 0.25)) * 20) / 20,
     approved: T >= CH.proveedores + 0.72 || (user.approved && T >= CH.proveedores),
     entry: T >= CH.cierre + 0.57,
     surveyTicks: Math.max(0, Math.min(4, Math.floor((T - CH.survey - 0.38) / 0.08))),

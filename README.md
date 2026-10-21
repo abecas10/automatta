@@ -4,7 +4,7 @@ Web de una sola página para presentar Automatta y llevar a las pymes a la encue
 
 - **Astro** + **Tailwind CSS** + **TypeScript** (web estática, sin backend)
 - **GSAP** (ScrollTrigger, SplitText, DrawSVG) + **Lenis** para las animaciones y el scroll suave
-- **OGL** (WebGL) para la experiencia 3D, que se descarga después de pintar el hero
+- **three.js** para la experiencia 3D (materiales PBR, HDRI de estudio, sombras suaves y postproducción), que se descarga después de pintar el hero
 - Una sola fuente autoalojada con `@fontsource` (Archivo Variable, con eje de anchura). Sin cookies ni analítica.
 
 ## Arrancarla en local
@@ -143,7 +143,15 @@ Archivos (`src/scripts/world/`):
 - `script.ts`: **el guion**. Fotogramas clave de cada personaje y las etiquetas. Para retocar la historia, se toca aquí.
 - `keys.ts`: motor de fotogramas clave (todo es función del scroll, así que se puede ir hacia atrás).
 - `textures.ts` y `atlas.ts`: los documentos, dibujados en canvas. Los textos están en `es.ts` (claves `story` y `world`).
-- `stage.ts`: OGL, shaders del papel, objetos (sello, sobre, libro, barras, cadena, camino) e interacción.
+- `stage.ts`: three.js. Papel con curvatura y fibra, sello torneado, sobre kraft, libro de piel, columnas de cerámica, cadena de acero, banderines, mesa de roble, física de muelle e interacción.
+
+### Recursos 3D (CC0, de [Poly Haven](https://polyhaven.com))
+
+En `public/3d/`, optimizados con `gltf-transform` (texturas WebP, geometría meshopt):
+lámpara de brazo (`desk_lamp_arm_01`), suculenta (`potted_plant_04`), grapadora antigua (`vintage_stapler`),
+lupa (`magnifying_glass_01`), madera de roble (`oak_veneer_01`), piel (`fabric_leather_02`) y el HDRI de estudio
+`studio_small_09` (reducido con `scripts/shrink-hdr.py`). Licencia CC0: uso libre, sin atribución obligatoria.
+Los originales se descargan en `assets-src/` (no se suben al repositorio).
 - `scenes.ts`: convierte el scroll en la posición de la historia y conecta los botones.
 
 Truco para revisar encuadres: añade `#t=7.5` a la URL para congelar la historia en ese punto.
