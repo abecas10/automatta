@@ -97,7 +97,7 @@ mm.add(
             else stopWorld = handle.stop;
           })
           .catch(() => root.classList.add('world-failed'));
-      // Arranca con la primera interacción (scroll, ratón, toque) o a los 2 s de cargar la página.
+      // Arranca con la primera interacción (scroll, ratón, toque) o a los 4 s de cargar la página.
       let booted = false;
       const go = () => {
         if (booted) return;
@@ -106,7 +106,7 @@ mm.add(
         idle(boot, { timeout: 800 });
       };
       ['scroll', 'pointermove', 'touchstart', 'keydown'].forEach((ev) => window.addEventListener(ev, go, { passive: true, once: true }));
-      const afterLoad = () => setTimeout(go, 2000);
+      const afterLoad = () => setTimeout(go, 4000);
       if (document.readyState === 'complete') afterLoad();
       else window.addEventListener('load', afterLoad, { once: true });
     }
