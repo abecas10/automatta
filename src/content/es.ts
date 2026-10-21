@@ -448,6 +448,62 @@ const es = {
     cta: 'Volver al inicio',
   },
 
+  // La experiencia 3D: la vida de una factura concreta (F-2041). Datos de ejemplo.
+  story: {
+    hint: 'Esta es F-2041, una factura de 4.000 €. Síguela: te va a enseñar cómo funciona Automatta.',
+    drag: 'Arrástrala para girarla',
+    today: 'Hoy, sin Automatta',
+    withAutomatta: 'Con Automatta',
+    labels: {
+      typing: 'Alguien copia cada dato a mano',
+      typo: '#N/A: un dato mal tecleado',
+      day: 'Día',
+      unpaid: 'sin cobrar',
+      fog: '¿Llegamos a las nóminas?',
+      read: 'Leído solo',
+      fields: ['Cliente: Talleres Ejemplo SL', 'Total: 4.000,00 €', 'IVA: 694,21 €', 'Vencimiento: 14 oct'],
+      reminders: ['Día 3 · Recordatorio amable', 'Día 20 · Firme, con la factura adjunta', 'Día 40 · Te avisamos para que llames'],
+      transfer: '+4.000,00 € de Talleres Ejemplo SL',
+      matched: 'Cuadrado con F-2041',
+      forecast: 'Caja prevista a 90 días',
+      thisWeek: '+4.000 € esta semana',
+      tight: 'Dentro de 7 semanas: caja ajustada',
+      entry: 'Apunte enlazado a F-2041',
+      monthly: 'Ventas 42.000 € · Gastos 31.000 € · Beneficio 11.000 €',
+      vatChip: '694,21 €',
+      vatFrom: 'IVA de F-2041',
+      vatTo: 'Casilla 01 del modelo 303',
+      supplierRead: 'Proveedor, importe, IVA y vencimiento: leídos solos',
+      order: 'Pedido ✓',
+      deliveryNote: 'Albarán ✓',
+      payday: 'Transferencia lista para el día de pago',
+      chain: ['F-2039', 'F-2040', 'F-2041'],
+      fingerprint: 'Huella encadenada',
+      small: 'Taller Puig SL, 6 empleados: cada factura, sola',
+      medium: 'Muebles García SL, 50 empleados: unas 200 facturas al mes, solas',
+    },
+    actions: {
+      stamp: 'Estampa tú el sello',
+      stamped: 'Cobrada',
+      approve: 'Aprobar la factura',
+      approved: 'Aprobada',
+      tamper: 'Intenta cambiar el importe',
+      tamperNo: 'No se puede. Con Verifactu, una factura emitida queda registrada y no se puede alterar.',
+      sizeLegend: '¿Cómo es tu empresa?',
+      sizeSmall: 'Pequeña (1–29)',
+      sizeMedium: 'Mediana (30–70)',
+      surveySheet: 'Abrir la encuesta (en una pestaña nueva)',
+      surveyHint: 'Haz clic en la hoja',
+    },
+    chapters: {
+      read: {
+        title: 'Del caos a saber dónde estás.',
+        text: 'Automatta lee cada factura sola: quién, cuánto, qué IVA y cuándo vence. Hace el trabajo repetitivo y te pasa solo las excepciones.',
+      },
+      surveyTitle: 'Ahora te toca a ti.',
+    },
+  },
+
   // Documentos del mundo 3D (texturas dibujadas en el navegador). Datos ficticios.
   world: {
     label:

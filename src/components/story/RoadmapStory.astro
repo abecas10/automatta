@@ -1,0 +1,30 @@
+---
+import Chapter from '../Chapter.astro';
+import es from '../../content/es';
+import { CH } from '../../scripts/world/chapters';
+
+const r = es.roadmap;
+---
+
+<section id="hoja-de-ruta" class="section story" aria-labelledby="ruta-title">
+  <div class="container-x">
+    <Chapter index={CH.roadmap} kicker={r.eyebrow} title={r.title} level={2} titleId="ruta-title">
+      <ol class="mt-2 flex flex-col gap-5">
+        {
+          r.items.map((item) => (
+            <li class="grid grid-cols-[5.5rem_1fr] gap-3">
+              <p class="tnum pt-0.5 text-[0.9375rem] font-medium text-green">{item.when}</p>
+              <div>
+                <p class="font-medium">
+                  {item.title}
+                  {item.current && <span class="pill pill-green ml-2 align-[2px]">{r.here}</span>}
+                </p>
+                <p class="ch-extra mt-1 text-[0.9375rem] text-muted">{item.text}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </Chapter>
+  </div>
+</section>

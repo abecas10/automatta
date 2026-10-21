@@ -6,7 +6,7 @@ import es from '../../content/es';
 import { ATLAS_COLS, KIND, KIND_COUNT, SHEET_RATIO } from './constants';
 export { ATLAS_COLS, KIND, SHEET_RATIO };
 
-const C = {
+export const C = {
   ink: '#14201b',
   muted: '#5f6b65',
   faint: 'rgba(20,32,27,0.14)',
@@ -22,20 +22,20 @@ const C = {
 };
 
 // Tamaño lógico de una celda (se escala al dibujar).
-const W = 340;
-const H = Math.round(W * SHEET_RATIO);
+export const W = 340;
+export const H = Math.round(W * SHEET_RATIO);
 
 const d = es.world;
 
-type Ctx = CanvasRenderingContext2D;
+export type Ctx = CanvasRenderingContext2D;
 
-function font(ctx: Ctx, weight: number, px: number, stretch: 'normal' | 'expanded' | 'condensed' = 'normal') {
+export function font(ctx: Ctx, weight: number, px: number, stretch: 'normal' | 'expanded' | 'condensed' = 'normal') {
   ctx.font = `${weight} ${px}px "Archivo Variable", "Archivo", system-ui, sans-serif`;
   const c = ctx as Ctx & { fontStretch?: string };
   if ('fontStretch' in c) c.fontStretch = stretch === 'expanded' ? 'semi-expanded' : stretch === 'condensed' ? 'semi-condensed' : 'normal';
 }
 
-function text(ctx: Ctx, s: string, x: number, y: number, o: { w?: number; px?: number; c?: string; align?: CanvasTextAlign; st?: 'normal' | 'expanded' | 'condensed' } = {}) {
+export function text(ctx: Ctx, s: string, x: number, y: number, o: { w?: number; px?: number; c?: string; align?: CanvasTextAlign; st?: 'normal' | 'expanded' | 'condensed' } = {}) {
   font(ctx, o.w ?? 450, o.px ?? 12, o.st ?? 'normal');
   ctx.fillStyle = o.c ?? C.ink;
   ctx.textAlign = o.align ?? 'left';
@@ -44,7 +44,7 @@ function text(ctx: Ctx, s: string, x: number, y: number, o: { w?: number; px?: n
 }
 
 /** Líneas grises que hacen de "texto pequeño" ilegible a distancia. */
-function bars(ctx: Ctx, x: number, y: number, w: number, n: number, gap = 11, c = C.faint) {
+export function bars(ctx: Ctx, x: number, y: number, w: number, n: number, gap = 11, c = C.faint) {
   ctx.fillStyle = c;
   for (let i = 0; i < n; i++) {
     const ww = w * (0.55 + 0.45 * Math.abs(Math.sin(i * 12.9898 + x)));
@@ -53,7 +53,7 @@ function bars(ctx: Ctx, x: number, y: number, w: number, n: number, gap = 11, c 
   }
 }
 
-function roundRect(ctx: Ctx, x: number, y: number, w: number, h: number, r: number) {
+export function roundRect(ctx: Ctx, x: number, y: number, w: number, h: number, r: number) {
   ctx.beginPath();
   ctx.moveTo(x + r, y);
   ctx.arcTo(x + w, y, x + w, y + h, r);
@@ -63,12 +63,12 @@ function roundRect(ctx: Ctx, x: number, y: number, w: number, h: number, r: numb
   ctx.closePath();
 }
 
-function hr(ctx: Ctx, x: number, y: number, w: number, c = C.line) {
+export function hr(ctx: Ctx, x: number, y: number, w: number, c = C.line) {
   ctx.fillStyle = c;
   ctx.fillRect(x, y, w, 1.2);
 }
 
-function check(ctx: Ctx, cx: number, cy: number, r: number, bg = C.green, fg = '#fff') {
+export function check(ctx: Ctx, cx: number, cy: number, r: number, bg = C.green, fg = '#fff') {
   ctx.fillStyle = bg;
   ctx.beginPath();
   ctx.arc(cx, cy, r, 0, Math.PI * 2);
@@ -85,7 +85,7 @@ function check(ctx: Ctx, cx: number, cy: number, r: number, bg = C.green, fg = '
 }
 
 /** Sello de caucho con grano: se dibuja aparte y se "estampa" girado. */
-function stamp(ctx: Ctx, label: string, color: string, cx: number, cy: number, rot: number, px = 26, sub?: string) {
+export function stamp(ctx: Ctx, label: string, color: string, cx: number, cy: number, rot: number, px = 26, sub?: string) {
   const tmp = document.createElement('canvas');
   const s = 2;
   font(tmp.getContext('2d')!, 700, px, 'expanded');
@@ -130,7 +130,7 @@ function stamp(ctx: Ctx, label: string, color: string, cx: number, cy: number, r
 }
 
 /** Nota adhesiva amarilla con texto "a mano". */
-function sticky(ctx: Ctx, label: string, x: number, y: number, rot: number) {
+export function sticky(ctx: Ctx, label: string, x: number, y: number, rot: number) {
   ctx.save();
   ctx.translate(x, y);
   ctx.rotate(rot);

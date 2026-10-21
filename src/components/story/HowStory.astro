@@ -1,0 +1,82 @@
+---
+import SectionHead from '../SectionHead.astro';
+import Chapter from '../Chapter.astro';
+import Dashboard from '../Dashboard.astro';
+import Payables from '../demos/Payables.astro';
+import Receivables from '../demos/Receivables.astro';
+import Treasury from '../demos/Treasury.astro';
+import Close from '../demos/Close.astro';
+import Taxes from '../demos/Taxes.astro';
+import es from '../../content/es';
+import { CH } from '../../scripts/world/chapters';
+
+const h = es.how;
+const s = es.story;
+const piece = (id: string) => h.pieces.find((p) => p.id === id)!;
+// Orden de la historia: la factura F-2041 se cobra, se cuadra, se archiva y declara su IVA;
+// después, lo mismo con las facturas que pagas.
+const chapters = [
+  { id: 'cobros', index: CH.cobros, Demo: Receivables, action: null },
+  { id: 'tesoreria', index: CH.tesoreria, Demo: Treasury, action: 'stamp' },
+  { id: 'cierre', index: CH.cierre, Demo: Close, action: null },
+  { id: 'impuestos', index: CH.impuestos, Demo: Taxes, action: null },
+  { id: 'proveedores', index: CH.proveedores, Demo: Payables, action: 'approve' },
+] as const;
+---
+
+<section id="como-funciona" class="section story" aria-labelledby="como-title">
+  <div class="container-x">
+    <div class="story-intro">
+      <SectionHead name={h.eyebrow} title={h.title} id="como-title" intro={h.intro} />
+    </div>
+
+    <Chapter index={CH.read} kicker={s.withAutomatta} title={s.chapters.read.title}>
+      <p>{s.chapters.read.text}</p>
+      <div slot="fallback"><Dashboard /></div>
+    </Chapter>
+
+    {
+      chapters.map(({ id, index, Demo, action }) => {
+        const p = piece(id);
+        return (
+          <Chapter index={index} id={id} titleId={`${id}-title`} kicker={p.kicker} title={p.title}>
+            {p.start && <p class="pill pill-green !mb-3">{h.startHere}</p>}
+            <p class="ch-long">{p.text}</p>
+            <ul class="ch-points">
+              {p.points.map((pt) => (
+                <li>{pt}</li>
+              ))}
+            </ul>
+            {action === 'stamp' && (
+              <button type="button" class="btn btn-primary world-only mt-6" data-action="stamp" data-done={s.actions.stamped}>
+                {s.actions.stamp}
+              </button>
+            )}
+            {action === 'approve' && (
+              <button type="button" class="btn btn-primary world-only mt-6" data-action="approve" data-done={s.actions.approved}>
+                {s.actions.approve}
+              </button>
+            )}
+            <div slot="fallback" class="window">
+              <div class="window-bar">
+                <span class="font-medium text-ink">{p.title}</span>
+                <span class="tag">{h.tag}</span>
+              </div>
+              <div class="p-5 sm:p-7">
+                <Demo />
+              </div>
+            </div>
+          </Chapter>
+        );
+      })
+    }
+
+    <p class="story-note">
+      <svg class="mt-1 h-4 w-4 shrink-0 text-ink" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <circle cx="8" cy="8" r="6.75" stroke="currentColor" stroke-width="1.5"></circle>
+        <path d="M8 7.2v4M8 4.8v.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+      </svg>
+      <span>{h.excluded}</span>
+    </p>
+  </div>
+</section>

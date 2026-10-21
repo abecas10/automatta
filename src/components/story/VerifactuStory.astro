@@ -1,0 +1,69 @@
+---
+import Chapter from '../Chapter.astro';
+import es from '../../content/es';
+import { VERIFACTU_DATE } from '../../config';
+import { CH } from '../../scripts/world/chapters';
+
+const v = es.verifactu;
+const s = es.story;
+// Valor inicial calculado en el build; el JS lo actualiza cada segundo.
+const diff = Math.max(0, new Date(VERIFACTU_DATE).getTime() - Date.now());
+const sec = Math.floor(diff / 1000);
+const pad = (n: number) => String(n).padStart(2, '0');
+const units = [
+  { key: 'days', value: String(Math.floor(sec / 86400)), label: v.units.days },
+  { key: 'hours', value: pad(Math.floor((sec % 86400) / 3600)), label: v.units.hours },
+  { key: 'minutes', value: pad(Math.floor((sec % 3600) / 60)), label: v.units.minutes },
+  { key: 'seconds', value: pad(sec % 60), label: v.units.seconds },
+];
+---
+
+<section id="verifactu" class="section story dark bg-ink text-paper" aria-labelledby="verifactu-title">
+  <div class="container-x">
+    <Chapter index={CH.verifactu} kicker={v.eyebrow} title={v.title} level={2} titleId="verifactu-title">
+      <p>{v.text}</p>
+      <p id="vf-label" class="mt-6 text-sm text-muted-dark">{v.countdownLabel}</p>
+      <div class="vf-count mt-2 flex flex-wrap gap-x-6 gap-y-3" role="timer" aria-labelledby="vf-label" data-countdown data-target={VERIFACTU_DATE}>
+        {
+          units.map((u) => (
+            <div class="vf-unit">
+              <span class="vf-num t-display tnum block text-[clamp(2.2rem,1.6rem+2.6vw,3.6rem)] leading-none" data-unit={u.key}>
+                {u.value}
+              </span>
+              <span class="t-data mt-1 block text-xs text-muted-dark">{u.label}</span>
+            </div>
+          ))
+        }
+      </div>
+      <p class="vf-arrived mt-3 hidden font-medium text-mint">{v.arrived}</p>
+      <p class="ch-extra mt-6">{v.why}</p>
+      <blockquote class="ch-extra t-display mt-6 text-[1.35rem] leading-snug">{v.quote}</blockquote>
+      <p class="ch-extra mt-5 inline-flex items-center gap-3 text-mint">
+        <svg class="h-5 w-5 shrink-0" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path d="M10 2l6 2.5v5c0 4-2.7 7-6 8.5C6.7 16.5 4 13.5 4 9.5v-5L10 2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"></path>
+          <path d="M7 10l2 2 4-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+        <span>{v.badge}</span>
+      </p>
+      <div class="world-only mt-6">
+        <button type="button" class="btn btn-secondary" data-action="tamper">{s.actions.tamper}</button>
+        <p class="tamper-msg mt-3 text-[0.9375rem] text-mint" role="status" aria-live="polite" data-tamper-msg data-text={s.actions.tamperNo}></p>
+      </div>
+    </Chapter>
+  </div>
+</section>
+
+<style>
+  [data-countdown][data-arrived] ~ .vf-arrived {
+    display: block;
+  }
+  .vf-num:global(.tick) {
+    animation: tick 0.5s var(--ease-out-expo);
+  }
+  @keyframes tick {
+    from {
+      transform: translateY(-20%);
+      opacity: 0.2;
+    }
+  }
+</style>

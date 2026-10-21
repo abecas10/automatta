@@ -1,0 +1,48 @@
+---
+import Chapter from '../Chapter.astro';
+import Button from '../Button.astro';
+import es from '../../content/es';
+import { CH } from '../../scripts/world/chapters';
+import { SURVEY_URL, MAILTO_CALL, CONTACT_EMAIL } from '../../config';
+
+const s = es.survey;
+---
+
+<section id="encuesta" class="section story" aria-labelledby="encuesta-title">
+  <div class="container-x">
+    <Chapter index={CH.survey} kicker={s.title} title={es.story.chapters.surveyTitle} level={2} titleId="encuesta-title">
+      <p class="ch-extra">{s.text}</p>
+      <p class="t-display mt-5 text-[1.3rem] leading-snug">{s.program.title}</p>
+      <p class="ch-extra mt-3">{s.program.text}</p>
+      <div class="mt-7 flex flex-col items-start gap-3">
+        <Button href={SURVEY_URL} external size="lg">{s.cta}</Button>
+        <p class="text-muted">
+          {s.altPrefix}
+          <a href={MAILTO_CALL} class="link text-ink">{s.altLink}</a>
+          <span class="block text-sm text-muted">{CONTACT_EMAIL}</span>
+        </p>
+      </div>
+
+      <div slot="fallback" class="doc p-6 sm:p-7">
+        <p class="text-sm font-medium">{s.docTitle}</p>
+        <ul class="mt-5 flex flex-col divide-y divide-line">
+          {
+            s.bullets.map((b) => (
+              <li class="flex items-start gap-3.5 py-4 first:pt-0 last:pb-0">
+                <span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-[5px] bg-green text-paper">
+                  <svg class="h-3 w-3" viewBox="0 0 12 12" fill="none">
+                    <path d="M2.5 6.5l2.3 2.3L9.5 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </span>
+                <span>
+                  <span class="block font-medium">{b.title}</span>
+                  <span class="block text-[0.9375rem] text-muted">{b.text}</span>
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </Chapter>
+  </div>
+</section>

@@ -1,0 +1,67 @@
+---
+import Chapter from '../Chapter.astro';
+import es from '../../content/es';
+import { CH } from '../../scripts/world/chapters';
+
+const a = es.audience;
+const s = es.story;
+const sectorsSentence =
+  a.sectors.map((x, i) => (i === 0 ? x : x.toLowerCase())).slice(0, -1).join(', ') + ' y ' + a.sectors[a.sectors.length - 1].toLowerCase() + '.';
+---
+
+<section id="para-quien" class="section story" aria-labelledby="audiencia-title">
+  <div class="container-x">
+    <Chapter index={CH.audience} kicker={a.eyebrow} title={a.title} level={2} titleId="audiencia-title">
+      <p>{a.text}</p>
+
+      <!-- Con 3D: un selector cambia la escena y el texto. Sin 3D: se ven los dos tipos de empresa. -->
+      <div class="size-toggle world-only mt-6" role="group" aria-label={s.actions.sizeLegend}>
+        <button type="button" class="size-btn" data-size="small" aria-pressed="true" aria-controls="segment-small">{s.actions.sizeSmall}</button>
+        <button type="button" class="size-btn" data-size="medium" aria-pressed="false" aria-controls="segment-medium">{s.actions.sizeMedium}</button>
+      </div>
+
+      {
+        a.segments.map((seg, i) => (
+          <div class="segment mt-6" id={i === 0 ? 'segment-small' : 'segment-medium'} data-segment={i === 0 ? 'small' : 'medium'}>
+            <p class="text-[0.9375rem] font-medium text-green">
+              {seg.name} · <span class="tnum">{seg.range}</span>
+            </p>
+            <h3 class="t-display mt-2 text-[1.45rem] leading-tight">{seg.headline}</h3>
+            <p class="ch-extra mt-3">{seg.text}</p>
+            <p class="ch-extra mt-4 rounded-lg bg-paper-2 p-3 text-sm">
+              <span class="tag mr-1.5 align-[1px]">{a.exampleTag}</span>
+              <strong>{seg.example.name}.</strong> <span class="text-muted">{seg.example.text}</span>
+            </p>
+          </div>
+        ))
+      }
+      <p class="ch-extra mt-6 text-[0.9375rem] text-muted">
+        <span class="font-medium text-green">{a.sectorsTitle}:</span>
+        {sectorsSentence}
+      </p>
+    </Chapter>
+  </div>
+</section>
+
+<style>
+  .size-toggle {
+    display: inline-flex;
+    padding: 4px;
+    border-radius: 999px;
+    background: rgb(20 32 27 / 0.06);
+  }
+  .size-btn {
+    border-radius: 999px;
+    padding: 0.55rem 1rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--color-muted);
+    transition:
+      background-color 0.3s,
+      color 0.3s;
+  }
+  .size-btn[aria-pressed='true'] {
+    background: var(--color-ink);
+    color: var(--color-paper);
+  }
+</style>

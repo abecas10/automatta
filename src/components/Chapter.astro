@@ -1,0 +1,36 @@
+---
+// Un capítulo de la historia de F-2041.
+// - Con el mundo 3D: el texto se queda fijo (sticky) mientras el capítulo avanza y el 3D actúa.
+// - Sin 3D: texto e ilustración de siempre, uno al lado del otro.
+interface Props {
+  /** Índice del capítulo en la historia (lo usa el 3D). */
+  index: number;
+  kicker?: string;
+  title: string;
+  /** Nivel del titular. */
+  level?: 2 | 3;
+  id?: string;
+  titleId?: string;
+  class?: string;
+}
+const { index, kicker, title, level = 3, id, titleId, class: className = '' } = Astro.props;
+const Heading = level === 2 ? 'h2' : 'h3';
+const hasFallback = Astro.slots.has('fallback');
+---
+
+<article class:list={['ch', className]} data-ch={index} id={id} aria-labelledby={titleId}>
+  <div class="ch-copy">
+    {kicker && <p class="ch-kicker">{kicker}</p>}
+    <Heading class="ch-title" id={titleId}>{title}</Heading>
+    <div class="ch-body">
+      <slot />
+    </div>
+  </div>
+  {
+    hasFallback && (
+      <div class="ch-fallback" aria-hidden="true">
+        <slot name="fallback" />
+      </div>
+    )
+  }
+</article>

@@ -11,9 +11,8 @@ import { initUi } from './ui';
 import { initReveals } from './reveal';
 import { initHero } from './sections/hero';
 import { initProblem } from './sections/problem';
-import { initTransformation } from './sections/transformation';
-import { initHow, initRoadmap } from './sections/how';
-import { initVerifactu, initSurvey } from './sections/misc';
+import { initHow } from './sections/how';
+import { initVerifactu } from './sections/misc';
 import { canUseWorld } from './world/support';
 import { initWorldScenes } from './world/scenes';
 
@@ -63,22 +62,16 @@ mm.add(
     const tasks: (() => void)[] = [
       () => {
         if (!useWorld) return;
-        // Dentro de las escenas fijadas, el texto lo coreografía el mundo, no el revelado genérico.
-        document.querySelectorAll('[data-problem-track] [data-pscene]:not(.pscene-head) [data-rise]').forEach((el) => el.removeAttribute('data-rise'));
         stopScenes = initWorldScenes(opts);
       },
       () => initReveals(),
       () => {
+        // Sin 3D: animaciones de las ilustraciones de siempre.
         if (useWorld) return;
         initProblem(opts);
-        initTransformation(opts);
+        initHow(opts);
       },
-      () => initHow(opts),
-      () => {
-        initRoadmap();
-        initVerifactu();
-        initSurvey();
-      },
+      () => initVerifactu(),
       () => ScrollTrigger.refresh(),
     ];
     const idle = window.requestIdleCallback ?? ((cb: () => void) => setTimeout(cb, 120));
@@ -94,9 +87,10 @@ mm.add(
     // El render 3D se descarga y arranca después, sin competir con el primer pintado.
     if (useWorld) {
       const canvas = document.querySelector<HTMLCanvasElement>('[data-world-canvas]');
+      const labels = document.querySelector<HTMLElement>('[data-world-labels]');
       const boot = () =>
-        import('./world/renderer')
-          .then(({ startWorld }) => (canvas && !disposed ? startWorld(canvas) : undefined))
+        import('./world/stage')
+          .then(({ startStage }) => (canvas && !disposed ? startStage(canvas, labels) : undefined))
           .then((handle) => {
             if (!handle) return;
             if (disposed) handle.stop();

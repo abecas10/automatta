@@ -7,7 +7,7 @@ import { SURVEY_URL } from '../../config';
 const lines = es.hero.titleLines;
 ---
 
-<section class="relative overflow-hidden pt-28 pb-16 sm:pt-36 lg:pb-24" aria-labelledby="hero-title">
+<section class="hero relative overflow-hidden pt-28 pb-16 sm:pt-36 lg:pb-24" aria-labelledby="hero-title" data-ch="0">
   <div class="container-x grid items-center gap-14 lg:grid-cols-12 lg:gap-8">
     <div class="lg:col-span-6">
       <p class="text-[0.9375rem] font-medium text-muted" data-hero-in>{es.hero.status}</p>
@@ -21,6 +21,11 @@ const lines = es.hero.titleLines;
         <Button href="#como-funciona" variant="secondary" size="lg">{es.hero.secondary}</Button>
       </div>
       <p class="mt-4 text-sm text-muted" data-hero-in>{es.hero.note}</p>
+      <!-- Con el mundo 3D: presenta a la protagonista, la factura F-2041 -->
+      <p class="story-hint world-only mt-10" data-hero-in>
+        <span class="story-hint-dot" aria-hidden="true"></span>
+        <span>{es.story.hint} <span class="story-hint-drag">{es.story.drag}.</span></span>
+      </p>
     </div>
 
     <div class="lg:col-span-6" data-hero-visual>

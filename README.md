@@ -4,7 +4,7 @@ Web de una sola página para presentar Automatta y llevar a las pymes a la encue
 
 - **Astro** + **Tailwind CSS** + **TypeScript** (web estática, sin backend)
 - **GSAP** (ScrollTrigger, SplitText, DrawSVG) + **Lenis** para las animaciones y el scroll suave
-- **OGL** (WebGL, ~25 KB) para el mundo 3D de documentos que acompaña todo el scroll
+- **OGL** (WebGL) para la experiencia 3D, que se descarga después de pintar el hero
 - Una sola fuente autoalojada con `@fontsource` (Archivo Variable, con eje de anchura). Sin cookies ni analítica.
 
 ## Arrancarla en local
@@ -113,33 +113,42 @@ vercel.json                 URLs limpias (/privacidad en vez de /privacidad.html
 scripts/generate-assets.mjs Genera la imagen para redes y los iconos
 ```
 
-## El mundo 3D
+## La experiencia 3D: la vida de F-2041
 
-Toda la página es un solo recorrido: un mundo 3D de documentos de papel (facturas,
-recordatorios, Excels, extractos, tickets, el modelo 303) fijo detrás del contenido.
-Al bajar, cuenta la historia en actos:
+La página sigue a una factura concreta, **F-2041** (Taller Puig SL → Talleres Ejemplo SL, 4.000 €),
+y cada capítulo es algo que le pasa. Los objetos 3D se explican con etiquetas ancladas a ellos
+y el usuario puede interactuar:
 
-| Sección | Qué hacen los papeles |
-| --- | --- |
-| Hero | Nube de papeles sueltos (reaccionan al ratón) |
-| El problema | Tormenta de papel que pasa a tu lado; en "cero visibilidad" entra niebla |
-| Una misma causa | Todo se congela en el aire |
-| Con Automatta | Cada hoja vuela a su sitio y pasa de rojo a verde, como un sello; luego se tumban bajo el panel |
-| Cómo funciona | Una cinta de documentos cruza un escáner y sale en orden |
-| Verifactu | Todo cae en una sola pila sellada; la página se hace de noche |
-| Para quién | Dos pilas: pequeña y mediana |
-| Hoja de ruta | Cuatro pilas que crecen, una por hito |
-| La encuesta | Las demás caen y una hoja viene hasta ti y se convierte en la encuesta |
+| Capítulo | Qué pasa | Qué puede hacer el usuario |
+| --- | --- | --- |
+| Hero | F-2041 flota delante | Arrastrarla para girarla |
+| Hoy 1/3 | Alguien teclea sus datos en un Excel, con errores | |
+| Hoy 2/3 | Pasan los días, amarillea, un sello la marca VENCIDA y otras facturas la entierran | |
+| Hoy 3/3 | Una previsión de caja que nadie sabe leer, en la niebla | |
+| Una misma causa | Todo se congela y pierde el color | |
+| Con Automatta | Se endereza, un escáner la lee y cada dato se etiqueta | |
+| Cobros | Entra en un sobre, se envía; salen los recordatorios del día 3, 20 y 40 | |
+| Tesorería | Llega la transferencia, se cuadra y se sella COBRADA; sube la caja a 90 días | Estampar el sello |
+| Cierre | Se archiva sola en el libro mayor | |
+| Impuestos | Su IVA salta a la casilla 01 del modelo 303 | |
+| Proveedores | Llega una factura de proveedor, se lee y se aprueba | Aprobarla |
+| Verifactu | De noche, queda encadenada a F-2039 y F-2040 | Intentar cambiar el importe (no se puede) |
+| Para quién | Sola (pequeña) o entre 200 facturas al mes (mediana) | Elegir el tamaño |
+| Hoja de ruta | Un camino con los cuatro hitos | |
+| Encuesta | Se da la vuelta: su dorso es la encuesta | Hacer clic en la hoja |
 
 Archivos (`src/scripts/world/`):
 
-- `constants.ts`: actos y tipos de documento.
-- `atlas.ts`: dibuja las texturas de los documentos en un canvas (sin imágenes que descargar). Los textos están en `es.ts`, clave `world`.
-- `layouts.ts`: dónde está cada hoja en cada acto y cómo se pasa de uno a otro.
-- `scenes.ts`: ata el scroll a los actos y coreografía el texto de las escenas fijadas.
-- `renderer.ts`: OGL, shaders del papel y bucle de dibujo. Se descarga después de pintar el hero.
+- `chapters.ts`: índices de los capítulos (compartidos por el HTML y el 3D).
+- `script.ts`: **el guion**. Fotogramas clave de cada personaje y las etiquetas. Para retocar la historia, se toca aquí.
+- `keys.ts`: motor de fotogramas clave (todo es función del scroll, así que se puede ir hacia atrás).
+- `textures.ts` y `atlas.ts`: los documentos, dibujados en canvas. Los textos están en `es.ts` (claves `story` y `world`).
+- `stage.ts`: OGL, shaders del papel, objetos (sello, sobre, libro, barras, cadena, camino) e interacción.
+- `scenes.ts`: convierte el scroll en la posición de la historia y conecta los botones.
 
-Sin WebGL, con "Reducir movimiento" o con ahorro de datos, la web se ve sin 3D, con sus ilustraciones de siempre.
+Truco para revisar encuadres: añade `#t=7.5` a la URL para congelar la historia en ese punto.
+
+Sin WebGL, con "Reducir movimiento" o con ahorro de datos, cada capítulo se ve con su ilustración estática.
 
 ## Accesibilidad y movimiento
 
