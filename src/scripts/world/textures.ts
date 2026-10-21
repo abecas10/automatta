@@ -124,7 +124,7 @@ export function drawSurveyBack(p: Paper, ticks: number) {
   clear(p);
   const m = 26;
   text(ctx, 'Encuesta Automatta', m, 44, { w: 480, px: 13, c: C.muted });
-  text(ctx, es.story.chapters.surveyTitle, m, 76, { w: 640, px: 22, st: 'expanded' });
+  text(ctx, es.story.steps.survey.title, m, 76, { w: 640, px: 22, st: 'expanded' });
   hr(ctx, m, 96, W - m * 2, 'rgba(20,32,27,0.3)');
   v.bullets.forEach((b, i) => {
     const y = 136 + i * 74;

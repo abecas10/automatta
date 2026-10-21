@@ -3,26 +3,27 @@ import Chapter from '../Chapter.astro';
 import Button from '../Button.astro';
 import es from '../../content/es';
 import { CH } from '../../scripts/world/chapters';
-import { SURVEY_URL, MAILTO_CALL, CONTACT_EMAIL } from '../../config';
+import { SURVEY_URL, MAILTO_CALL } from '../../config';
 
 const s = es.survey;
+const st = es.story.steps.survey;
 ---
 
-<section id="encuesta" class="section story" aria-labelledby="encuesta-title">
+<section id="encuesta" class="story" aria-labelledby="encuesta-title">
   <div class="container-x">
-    <Chapter index={CH.survey} kicker={s.title} title={es.story.chapters.surveyTitle} level={2} titleId="encuesta-title">
-      <p class="ch-extra">{s.text}</p>
-      <p class="t-display mt-5 text-[1.3rem] leading-snug">{s.program.title}</p>
-      <p class="ch-extra mt-3">{s.program.text}</p>
-      <div class="mt-7 flex flex-col items-start gap-3">
+    <Chapter index={CH.survey} kicker={st.kicker} title={st.title} caption={st.caption} level={2} titleId="encuesta-title">
+      <p>{s.text}</p>
+      <p>{s.program.title}</p>
+      <p>{s.program.text}</p>
+      <ul class="ch-points">
+        {s.bullets.map((b) => <li>{b.title}: {b.text}</li>)}
+      </ul>
+      <div slot="actions" class="flex flex-col items-center gap-2">
         <Button href={SURVEY_URL} external size="lg">{s.cta}</Button>
-        <p class="text-muted">
-          {s.altPrefix}
-          <a href={MAILTO_CALL} class="link text-ink">{s.altLink}</a>
-          <span class="block text-sm text-muted">{CONTACT_EMAIL}</span>
+        <p class="text-sm text-muted">
+          {s.altPrefix} <a href={MAILTO_CALL} class="link text-ink">{s.altLink}</a>
         </p>
       </div>
-
       <div slot="fallback" class="doc p-6 sm:p-7">
         <p class="text-sm font-medium">{s.docTitle}</p>
         <ul class="mt-5 flex flex-col divide-y divide-line">

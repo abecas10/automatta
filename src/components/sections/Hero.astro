@@ -9,23 +9,27 @@ const lines = es.hero.titleLines;
 
 <section class="hero relative overflow-hidden pt-28 pb-16 sm:pt-36 lg:pb-24" aria-labelledby="hero-title" data-ch="0">
   <div class="container-x grid items-center gap-14 lg:grid-cols-12 lg:gap-8">
-    <div class="lg:col-span-6">
-      <p class="text-[0.9375rem] font-medium text-muted" data-hero-in>{es.hero.status}</p>
-      <h1 id="hero-title" class="h-hero mt-6 max-w-[16ch]" data-hero-title>
-        {lines.map((t) => <span class="block">{t}</span>)}
-      </h1>
-      <!-- Visible desde el primer pintado (elemento LCP): solo se desliza, no aparece con fundido -->
-      <p class="lead mt-7 max-w-[52ch] text-muted" data-hero-sub>{es.hero.subtitle}</p>
-      <div class="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center" data-hero-in>
-        <Button href={SURVEY_URL} external size="lg">{es.hero.primary}</Button>
-        <Button href="#como-funciona" variant="secondary" size="lg">{es.hero.secondary}</Button>
+    <div class="hero-copy lg:col-span-6">
+      <div class="hero-top">
+        <p class="text-[0.9375rem] font-medium text-muted" data-hero-in>{es.hero.status}</p>
+        <h1 id="hero-title" class="h-hero mt-6 max-w-[16ch]" data-hero-title>
+          {lines.map((t) => <span class="block">{t}</span>)}
+        </h1>
       </div>
-      <p class="mt-4 text-sm text-muted" data-hero-in>{es.hero.note}</p>
-      <!-- Con el mundo 3D: presenta a la protagonista, la factura F-2041 -->
-      <p class="story-hint world-only mt-10" data-hero-in>
-        <span class="story-hint-dot" aria-hidden="true"></span>
-        <span>{es.story.hint} <span class="story-hint-drag">{es.story.drag}.</span></span>
-      </p>
+      <!-- Con 3D, el móvil queda entre el titular y este bloque -->
+      <div class="hero-bottom">
+        <!-- Visible desde el primer pintado (elemento LCP): solo se desliza, no aparece con fundido -->
+        <p class="lead mt-7 max-w-[52ch] text-muted" data-hero-sub>{es.hero.subtitle}</p>
+        <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center" data-hero-in>
+          <Button href={SURVEY_URL} external size="lg">{es.hero.primary}</Button>
+          <Button href="#problema" variant="secondary" size="lg">{es.hero.secondary}</Button>
+        </div>
+        <p class="hero-note mt-4 text-sm text-muted" data-hero-in>{es.hero.note}</p>
+        <p class="story-hint world-only mt-4" data-hero-in>
+          <span class="story-hint-dot" aria-hidden="true"></span>
+          <span>{es.story.hint} <span class="story-hint-drag">{es.story.drag}.</span></span>
+        </p>
+      </div>
     </div>
 
     <div class="lg:col-span-6" data-hero-visual>

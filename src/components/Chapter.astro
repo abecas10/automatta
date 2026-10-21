@@ -1,33 +1,39 @@
 ---
-// Un capítulo de la historia de F-2041.
-// - Con el mundo 3D: el texto se queda fijo (sticky) mientras el capítulo avanza y el 3D actúa.
-// - Sin 3D: texto e ilustración de siempre, uno al lado del otro.
+// Un paso de la historia.
+// - Con el escenario 3D: el paso se queda fijo a pantalla completa; el titular va encima del objeto,
+//   la frase corta debajo y el objeto en medio hace lo que dice el texto.
+// - Sin 3D: titular, texto completo e ilustración estática.
 interface Props {
-  /** Índice del capítulo en la historia (lo usa el 3D). */
   index: number;
   kicker?: string;
   title: string;
-  /** Nivel del titular. */
+  /** Frase corta que acompaña al objeto 3D. */
+  caption?: string;
   level?: 2 | 3;
   id?: string;
   titleId?: string;
   class?: string;
 }
-const { index, kicker, title, level = 3, id, titleId, class: className = '' } = Astro.props;
+const { index, kicker, title, caption, level = 3, id, titleId, class: className = '' } = Astro.props;
 const Heading = level === 2 ? 'h2' : 'h3';
-const hasFallback = Astro.slots.has('fallback');
 ---
 
 <article class:list={['ch', className]} data-ch={index} id={id} aria-labelledby={titleId}>
-  <div class="ch-copy">
-    {kicker && <p class="ch-kicker">{kicker}</p>}
-    <Heading class="ch-title" id={titleId}>{title}</Heading>
-    <div class="ch-body">
-      <slot />
+  <div class="ch-stage">
+    <header class="ch-head">
+      {kicker && <p class="ch-kicker">{kicker}</p>}
+      <Heading class="ch-title" id={titleId}>{title}</Heading>
+    </header>
+    <div class="ch-foot">
+      {caption && <p class="ch-caption" aria-hidden="true">{caption}</p>}
+      <slot name="actions" />
     </div>
   </div>
+  <div class="ch-detail">
+    <slot />
+  </div>
   {
-    hasFallback && (
+    Astro.slots.has('fallback') && (
       <div class="ch-fallback" aria-hidden="true">
         <slot name="fallback" />
       </div>

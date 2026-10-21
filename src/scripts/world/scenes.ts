@@ -1,5 +1,5 @@
-// Con el escenario 3D: convierte el scroll en una posición de la historia (T)
-// y conecta los botones del texto con los objetos.
+// Con el escenario 3D: convierte el scroll en una posición de la historia (T),
+// hace aparecer y desaparecer el texto de cada paso y conecta los botones con los objetos.
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { gsap } from 'gsap';
 import { world } from './state';
@@ -7,52 +7,50 @@ import { CH } from './chapters';
 
 type Opts = { mobile: boolean };
 
+const smooth = (a: number, b: number, v: number) => {
+  const t = Math.min(1, Math.max(0, (v - a) / (b - a)));
+  return t * t * (3 - 2 * t);
+};
+
 export function initWorldScenes({ mobile }: Opts) {
   world.mobile = mobile;
   const cleanups: (() => void)[] = [];
 
-  // Cada capítulo aporta su tramo: T = índice + avance.
-  const tracks: { index: number; st: ScrollTrigger }[] = [];
+  // Cada paso aporta su tramo: T = índice + avance (0 al quedar fijo, 1 al soltarse).
+  const tracks: { index: number; stage: HTMLElement | null; st: ScrollTrigger }[] = [];
   document.querySelectorAll<HTMLElement>('[data-ch]').forEach((el) => {
     const index = Number(el.dataset.ch);
     const hero = index === CH.hero;
     tracks.push({
       index,
-      st: ScrollTrigger.create({ trigger: el, start: hero ? 'top top' : 'top 65%', end: hero ? 'bottom 65%' : 'bottom 65%' }),
+      stage: el.querySelector<HTMLElement>('.ch-stage'),
+      st: ScrollTrigger.create({ trigger: el, start: 'top top', end: hero ? 'bottom top' : 'bottom bottom' }),
     });
   });
   tracks.sort((a, b) => a.st.start - b.st.start);
-  // Tras la encuesta, la historia termina al llegar al equipo.
-  const team = document.querySelector('#equipo');
-  const endSt = team ? ScrollTrigger.create({ trigger: team, start: 'top bottom', end: 'top 40%' }) : null;
+  const after = document.querySelector('#hoja-de-ruta');
+  const endSt = after ? ScrollTrigger.create({ trigger: after, start: 'top bottom', end: 'top 30%' }) : null;
 
-  // Depuración: #t=2.5 en la URL congela la historia en ese momento (para revisar encuadres).
   const update = () => {
+    // Depuración: #t=2.5 en la URL congela la historia en ese momento.
     const forced = /^#t=([\d.]+)$/.exec(location.hash);
-    if (forced) {
-      world.target = Number(forced[1]);
-      return;
-    }
     let T = 0;
     for (const { index, st } of tracks) if (st.progress > 0) T = index + st.progress;
     if (endSt && endSt.progress > 0) T = CH.end + endSt.progress;
-    world.target = T;
+    world.target = forced ? Number(forced[1]) : T;
+    // El texto de cada paso entra al llegar y sale antes de que llegue el siguiente.
+    for (const { index, stage } of tracks) {
+      if (!stage) continue;
+      const local = world.target - index;
+      const o = smooth(-0.04, 0.08, local) * (1 - smooth(0.88, 0.99, local));
+      stage.style.setProperty('--o', o.toFixed(3));
+      stage.style.setProperty('--dir', local < 0.5 ? '1' : '-1');
+      stage.style.visibility = o < 0.01 ? 'hidden' : 'visible';
+    }
   };
   gsap.ticker.add(update);
   cleanups.push(() => gsap.ticker.remove(update));
-
-  // En móvil, el texto de cada capítulo es una tarjeta pegada abajo: su "top" depende de su alto.
-  if (mobile) {
-    const fit = () =>
-      document.querySelectorAll<HTMLElement>('.ch-copy').forEach((c) => {
-        const h = c.offsetHeight;
-        c.style.setProperty('--copy-top', `${Math.max(window.innerHeight * 0.14, window.innerHeight - h - 12)}px`);
-      });
-    fit();
-    window.addEventListener('resize', fit);
-    ScrollTrigger.addEventListener('refreshInit', fit);
-    cleanups.push(() => window.removeEventListener('resize', fit));
-  }
+  void mobile;
 
   // Botones que actúan sobre los objetos.
   const stampBtn = document.querySelector<HTMLButtonElement>('[data-action="stamp"]');
@@ -63,50 +61,36 @@ export function initWorldScenes({ mobile }: Opts) {
     b.disabled = true;
     b.textContent = `${b.dataset.done} ✓`;
   };
-  const onStamp = () => {
+  stampBtn?.addEventListener('click', () => {
     world.user.stamped = true;
     world.user.stampAt = performance.now();
-    if (stampBtn) done(stampBtn);
-  };
-  const onApprove = () => {
+    done(stampBtn);
+  });
+  approveBtn?.addEventListener('click', () => {
     world.user.approved = true;
     world.user.approveAt = performance.now();
-    if (approveBtn) done(approveBtn);
-  };
-  const onTamper = () => {
+    done(approveBtn);
+  });
+  tamperBtn?.addEventListener('click', () => {
     world.user.tamperAt = performance.now();
     if (tamperMsg) tamperMsg.textContent = tamperMsg.dataset.text ?? '';
-  };
-  stampBtn?.addEventListener('click', onStamp);
-  approveBtn?.addEventListener('click', onApprove);
-  tamperBtn?.addEventListener('click', onTamper);
+  });
 
-  // Selector pequeña / mediana: cambia la escena y el texto que se muestra.
+  // Selector pequeña / mediana: cambia lo que enseña el móvil.
   const sizeBtns = document.querySelectorAll<HTMLButtonElement>('[data-size]');
-  const segments = document.querySelectorAll<HTMLElement>('[data-segment]');
-  const setSize = (size: 'small' | 'medium') => {
-    world.user.size = size;
-    sizeBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.size === size)));
-    segments.forEach((s) => (s.hidden = s.dataset.segment !== size));
+  const paint = (size: 'small' | 'medium') => sizeBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.size === size)));
+  sizeBtns.forEach((b) =>
+    b.addEventListener('click', () => {
+      world.user.size = b.dataset.size as 'small' | 'medium';
+      paint(world.user.size);
+    }),
+  );
+  // Si el usuario no elige, la historia enseña primero la pequeña y luego la mediana.
+  const autoSize = () => {
+    if (!world.user.size) paint(world.target > CH.audience + 0.55 ? 'medium' : 'small');
   };
-  segments.forEach((s) => (s.hidden = s.dataset.segment !== 'small'));
-  sizeBtns.forEach((b) => b.addEventListener('click', () => setSize(b.dataset.size as 'small' | 'medium')));
-  // Si el usuario no elige, la historia enseña las dos: primero la pequeña y luego la mediana.
-  const audience = document.querySelector('#para-quien [data-ch]');
-  if (audience) {
-    ScrollTrigger.create({
-      trigger: audience,
-      start: 'top 65%',
-      end: 'bottom 65%',
-      onUpdate: (self) => {
-        if (world.user.size === null || world.user.size === undefined) {
-          const auto = self.progress > 0.55 ? 'medium' : 'small';
-          sizeBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.size === auto)));
-          segments.forEach((s) => (s.hidden = s.dataset.segment !== auto));
-        }
-      },
-    });
-  }
+  gsap.ticker.add(autoSize);
+  cleanups.push(() => gsap.ticker.remove(autoSize));
 
   return () => cleanups.forEach((c) => c());
 }

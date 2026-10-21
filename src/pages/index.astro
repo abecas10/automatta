@@ -13,7 +13,7 @@ import Faq from '../components/sections/Faq.astro';
 import Footer from '../components/sections/Footer.astro';
 ---
 
-<Base>
+<Base world>
   <!-- Escenario 3D (decorativo): la historia de la factura F-2041. Solo con WebGL y sin movimiento reducido. -->
   <div class="world" aria-hidden="true"><canvas data-world-canvas></canvas></div>
   <div class="world-labels" aria-hidden="true" data-world-labels></div>
@@ -24,8 +24,8 @@ import Footer from '../components/sections/Footer.astro';
     <HowStory />
     <VerifactuStory />
     <AudienceStory />
-    <RoadmapStory />
     <SurveyStory />
+    <RoadmapStory />
     <Team />
     <Faq />
   </main>

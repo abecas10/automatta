@@ -9,9 +9,11 @@ interface Props {
   title?: string;
   description?: string;
   noindex?: boolean;
+  /** La página tiene escenario 3D (solo la portada). */
+  world?: boolean;
 }
 
-const { title = es.meta.title, description = es.meta.description, noindex = false } = Astro.props;
+const { title = es.meta.title, description = es.meta.description, noindex = false, world = false } = Astro.props;
 // URLs limpias: /index.html → /, /aviso-legal.html → /aviso-legal
 const cleanPath = Astro.url.pathname.replace(/(index)?\.html$/, '').replace(/(.)\/$/, '$1') || '/';
 const canonical = new URL(cleanPath, SITE_URL).href;
@@ -32,7 +34,7 @@ const orgJsonLd = {
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang="es" data-world={world ? '' : undefined}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -80,10 +82,17 @@ const orgJsonLd = {
         var d = document.documentElement;
         if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
           d.classList.add('js-motion');
-          // Hasta saber si hay mundo 3D, el visual del hero no se muestra (evita un parpadeo).
-          d.classList.add('world-pending');
+          // ¿Escenario 3D? Se decide aquí, antes de pintar, para que la maquetación no salte.
+          // Solo en la portada, con WebGL y sin ahorro de datos.
+          try {
+            var c = document.createElement('canvas');
+            var gl = c.getContext('webgl2') || c.getContext('webgl');
+            var save = navigator.connection && navigator.connection.saveData;
+            if (gl && !save && d.hasAttribute('data-world')) d.classList.add('has-world');
+            if (gl && gl.getExtension('WEBGL_lose_context')) gl.getExtension('WEBGL_lose_context').loseContext();
+          } catch (e) {}
           window.__motionFallback = setTimeout(function () {
-            d.classList.remove('js-motion');
+            d.classList.remove('js-motion', 'has-world');
           }, 4000);
         }
       })();

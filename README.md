@@ -113,43 +113,47 @@ vercel.json                 URLs limpias (/privacidad en vez de /privacidad.html
 scripts/generate-assets.mjs Genera la imagen para redes y los iconos
 ```
 
-## La experiencia 3D: la vida de F-2041
+## La experiencia 3D: de papel a tu móvil
 
-La página sigue a una factura concreta, **F-2041** (Taller Puig SL → Talleres Ejemplo SL, 4.000 €),
-y cada capítulo es algo que le pasa. Los objetos 3D se explican con etiquetas ancladas a ellos
-y el usuario puede interactuar:
+La portada se recorre como una sola historia con dos protagonistas: **F-2041**, una factura de papel
+(cómo se trabaja hoy), y **un móvil** (Automatta). Cada paso ocupa la pantalla con el titular arriba,
+el objeto en medio y una frase abajo: el objeto hace exactamente lo que dice el texto.
 
-| Capítulo | Qué pasa | Qué puede hacer el usuario |
-| --- | --- | --- |
-| Hero | F-2041 flota delante | Arrastrarla para girarla |
-| Hoy 1/3 | Alguien teclea sus datos en un Excel, con errores | |
-| Hoy 2/3 | Pasan los días, amarillea, un sello la marca VENCIDA y otras facturas la entierran | |
-| Hoy 3/3 | Una previsión de caja que nadie sabe leer, en la niebla | |
-| Una misma causa | Todo se congela y pierde el color | |
-| Con Automatta | Se endereza, un escáner la lee y cada dato se etiqueta | |
-| Cobros | Entra en un sobre, se envía; salen los recordatorios del día 3, 20 y 40 | |
-| Tesorería | Llega la transferencia, se cuadra y se sella COBRADA; sube la caja a 90 días | Estampar el sello |
-| Cierre | Se archiva sola en el libro mayor | |
-| Impuestos | Su IVA salta a la casilla 01 del modelo 303 | |
-| Proveedores | Llega una factura de proveedor, se lee y se aprueba | Aprobarla |
-| Verifactu | De noche, queda encadenada a F-2039 y F-2040 | Intentar cambiar el importe (no se puede) |
-| Para quién | Sola (pequeña) o entre 200 facturas al mes (mediana) | Elegir el tamaño |
-| Hoja de ruta | Un camino con los cuatro hitos | |
-| Encuesta | Se da la vuelta: su dorso es la encuesta | Hacer clic en la hoja |
+| Paso | Qué se ve |
+| --- | --- |
+| Hero | El móvil con la notificación "F-2041 cobrada" (se puede girar) |
+| Esta es F-2041 | La factura cae sobre una mesa de roble |
+| La teclea a mano | Un Excel se rellena letra a letra, con un #N/A |
+| Vence | Del día 1 al 90, amarillea, un sello la marca VENCIDA y crece la pila de facturas sin cobrar |
+| No ves tu caja | Niebla y columnas de caja que nadie sabe leer |
+| Procesos manuales | Todo se congela en blanco y negro |
+| Con Automatta | El móvil se levanta y se enciende |
+| Se lee sola | Los datos vuelan del papel a la pantalla |
+| Cobros | Recordatorios del día 3, 20 y 40 en la pantalla |
+| Tesorería | Llega la transferencia y el sello marca COBRADA (o lo pulsas tú) |
+| Cierre | El papel entra en el móvil; ventas, gastos y beneficio en vivo |
+| Impuestos | El modelo 303 se rellena solo |
+| Proveedores | Una factura de proveedor se lee y la apruebas |
+| Verifactu | De noche: facturas encadenadas y cuenta atrás; "intenta cambiar el importe" |
+| Para quién | Pequeña o mediana: una factura o unas 200 al mes |
+| Encuesta | La pantalla es la encuesta: tocar el móvil la abre |
 
 Archivos (`src/scripts/world/`):
 
-- `chapters.ts`: índices de los capítulos (compartidos por el HTML y el 3D).
-- `script.ts`: **el guion**. Fotogramas clave de cada personaje y las etiquetas. Para retocar la historia, se toca aquí.
-- `keys.ts`: motor de fotogramas clave (todo es función del scroll, así que se puede ir hacia atrás).
-- `textures.ts` y `atlas.ts`: los documentos, dibujados en canvas. Los textos están en `es.ts` (claves `story` y `world`).
-- `stage.ts`: three.js. Papel con curvatura y fibra, sello torneado, sobre kraft, libro de piel, columnas de cerámica, cadena de acero, banderines, mesa de roble, física de muelle e interacción.
+- `chapters.ts`: índices de los pasos (compartidos por el HTML y el 3D).
+- `script.ts`: **el guion**: encuadres de cámara, movimientos, etiquetas y qué muestra la pantalla en cada momento.
+- `screen.ts`: la interfaz del móvil, dibujada en canvas (textos en `es.ts`, clave `story.screen`).
+- `stage.ts`: three.js. Móvil modelado a medida, papel con fibra y abarquillado, pila de facturas, sello, mesa de roble, luz de estudio, sombras, muelles y postproducción.
+- `keys.ts`: motor de fotogramas clave. `scenes.ts`: scroll → historia y botones. `textures.ts`: la factura y el Excel.
+
+Truco para revisar encuadres: añade `#t=9.5` a la URL para congelar la historia en ese punto.
+
+Sin WebGL, con "Reducir movimiento" o con ahorro de datos, cada paso se ve con su texto completo y su ilustración estática.
 
 ### Recursos 3D (CC0, de [Poly Haven](https://polyhaven.com))
 
 En `public/3d/`, optimizados con `gltf-transform` (texturas WebP, geometría meshopt):
-lámpara de brazo (`desk_lamp_arm_01`), suculenta (`potted_plant_04`), grapadora antigua (`vintage_stapler`),
-lupa (`magnifying_glass_01`), madera de roble (`oak_veneer_01`), piel (`fabric_leather_02`) y el HDRI de estudio
+suculenta (`potted_plant_04`), madera de roble (`oak_veneer_01`), piel (`fabric_leather_02`) y el HDRI de estudio
 `studio_small_09` (reducido con `scripts/shrink-hdr.py`). Licencia CC0: uso libre, sin atribución obligatoria.
 Los originales se descargan en `assets-src/` (no se suben al repositorio).
 - `scenes.ts`: convierte el scroll en la posición de la historia y conecta los botones.

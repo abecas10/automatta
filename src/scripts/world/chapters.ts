@@ -1,20 +1,21 @@
-// Capítulos de la historia de F-2041. El 3D y el DOM comparten estos índices.
+// Pasos de la historia "de papel a tu móvil". El HTML y el 3D comparten estos índices.
 export const CH = {
   hero: 0,
-  typing: 1, // hoy: alguien teclea sus datos a mano
-  overdue: 2, // hoy: pasan los días y vence
-  fog: 3, // hoy: no sabes cómo va la caja
-  cause: 4, // una misma causa: todo se congela
-  read: 5, // Automatta la lee sola
-  cobros: 6, // se envía y se reclama sola
-  tesoreria: 7, // llega el cobro, se cuadra y se sella
-  cierre: 8, // se archiva en el libro
-  impuestos: 9, // su IVA salta al modelo 303
-  proveedores: 10, // lo mismo con las facturas que pagas
-  verifactu: 11, // queda encadenada e inalterable
-  audience: 12, // pequeña o mediana
-  roadmap: 13, // hoja de ruta
-  survey: 14, // la factura se da la vuelta: es la encuesta
-  end: 15,
+  meet: 1, // F-2041 cae sobre la mesa
+  typing: 2, // alguien la teclea a mano
+  overdue: 3, // vence y nadie reclama
+  fog: 4, // no ves tu caja
+  cause: 5, // una misma causa: todo se congela
+  automatta: 6, // el móvil se levanta y se enciende
+  read: 7, // los datos vuelan del papel a la pantalla
+  cobros: 8, // recordatorios día 3, 20 y 40
+  tesoreria: 9, // llega la transferencia y el sello marca COBRADA
+  cierre: 10, // el papel entra en el móvil: apunte enlazado
+  impuestos: 11, // el 303 se rellena solo
+  proveedores: 12, // una factura de proveedor se lee y se aprueba
+  verifactu: 13, // registrada y encadenada (de noche)
+  audience: 14, // pequeña o mediana
+  survey: 15, // la pantalla es la encuesta
+  end: 16,
 } as const;
-export const CH_COUNT = 16;
+export const CH_COUNT = 17;

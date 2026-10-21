@@ -1,30 +1,26 @@
 ---
-import Chapter from '../Chapter.astro';
+import SectionHead from '../SectionHead.astro';
 import es from '../../content/es';
-import { CH } from '../../scripts/world/chapters';
 
 const r = es.roadmap;
 ---
 
-<section id="hoja-de-ruta" class="section story" aria-labelledby="ruta-title">
+<section id="hoja-de-ruta" class="section roadmap" aria-labelledby="ruta-title">
   <div class="container-x">
-    <Chapter index={CH.roadmap} kicker={r.eyebrow} title={r.title} level={2} titleId="ruta-title">
-      <ol class="mt-2 flex flex-col gap-5">
-        {
-          r.items.map((item) => (
-            <li class="grid grid-cols-[5.5rem_1fr] gap-3">
-              <p class="tnum pt-0.5 text-[0.9375rem] font-medium text-green">{item.when}</p>
-              <div>
-                <p class="font-medium">
-                  {item.title}
-                  {item.current && <span class="pill pill-green ml-2 align-[2px]">{r.here}</span>}
-                </p>
-                <p class="ch-extra mt-1 text-[0.9375rem] text-muted">{item.text}</p>
-              </div>
-            </li>
-          ))
-        }
-      </ol>
-    </Chapter>
+    <SectionHead name={r.eyebrow} title={r.title} id="ruta-title" />
+    <ol class="rm mt-12 grid gap-8 md:grid-cols-4 md:gap-6 lg:mt-16">
+      {
+        r.items.map((item) => (
+          <li class:list={['rm-item border-t-2 pt-5', item.current ? 'border-green' : 'border-line']}>
+            <p class="tnum flex items-center gap-2 text-[0.9375rem] font-medium text-green">
+              {item.when}
+              {item.current && <span class="pill pill-green">{r.here}</span>}
+            </p>
+            <h3 class="mt-2 text-[1.375rem]">{item.title}</h3>
+            <p class="mt-2 max-w-[32ch] text-muted">{item.text}</p>
+          </li>
+        ))
+      }
+    </ol>
   </div>
 </section>

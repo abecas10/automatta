@@ -23,7 +23,8 @@ initUi();
 const root = document.documentElement;
 const mm = gsap.matchMedia();
 // Mundo 3D: se decide una vez. Sin WebGL o con movimiento reducido, la web es la de siempre.
-const useWorld = canUseWorld();
+const useWorld = document.documentElement.classList.contains('has-world') && canUseWorld();
+if (!useWorld) document.documentElement.classList.remove('has-world');
 root.classList.remove('world-pending');
 
 mm.add(

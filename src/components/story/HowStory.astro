@@ -1,5 +1,4 @@
 ---
-import SectionHead from '../SectionHead.astro';
 import Chapter from '../Chapter.astro';
 import Dashboard from '../Dashboard.astro';
 import Payables from '../demos/Payables.astro';
@@ -11,50 +10,52 @@ import es from '../../content/es';
 import { CH } from '../../scripts/world/chapters';
 
 const h = es.how;
-const s = es.story;
+const st = es.story.steps;
+const a = es.story.actions;
 const piece = (id: string) => h.pieces.find((p) => p.id === id)!;
-// Orden de la historia: la factura F-2041 se cobra, se cuadra, se archiva y declara su IVA;
+// Orden de la historia: F-2041 se lee, se cobra, se cuadra, se archiva y declara su IVA;
 // después, lo mismo con las facturas que pagas.
 const chapters = [
-  { id: 'cobros', index: CH.cobros, Demo: Receivables, action: null },
-  { id: 'tesoreria', index: CH.tesoreria, Demo: Treasury, action: 'stamp' },
-  { id: 'cierre', index: CH.cierre, Demo: Close, action: null },
-  { id: 'impuestos', index: CH.impuestos, Demo: Taxes, action: null },
-  { id: 'proveedores', index: CH.proveedores, Demo: Payables, action: 'approve' },
+  { id: 'cobros', index: CH.cobros, Demo: Receivables },
+  { id: 'tesoreria', index: CH.tesoreria, Demo: Treasury },
+  { id: 'cierre', index: CH.cierre, Demo: Close },
+  { id: 'impuestos', index: CH.impuestos, Demo: Taxes },
+  { id: 'proveedores', index: CH.proveedores, Demo: Payables },
 ] as const;
 ---
 
-<section id="como-funciona" class="section story" aria-labelledby="como-title">
+<section id="como-funciona" class="story" aria-labelledby="como-title">
   <div class="container-x">
-    <div class="story-intro">
-      <SectionHead name={h.eyebrow} title={h.title} id="como-title" intro={h.intro} />
-    </div>
-
-    <Chapter index={CH.read} kicker={s.withAutomatta} title={s.chapters.read.title}>
-      <p>{s.chapters.read.text}</p>
+    <Chapter index={CH.automatta} kicker={st.automatta.kicker} title={st.automatta.title} caption={st.automatta.caption} level={2} titleId="como-title">
+      <p>{h.intro}</p>
       <div slot="fallback"><Dashboard /></div>
     </Chapter>
 
+    <Chapter index={CH.read} kicker={st.read.kicker} title={st.read.title} caption={st.read.caption}>
+      <p>{es.how.pieces[0].text}</p>
+    </Chapter>
+
     {
-      chapters.map(({ id, index, Demo, action }) => {
+      chapters.map(({ id, index, Demo }) => {
         const p = piece(id);
+        const s = st[id];
         return (
-          <Chapter index={index} id={id} titleId={`${id}-title`} kicker={p.kicker} title={p.title}>
-            {p.start && <p class="pill pill-green !mb-3">{h.startHere}</p>}
-            <p class="ch-long">{p.text}</p>
+          <Chapter index={index} id={id} titleId={`${id}-title`} kicker={s.kicker} title={s.title} caption={s.caption}>
+            <p class="ch-detail-kicker">{p.title}</p>
+            <p>{p.text}</p>
             <ul class="ch-points">
               {p.points.map((pt) => (
                 <li>{pt}</li>
               ))}
             </ul>
-            {action === 'stamp' && (
-              <button type="button" class="btn btn-primary world-only mt-6" data-action="stamp" data-done={s.actions.stamped}>
-                {s.actions.stamp}
+            {id === 'tesoreria' && (
+              <button slot="actions" type="button" class="btn btn-primary world-only" data-action="stamp" data-done={a.stamped}>
+                {a.stamp}
               </button>
             )}
-            {action === 'approve' && (
-              <button type="button" class="btn btn-primary world-only mt-6" data-action="approve" data-done={s.actions.approved}>
-                {s.actions.approve}
+            {id === 'proveedores' && (
+              <button slot="actions" type="button" class="btn btn-primary world-only" data-action="approve" data-done={a.approved}>
+                {a.approve}
               </button>
             )}
             <div slot="fallback" class="window">
