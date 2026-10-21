@@ -408,8 +408,13 @@ export async function startStage(canvas: HTMLCanvasElement, labelsRoot: HTMLElem
     c.lineWidth = 4;
     c.strokeRect(14, 14, 172, 92);
     c.fillStyle = color;
-    c.font = '700 26px "Archivo Variable", system-ui';
+    // El texto se ajusta al ancho de la etiqueta ("BORRADOR LISTO" es largo).
+    let px = 26;
     c.textAlign = 'center';
+    do {
+      c.font = `700 ${px}px "Archivo Variable", system-ui`;
+      px -= 1;
+    } while (c.measureText(txt.toUpperCase()).width > 150 && px > 10);
     c.fillText(txt.toUpperCase(), 100, 70);
     ((labelMesh.material as MeshStandardMaterial).map as Texture).needsUpdate = true;
   };
@@ -556,7 +561,7 @@ export async function startStage(canvas: HTMLCanvasElement, labelsRoot: HTMLElem
     holder(x, z, ry).add(o);
   };
   loadModel('/3d/desk_lamp_arm_01.glb', 0.5 * METER, (o) => addProp(o, 4.2, -2.2, -2.3));
-  loadModel('/3d/potted_plant_04.glb', 0.22 * METER, (o) => addProp(o, -1.6, -2.15, 0.4));
+  loadModel('/3d/potted_plant_04.glb', 0.22 * METER, (o) => addProp(o, 4.6, -2.7, 0.4));
   loadModel('/3d/vintage_stapler.glb', 0.16 * METER, (o) => addProp(o, 3.6, 0.75, -0.5));
   const glass = new Group();
   scene.add(glass);
