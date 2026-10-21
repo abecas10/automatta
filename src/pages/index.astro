@@ -15,6 +15,8 @@ import Footer from '../components/sections/Footer.astro';
 ---
 
 <Base>
+  <!-- Mundo 3D (decorativo): solo se activa con WebGL y sin movimiento reducido. -->
+  <div class="world" aria-hidden="true"><canvas data-world-canvas></canvas></div>
   <Navbar />
   <main id="contenido">
     <Hero />

@@ -80,6 +80,8 @@ const orgJsonLd = {
         var d = document.documentElement;
         if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
           d.classList.add('js-motion');
+          // Hasta saber si hay mundo 3D, el visual del hero no se muestra (evita un parpadeo).
+          d.classList.add('world-pending');
           window.__motionFallback = setTimeout(function () {
             d.classList.remove('js-motion');
           }, 4000);

@@ -4,6 +4,7 @@ Web de una sola página para presentar Automatta y llevar a las pymes a la encue
 
 - **Astro** + **Tailwind CSS** + **TypeScript** (web estática, sin backend)
 - **GSAP** (ScrollTrigger, SplitText, DrawSVG) + **Lenis** para las animaciones y el scroll suave
+- **OGL** (WebGL, ~25 KB) para el mundo 3D de documentos que acompaña todo el scroll
 - Una sola fuente autoalojada con `@fontsource` (Archivo Variable, con eje de anchura). Sin cookies ni analítica.
 
 ## Arrancarla en local
@@ -101,6 +102,7 @@ src/
     sections/               Una sección de la landing por archivo
   scripts/
     motion.ts               Punto de entrada: Lenis + GSAP + movimiento reducido
+    world/                  Mundo 3D (ver abajo)
     ui.ts                   Menú, acordeón y cuenta atrás (funcionan siempre)
     reveal.ts               Revelados al hacer scroll y microinteracciones
     sections/               Animación de cada sección
@@ -110,6 +112,34 @@ site.config.mjs             Dominio público (único sitio donde cambiarlo)
 vercel.json                 URLs limpias (/privacidad en vez de /privacidad.html)
 scripts/generate-assets.mjs Genera la imagen para redes y los iconos
 ```
+
+## El mundo 3D
+
+Toda la página es un solo recorrido: un mundo 3D de documentos de papel (facturas,
+recordatorios, Excels, extractos, tickets, el modelo 303) fijo detrás del contenido.
+Al bajar, cuenta la historia en actos:
+
+| Sección | Qué hacen los papeles |
+| --- | --- |
+| Hero | Nube de papeles sueltos (reaccionan al ratón) |
+| El problema | Tormenta de papel que pasa a tu lado; en "cero visibilidad" entra niebla |
+| Una misma causa | Todo se congela en el aire |
+| Con Automatta | Cada hoja vuela a su sitio y pasa de rojo a verde, como un sello; luego se tumban bajo el panel |
+| Cómo funciona | Una cinta de documentos cruza un escáner y sale en orden |
+| Verifactu | Todo cae en una sola pila sellada; la página se hace de noche |
+| Para quién | Dos pilas: pequeña y mediana |
+| Hoja de ruta | Cuatro pilas que crecen, una por hito |
+| La encuesta | Las demás caen y una hoja viene hasta ti y se convierte en la encuesta |
+
+Archivos (`src/scripts/world/`):
+
+- `constants.ts`: actos y tipos de documento.
+- `atlas.ts`: dibuja las texturas de los documentos en un canvas (sin imágenes que descargar). Los textos están en `es.ts`, clave `world`.
+- `layouts.ts`: dónde está cada hoja en cada acto y cómo se pasa de uno a otro.
+- `scenes.ts`: ata el scroll a los actos y coreografía el texto de las escenas fijadas.
+- `renderer.ts`: OGL, shaders del papel y bucle de dibujo. Se descarga después de pintar el hero.
+
+Sin WebGL, con "Reducir movimiento" o con ahorro de datos, la web se ve sin 3D, con sus ilustraciones de siempre.
 
 ## Accesibilidad y movimiento
 

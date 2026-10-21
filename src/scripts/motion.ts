@@ -14,6 +14,8 @@ import { initProblem } from './sections/problem';
 import { initTransformation } from './sections/transformation';
 import { initHow, initRoadmap } from './sections/how';
 import { initVerifactu, initSurvey } from './sections/misc';
+import { canUseWorld } from './world/support';
+import { initWorldScenes } from './world/scenes';
 
 gsap.registerPlugin(ScrollTrigger, SplitText, DrawSVGPlugin);
 
@@ -21,6 +23,9 @@ initUi();
 
 const root = document.documentElement;
 const mm = gsap.matchMedia();
+// Mundo 3D: se decide una vez. Sin WebGL o con movimiento reducido, la web es la de siempre.
+const useWorld = canUseWorld();
+root.classList.remove('world-pending');
 
 mm.add(
   {
@@ -34,6 +39,7 @@ mm.add(
       return;
     }
     root.classList.add('js-motion');
+    if (useWorld) root.classList.add('has-world');
     clearTimeout((window as unknown as { __motionFallback?: number }).__motionFallback);
 
     // Scroll suave con Lenis, sincronizado con ScrollTrigger.
@@ -45,28 +51,70 @@ mm.add(
     (window as unknown as { lenis?: Lenis }).lenis = lenis;
 
     const opts = { mobile: !!mobile };
-    initHero(opts);
+    initHero(opts, useWorld);
+    let stopScenes: (() => void) | undefined;
+    let stopWorld: (() => void) | undefined;
+    let disposed = false;
 
     // El resto de secciones está por debajo del primer pantallazo: se preparan cuando
     // el navegador queda libre, para no bloquear la carga inicial.
-    const rest = () => {
-      initReveals();
-      initProblem(opts);
-      initTransformation(opts);
-      initHow(opts);
-      initRoadmap();
-      initVerifactu();
-      initSurvey();
-      ScrollTrigger.refresh();
+    // Se preparan en trozos, cada uno en un momento libre del navegador,
+    // para no bloquear el hilo principal con una sola tarea larga.
+    const tasks: (() => void)[] = [
+      () => {
+        if (!useWorld) return;
+        // Dentro de las escenas fijadas, el texto lo coreografía el mundo, no el revelado genérico.
+        document.querySelectorAll('[data-problem-track] [data-pscene]:not(.pscene-head) [data-rise]').forEach((el) => el.removeAttribute('data-rise'));
+        stopScenes = initWorldScenes(opts);
+      },
+      () => initReveals(),
+      () => {
+        if (useWorld) return;
+        initProblem(opts);
+        initTransformation(opts);
+      },
+      () => initHow(opts),
+      () => {
+        initRoadmap();
+        initVerifactu();
+        initSurvey();
+      },
+      () => ScrollTrigger.refresh(),
+    ];
+    const idle = window.requestIdleCallback ?? ((cb: () => void) => setTimeout(cb, 120));
+    const runNext = () => {
+      const task = tasks.shift();
+      if (!task || disposed) return;
+      // ctx.add mantiene estas animaciones dentro del contexto (se revierten con matchMedia).
+      ctx.add(task);
+      idle(runNext, { timeout: 600 });
     };
-    const idle = window.requestIdleCallback ?? ((cb: () => void) => setTimeout(cb, 200));
-    // ctx.add mantiene estas animaciones dentro del contexto (se revierten con matchMedia).
-    idle(() => ctx.add(rest), { timeout: 1200 });
+    idle(runNext, { timeout: 1200 });
+
+    // El render 3D se descarga y arranca después, sin competir con el primer pintado.
+    if (useWorld) {
+      const canvas = document.querySelector<HTMLCanvasElement>('[data-world-canvas]');
+      const boot = () =>
+        import('./world/renderer')
+          .then(({ startWorld }) => (canvas && !disposed ? startWorld(canvas) : undefined))
+          .then((handle) => {
+            if (!handle) return;
+            if (disposed) handle.stop();
+            else stopWorld = handle.stop;
+          })
+          .catch(() => root.classList.add('world-failed'));
+      if (document.readyState === 'complete') idle(boot, { timeout: 1500 });
+      else window.addEventListener('load', () => idle(boot, { timeout: 1500 }), { once: true });
+    }
 
     // Recalcula posiciones cuando las fuentes terminan de cargar.
     document.fonts?.ready.then(() => ScrollTrigger.refresh());
 
     return () => {
+      disposed = true;
+      stopScenes?.();
+      stopWorld?.();
+      root.classList.remove('has-world');
       gsap.ticker.remove(raf);
       lenis.destroy();
       delete (window as unknown as { lenis?: Lenis }).lenis;

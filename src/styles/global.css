@@ -308,6 +308,138 @@
   visibility: hidden;
 }
 
+/* ---------------------------------------------------------------
+   Mundo 3D. Solo con la clase .has-world (WebGL + movimiento permitido).
+   El canvas pinta el fondo (papel o tinta) y el contenido va encima.
+---------------------------------------------------------------- */
+.world {
+  display: none;
+}
+.has-world .world {
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.world canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.has-world main,
+.has-world footer {
+  position: relative;
+  z-index: 1;
+}
+/* Las secciones dejan ver el mundo: sin fondo propio, pero solo cuando el 3D ya
+   está pintando. Si no llega a arrancar, cada sección conserva su fondo. */
+.world-ready main .section,
+.world-ready main .section.dark {
+  background: transparent;
+}
+/* El hero reserva el hueco donde flota la nube de papeles */
+.world-pending [data-hero-visual],
+.has-world [data-hero-visual] {
+  visibility: hidden;
+}
+/* Texto sobre el 3D: un halo del color del fondo para que se lea siempre */
+.has-world main {
+  --halo: var(--world-bg, var(--color-paper));
+}
+.has-world main :is(h1, h2, h3, p, li, blockquote, dt, dd):not(.doc *, .window *, .doc-ink *, .btn, .btn *) {
+  text-shadow:
+    0 0 16px var(--halo),
+    0 0 6px var(--halo),
+    0 0 2px var(--halo);
+}
+
+/* El problema como escenas fijadas dentro de la tormenta */
+.has-world #problema {
+  padding: 0;
+}
+.has-world .problem-track {
+  position: relative;
+  height: 100svh;
+}
+.has-world .problem-grid {
+  display: contents;
+}
+.has-world .problem-mock {
+  display: none;
+}
+.has-world [data-pscene] {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  text-align: center;
+  padding: 5rem 0.5rem 2rem;
+}
+.has-world .pscene-head .section-head {
+  display: block;
+}
+.has-world .pscene-head .section-name {
+  padding: 0;
+}
+.has-world .pscene-head h2,
+.has-world .pscene-head p {
+  margin-inline: auto;
+}
+.has-world [data-pscene] figcaption {
+  margin: 0;
+  max-width: 36rem;
+}
+.has-world .pscene-title {
+  font-size: clamp(2rem, 1.1rem + 3.6vw, 3.6rem) !important;
+  line-height: 1.02;
+  max-width: 16ch;
+  margin-inline: auto;
+}
+.has-world [data-pscene] figcaption p {
+  font-size: clamp(1.05rem, 0.98rem + 0.35vw, 1.25rem);
+  max-width: 44ch;
+  margin: 1.25rem auto 0;
+  color: var(--color-ink);
+}
+.has-world .pscene-end-inner {
+  border: 0;
+  padding: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+.has-world .pscene-conclusion {
+  font-size: clamp(2.2rem, 1.2rem + 4vw, 4.4rem) !important;
+  line-height: 1;
+  max-width: 14ch;
+  margin-inline: auto;
+}
+.has-world .pscene-end-inner > div {
+  max-width: none;
+}
+.has-world .pscene-end-inner p:not(.pscene-conclusion) {
+  margin-inline: auto;
+  max-width: 40ch;
+}
+.has-world .pscene-end .btn {
+  align-self: center;
+}
+
+/* Automatta: sin el caos del DOM (lo hace el 3D) */
+.has-world .tf-chaos {
+  display: none !important;
+}
+
+/* La encuesta: la hoja 3D aterriza en un documento con proporción A4 */
+@media (min-width: 1024px) {
+  .has-world [data-survey-doc] .doc {
+    aspect-ratio: 1 / 1.414;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

@@ -448,6 +448,21 @@ const es = {
     cta: 'Volver al inicio',
   },
 
+  // Documentos del mundo 3D (texturas dibujadas en el navegador). Datos ficticios.
+  world: {
+    label:
+      'Ilustración en 3D: decenas de documentos (facturas, recordatorios, extractos del banco, tickets e impuestos) que pasan del desorden al orden mientras bajas por la página.',
+    invoiceA: { kind: 'Factura', number: 'F-2041', issuer: 'Taller Puig SL', client: 'Talleres Ejemplo SL', concept: 'Reparación de maquinaria', base: '3.305,79', vat: '694,21', total: '4.000,00 €', due: 'Venció el 14 oct' },
+    invoiceB: { kind: 'Factura', number: 'F-2038', issuer: 'Taller Puig SL', client: 'Distribuciones Muestra SA', concept: 'Mantenimiento anual', base: '4.958,68', vat: '1.041,32', total: '6.000,00 €', due: 'Venció el 2 oct', note: '¿Le llamamos?' },
+    reminder: { from: 'De: administración', to: 'Para: Talleres Ejemplo SL', subject: 'Recordatorio: factura vencida', manual: 'Enviado a mano, 23:47', auto: 'Enviado solo, día 3' },
+    sheet: { file: 'facturas_FINAL_v7.xlsx', ledger: 'Libro mayor, octubre', cols: ['Factura', 'Importe', 'IVA', 'Cuenta'] },
+    bank: { title: 'Extracto bancario', account: 'Cuenta ···· 4821', rows: [['Transf. Talleres Ejemplo', '+4.000,00'], ['Recibo de luz', '−212,40'], ['Transf. Distrib. Muestra', '+6.000,00'], ['Cuota software', '−49,00'], ['Transf. Ing. Ficticia', '+2.500,00']] },
+    supplier: { kind: 'Factura de proveedor', issuer: 'Maderas Ejemplo SL', total: '1.210,00 €', fields: ['Proveedor', 'Importe', 'IVA', 'Vence'], note: '¿Quién la pasa?' },
+    ticket: { shop: 'Gasolinera Ejemplo', lines: ['Gasóleo', 'IVA 21 %'], total: '60,00 €', registered: 'Gasto registrado' },
+    tax: { title: 'Modelo 303', subtitle: 'IVA, primer trimestre', boxes: [['IVA de tus ventas', '8.400,00'], ['IVA de tus gastos', '5.200,00'], ['A ingresar', '3.200,00']], deadline: 'Plazo: 20 de abril' },
+    stamps: { overdue: 'Vencida', paid: 'Cobrada', approved: 'Aprobada', matched: 'Conciliado', draft: 'Borrador listo' },
+  },
+
   common: {
     newTab: '(se abre en una pestaña nueva)',
     illustrationTag: 'Datos de ejemplo',

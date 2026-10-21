@@ -16,12 +16,16 @@ const sheetRows = [
 
 <section id="problema" class="section" aria-labelledby="problema-title">
   <div class="container-x">
-    <SectionHead name={p.eyebrow} title={p.title} id="problema-title" intro={p.intro} />
+    <!-- Con el mundo 3D, esta pista se fija y cada bloque es una escena dentro de la tormenta. -->
+    <div class="problem-track" data-problem-track>
+    <div class="pscene pscene-head" data-pscene>
+      <SectionHead name={p.eyebrow} title={p.title} id="problema-title" intro={p.intro} />
+    </div>
 
-    <div class="mt-14 grid gap-12 md:grid-cols-3 md:gap-8 lg:mt-20">
+    <div class="problem-grid mt-14 grid gap-12 md:grid-cols-3 md:gap-8 lg:mt-20">
       <!-- 1. Teclear datos: Excel lleno de errores -->
-      <figure>
-        <div class="desk-surface relative h-64 overflow-hidden p-4" aria-hidden="true" data-sheet>
+      <figure class="pscene" data-pscene>
+        <div class="problem-mock desk-surface relative h-64 overflow-hidden p-4" aria-hidden="true" data-sheet>
           <div class="doc overflow-hidden !rounded-md">
             <div class="t-data flex items-center gap-2 bg-[#1D6F42] px-3 py-1.5 text-[11px] font-medium text-white">
               <span class="grid h-3.5 w-3.5 place-items-center rounded-sm bg-white/90 text-[8px] font-bold text-[#1D6F42]">X</span>
@@ -54,14 +58,14 @@ const sheetRows = [
           </div>
         </div>
         <figcaption class="mt-6">
-          <h3 class="text-[1.375rem]">{p.cards[0].title}</h3>
+          <h3 class="pscene-title text-[1.375rem]">{p.cards[0].title}</h3>
           <p class="mt-2.5 text-muted">{p.cards[0].text}</p>
         </figcaption>
       </figure>
 
       <!-- 2. Cobros tardíos: bandeja de recordatorios -->
-      <figure>
-        <div class="desk-surface relative h-64 overflow-hidden p-4" aria-hidden="true" data-inbox>
+      <figure class="pscene" data-pscene>
+        <div class="problem-mock desk-surface relative h-64 overflow-hidden p-4" aria-hidden="true" data-inbox>
           <div class="doc flex items-center justify-between !rounded-md px-3 py-2 text-[12px] font-medium">
             <span>{p.inbox.title}</span>
             <span class="tnum rounded-full bg-red px-2 py-0.5 text-[11px] text-white" data-inbox-count aria-label={`${p.inbox.items.length} ${p.inbox.unread}`}>{p.inbox.items.length}</span>
@@ -81,14 +85,14 @@ const sheetRows = [
           </ul>
         </div>
         <figcaption class="mt-6">
-          <h3 class="text-[1.375rem]">{p.cards[1].title}</h3>
+          <h3 class="pscene-title text-[1.375rem]">{p.cards[1].title}</h3>
           <p class="mt-2.5 text-muted">{p.cards[1].text}</p>
         </figcaption>
       </figure>
 
       <!-- 3. Caja en la niebla -->
-      <figure>
-        <div class="desk-surface relative h-64 overflow-hidden p-4" aria-hidden="true" data-fog>
+      <figure class="pscene" data-pscene>
+        <div class="problem-mock desk-surface relative h-64 overflow-hidden p-4" aria-hidden="true" data-fog>
           <div class="doc relative h-full !rounded-md p-3">
             <div class="flex items-center justify-between text-[12px] font-medium">
               <span>{p.fog.title}</span> <span class="text-muted">{p.fog.question}</span>
@@ -105,21 +109,22 @@ const sheetRows = [
           </div>
         </div>
         <figcaption class="mt-6">
-          <h3 class="text-[1.375rem]">{p.cards[2].title}</h3>
+          <h3 class="pscene-title text-[1.375rem]">{p.cards[2].title}</h3>
           <p class="mt-2.5 text-muted">{p.cards[2].text}</p>
         </figcaption>
       </figure>
     </div>
 
     <!-- Remate: una misma causa -->
-    <div class="mt-16 grid lg:grid-cols-12 lg:gap-8 sm:mt-20">
-      <div class="flex flex-col gap-6 border-t border-line pt-10 md:flex-row md:items-end md:justify-between lg:col-span-9 lg:col-start-4">
+    <div class="pscene pscene-end mt-16 grid lg:grid-cols-12 lg:gap-8 sm:mt-20" data-pscene>
+      <div class="pscene-end-inner flex flex-col gap-6 border-t border-line pt-10 md:flex-row md:items-end md:justify-between lg:col-span-9 lg:col-start-4">
         <div class="max-w-[40ch]">
-          <p class="h-sub" data-rise>{p.conclusion}</p>
+          <p class="pscene-conclusion h-sub" data-rise>{p.conclusion}</p>
           <p class="mt-4 text-muted">{p.conclusionText}</p>
         </div>
         <a href="#transformacion" class="btn btn-secondary shrink-0 self-start md:self-auto">{p.conclusionLink}</a>
       </div>
+    </div>
     </div>
   </div>
 </section>

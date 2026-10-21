@@ -6,7 +6,7 @@ import { pressStamp } from '../stamp';
 type Opts = { mobile: boolean };
 
 /** Secuencia de carga: el titular sube, la factura llega, se cobra, se concilia y la caja se actualiza. */
-export function initHero({ mobile }: Opts) {
+export function initHero({ mobile }: Opts, withWorld = false) {
   const title = document.querySelector<HTMLElement>('[data-hero-title]');
   if (!title) return;
 
@@ -24,9 +24,10 @@ export function initHero({ mobile }: Opts) {
   gsap.fromTo('[data-hero-in]', { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.9, stagger: 0.08, delay: 0.3, ease: 'expo.out' });
   gsap.from('[data-hero-sub]', { y: 12, duration: 0.9, ease: 'expo.out', delay: 0.25 });
 
-  deskSequence();
+  // Con el mundo 3D, la nube de papeles ocupa el sitio del escritorio.
+  if (!withWorld) deskSequence();
 
-  if (!mobile) {
+  if (!mobile && !withWorld) {
     gsap.to('[data-desk]', {
       yPercent: -6,
       ease: 'none',
