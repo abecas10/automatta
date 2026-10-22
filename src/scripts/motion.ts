@@ -12,16 +12,9 @@ import { initUi } from './ui';
 import { initReveals, initMicro } from './reveal';
 import { initHero } from './sections/hero';
 import { initProblem } from './sections/problem';
-<<<<<<< HEAD
-import { initHow } from './sections/how';
-import { initVerifactu } from './sections/misc';
-import { canUseWorld } from './world/support';
-import { initWorldScenes } from './world/scenes';
-=======
 import { initTransformation } from './sections/transformation';
 import { initHow, initRoadmap } from './sections/how';
 import { initVerifactu } from './sections/verifactu';
->>>>>>> parent of 2a12ed5 (19/10/2026 21:47)
 
 gsap.registerPlugin(ScrollTrigger, SplitText, MotionPathPlugin, DrawSVGPlugin);
 
@@ -29,10 +22,6 @@ initUi();
 
 const root = document.documentElement;
 const mm = gsap.matchMedia();
-// Mundo 3D: se decide una vez. Sin WebGL o con movimiento reducido, la web es la de siempre.
-const useWorld = document.documentElement.classList.contains('has-world') && canUseWorld();
-if (!useWorld) document.documentElement.classList.remove('has-world');
-root.classList.remove('world-pending');
 
 mm.add(
   {
@@ -47,7 +36,6 @@ mm.add(
       return;
     }
     root.classList.add('js-motion');
-    if (useWorld) root.classList.add('has-world');
     clearTimeout((window as unknown as { __motionFallback?: number }).__motionFallback);
 
     // Scroll suave con Lenis, sincronizado con ScrollTrigger.
@@ -58,40 +46,6 @@ mm.add(
     gsap.ticker.lagSmoothing(0);
     (window as unknown as { lenis?: Lenis }).lenis = lenis;
 
-<<<<<<< HEAD
-    const opts = { mobile: !!mobile };
-    initHero(opts, useWorld);
-    let stopScenes: (() => void) | undefined;
-    let stopWorld: (() => void) | undefined;
-    let disposed = false;
-
-    // El resto de secciones está por debajo del primer pantallazo: se preparan cuando
-    // el navegador queda libre, para no bloquear la carga inicial.
-    // Se preparan en trozos, cada uno en un momento libre del navegador,
-    // para no bloquear el hilo principal con una sola tarea larga.
-    const tasks: (() => void)[] = [
-      () => {
-        if (!useWorld) return;
-        stopScenes = initWorldScenes(opts);
-      },
-      () => initReveals(),
-      () => {
-        // Sin 3D: animaciones de las ilustraciones de siempre.
-        if (useWorld) return;
-        initProblem(opts);
-        initHow(opts);
-      },
-      () => initVerifactu(),
-      () => ScrollTrigger.refresh(),
-    ];
-    const idle = window.requestIdleCallback ?? ((cb: () => void) => setTimeout(cb, 120));
-    const runNext = () => {
-      const task = tasks.shift();
-      if (!task || disposed) return;
-      // ctx.add mantiene estas animaciones dentro del contexto (se revierten con matchMedia).
-      ctx.add(task);
-      idle(runNext, { timeout: 600 });
-=======
     const opts = { mobile: !!mobile, fine: !!fine };
     initHero(opts);
 
@@ -106,45 +60,15 @@ mm.add(
       initVerifactu();
       if (fine) initMicro();
       ScrollTrigger.refresh();
->>>>>>> parent of 2a12ed5 (19/10/2026 21:47)
     };
-    idle(runNext, { timeout: 1200 });
-
-    // El render 3D se descarga y arranca después, sin competir con el primer pintado.
-    if (useWorld) {
-      const canvas = document.querySelector<HTMLCanvasElement>('[data-world-canvas]');
-      const labels = document.querySelector<HTMLElement>('[data-world-labels]');
-      const boot = () =>
-        import('./world/stage')
-          .then(({ startStage }) => (canvas && !disposed ? startStage(canvas, labels) : undefined))
-          .then((handle) => {
-            if (!handle) return;
-            if (disposed) handle.stop();
-            else stopWorld = handle.stop;
-          })
-          .catch(() => root.classList.add('world-failed'));
-      // Arranca con la primera interacción (scroll, ratón, toque) o a los 4 s de cargar la página.
-      let booted = false;
-      const go = () => {
-        if (booted) return;
-        booted = true;
-        ['scroll', 'pointermove', 'touchstart', 'keydown'].forEach((ev) => window.removeEventListener(ev, go));
-        idle(boot, { timeout: 800 });
-      };
-      ['scroll', 'pointermove', 'touchstart', 'keydown'].forEach((ev) => window.addEventListener(ev, go, { passive: true, once: true }));
-      const afterLoad = () => setTimeout(go, 4000);
-      if (document.readyState === 'complete') afterLoad();
-      else window.addEventListener('load', afterLoad, { once: true });
-    }
+    const idle = window.requestIdleCallback ?? ((cb: () => void) => setTimeout(cb, 200));
+    // ctx.add mantiene estas animaciones dentro del contexto (se revierten con matchMedia).
+    idle(() => ctx.add(rest), { timeout: 1200 });
 
     // Recalcula posiciones cuando las fuentes terminan de cargar.
     document.fonts?.ready.then(() => ScrollTrigger.refresh());
 
     return () => {
-      disposed = true;
-      stopScenes?.();
-      stopWorld?.();
-      root.classList.remove('has-world');
       gsap.ticker.remove(raf);
       lenis.destroy();
       delete (window as unknown as { lenis?: Lenis }).lenis;

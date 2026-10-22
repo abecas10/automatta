@@ -4,12 +4,7 @@ import { cleanText } from '../reveal';
 
 type Opts = { mobile: boolean };
 
-<<<<<<< HEAD
-/** Secuencia de carga: el titular sube, la factura llega, se cobra, se concilia y la caja se actualiza. */
-export function initHero({ mobile }: Opts, withWorld = false) {
-=======
 export function initHero({ mobile }: Opts) {
->>>>>>> parent of 2a12ed5 (19/10/2026 21:47)
   const title = document.querySelector<HTMLElement>('[data-hero-title]');
   if (!title) return;
 
@@ -31,17 +26,6 @@ export function initHero({ mobile }: Opts) {
       });
     },
   });
-<<<<<<< HEAD
-  gsap.fromTo('[data-hero-in]', { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.9, stagger: 0.08, delay: 0.3, ease: 'expo.out' });
-  gsap.from('[data-hero-sub]', { y: 12, duration: 0.9, ease: 'expo.out', delay: 0.25 });
-
-  // Con el mundo 3D, la nube de papeles ocupa el sitio del escritorio.
-  if (!withWorld) deskSequence();
-
-  if (!mobile && !withWorld) {
-    gsap.to('[data-desk]', {
-      yPercent: -6,
-=======
   intro.fromTo(
     '[data-hero-in]',
     { opacity: 0, y: 24 },
@@ -53,7 +37,6 @@ export function initHero({ mobile }: Opts) {
   if (!mobile) {
     gsap.to('[data-hero-visual] .hero-flow', {
       yPercent: -10,
->>>>>>> parent of 2a12ed5 (19/10/2026 21:47)
       ease: 'none',
       scrollTrigger: { trigger: title.closest('section'), start: 'top top', end: 'bottom top', scrub: true },
     });

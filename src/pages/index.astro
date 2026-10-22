@@ -2,30 +2,29 @@
 import Base from '../layouts/Base.astro';
 import Navbar from '../components/Navbar.astro';
 import Hero from '../components/sections/Hero.astro';
-import ProblemStory from '../components/story/ProblemStory.astro';
-import HowStory from '../components/story/HowStory.astro';
-import VerifactuStory from '../components/story/VerifactuStory.astro';
-import AudienceStory from '../components/story/AudienceStory.astro';
-import RoadmapStory from '../components/story/RoadmapStory.astro';
-import SurveyStory from '../components/story/SurveyStory.astro';
+import Problem from '../components/sections/Problem.astro';
+import Transformation from '../components/sections/Transformation.astro';
+import HowItWorks from '../components/sections/HowItWorks.astro';
+import Verifactu from '../components/sections/Verifactu.astro';
+import Audience from '../components/sections/Audience.astro';
+import Roadmap from '../components/sections/Roadmap.astro';
+import Survey from '../components/sections/Survey.astro';
 import Team from '../components/sections/Team.astro';
 import Faq from '../components/sections/Faq.astro';
 import Footer from '../components/sections/Footer.astro';
 ---
 
-<Base world>
-  <!-- Escenario 3D (decorativo): la historia de la factura F-2041. Solo con WebGL y sin movimiento reducido. -->
-  <div class="world" aria-hidden="true"><canvas data-world-canvas></canvas></div>
-  <div class="world-labels" aria-hidden="true" data-world-labels></div>
+<Base>
   <Navbar />
   <main id="contenido">
     <Hero />
-    <ProblemStory />
-    <HowStory />
-    <VerifactuStory />
-    <AudienceStory />
-    <SurveyStory />
-    <RoadmapStory />
+    <Problem />
+    <Transformation />
+    <HowItWorks />
+    <Verifactu />
+    <Audience />
+    <Roadmap />
+    <Survey />
     <Team />
     <Faq />
   </main>

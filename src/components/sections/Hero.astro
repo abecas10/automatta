@@ -8,31 +8,6 @@ import { SURVEY_URL } from '../../config';
 const lines = es.hero.titleLines;
 ---
 
-<<<<<<< HEAD
-<section class="hero relative overflow-hidden pt-28 pb-16 sm:pt-36 lg:pb-24" aria-labelledby="hero-title" data-ch="0">
-  <div class="container-x grid items-center gap-14 lg:grid-cols-12 lg:gap-8">
-    <div class="hero-copy lg:col-span-6">
-      <div class="hero-top">
-        <p class="text-[0.9375rem] font-medium text-muted" data-hero-in>{es.hero.status}</p>
-        <h1 id="hero-title" class="h-hero mt-6 max-w-[16ch]" data-hero-title>
-          {lines.map((t) => <span class="block">{t}</span>)}
-        </h1>
-      </div>
-      <!-- Con 3D, el móvil queda entre el titular y este bloque -->
-      <div class="hero-bottom">
-        <!-- Visible desde el primer pintado (elemento LCP): solo se desliza, no aparece con fundido -->
-        <p class="lead mt-7 max-w-[52ch] text-muted" data-hero-sub>{es.hero.subtitle}</p>
-        <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center" data-hero-in>
-          <Button href={SURVEY_URL} external size="lg">{es.hero.primary}</Button>
-          <Button href="#problema" variant="secondary" size="lg">{es.hero.secondary}</Button>
-        </div>
-        <p class="hero-note mt-4 text-sm text-muted" data-hero-in>{es.hero.note}</p>
-        <p class="story-hint world-only mt-4" data-hero-in>
-          <span class="story-hint-dot" aria-hidden="true"></span>
-          <span>{es.story.hint} <span class="story-hint-drag">{es.story.drag}.</span></span>
-        </p>
-      </div>
-=======
 <section class="dark relative isolate overflow-hidden bg-ink text-paper" aria-labelledby="hero-title">
   <div class="mesh" aria-hidden="true"><span></span><span></span><span></span></div>
   <div class="grid-bg absolute inset-0 -z-0" aria-hidden="true"></div>
@@ -64,7 +39,6 @@ const lines = es.hero.titleLines;
         <Button href="#como-funciona" variant="ghost" size="lg">{es.hero.secondary}</Button>
       </div>
       <p class="hero-in mt-5 text-sm text-paper/55" data-hero-in>{es.hero.note}</p>
->>>>>>> parent of 2a12ed5 (19/10/2026 21:47)
     </div>
 
     <div class="hero-in relative mx-auto w-full max-w-[520px] lg:max-w-none" data-hero-in data-hero-visual>
