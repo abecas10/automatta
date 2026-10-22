@@ -1,7 +1,9 @@
 ---
-import '@fontsource-variable/archivo/wdth.css';
+import '@fontsource-variable/inter';
+import '@fontsource-variable/bricolage-grotesque';
 import '../styles/global.css';
-import archivoLatin from '@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2?url';
+import interLatin from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
+import bricolageLatin from '@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-wght-normal.woff2?url';
 import es from '../content/es';
 import { SITE_URL, SITE_NAME, CONTACT_EMAIL } from '../config';
 
@@ -42,12 +44,13 @@ const orgJsonLd = {
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     {noindex && <meta name="robots" content="noindex" />}
-    <meta name="theme-color" content="#F5F6F3" />
+    <meta name="theme-color" content="#0B1020" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="sitemap" href="/sitemap-index.xml" />
 
-    <link rel="preload" href={archivoLatin} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={bricolageLatin} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={interLatin} as="font" type="font/woff2" crossorigin />
 
     <!-- Open Graph / Twitter -->
     <meta property="og:type" content="website" />
@@ -101,10 +104,11 @@ const orgJsonLd = {
   <body>
     <a
       href="#contenido"
-      class="sr-only z-[200] rounded-md bg-ink px-4 py-2 font-medium text-paper focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
+      class="sr-only z-[200] rounded-full bg-money px-4 py-2 font-semibold text-ink focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
       >{es.nav.skip}</a
     >
     <slot />
+    <div class="cursor-dot" aria-hidden="true"></div>
     <script>
       import '../scripts/motion';
     </script>

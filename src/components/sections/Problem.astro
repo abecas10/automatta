@@ -1,0 +1,176 @@
+---
+import es from '../../content/es';
+
+const p = es.problem;
+// Celdas del "Excel" tecleado a mano: r = error (#N/A), ? = dato dudoso.
+const sheetRows = [
+  ['P-118', '1.210', 'r', '?'],
+  ['P-117', '860', 'r', 'r'],
+  ['P-116', '2.420', '', '?'],
+  ['P-115', '395', 'r', ''],
+  ['P-114', '1.150', '', 'r'],
+  ['P-113', '640', 'r', '?'],
+];
+---
+
+<section id="problema" class="relative bg-paper py-24 sm:py-32" aria-labelledby="problema-title">
+  <div class="container-x">
+    <div class="max-w-3xl">
+      <p class="eyebrow text-alert-dark" data-reveal>{p.eyebrow}</p>
+      <h2 id="problema-title" class="h-section mt-5" data-split>{p.title}</h2>
+      <p class="mt-6 max-w-xl text-lg text-muted sm:text-xl" data-reveal>{p.intro}</p>
+    </div>
+
+    <div class="mt-14 grid gap-5 md:grid-cols-3 lg:gap-6" data-problem-cards>
+      <!-- 1. Teclear datos: Excel lleno de errores -->
+      <article class="card-surface tilt flex flex-col overflow-hidden" data-tilt data-reveal>
+        <div class="relative h-64 overflow-hidden bg-paper-2/70 p-4" aria-hidden="true" data-sheet>
+          <div class="overflow-hidden rounded-xl border border-black/5 bg-white">
+            <div class="flex items-center gap-2 border-b border-black/5 bg-[#1D6F42] px-3 py-1.5 text-[10px] font-semibold text-white">
+              <span class="grid h-3.5 w-3.5 place-items-center rounded-sm bg-white/90 text-[8px] text-[#1D6F42]">X</span>
+              {p.sheet.title}
+            </div>
+            <table class="tnum w-full border-collapse text-[10px]">
+              <thead>
+                <tr class="bg-paper-2 text-muted">
+                  {p.sheet.columns.map((c, i) => (
+                    <th class:list={['border border-black/5 px-1.5 py-1 font-medium', i === 0 ? 'text-left' : i === 1 ? 'text-right' : '']}>{c}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  sheetRows.map((row) => (
+                    <tr>
+                      <td class="border border-black/5 px-1.5 py-[5px] text-ink">{row[0]}</td>
+                      <td class="border border-black/5 px-1.5 py-[5px] text-right text-ink">{row[1]}</td>
+                      {row.slice(2).map((c) => (
+                        <td
+                          class:list={['sheet-cell border border-black/5 px-1.5 py-[5px] text-center', c && 'is-bad']}
+                          data-bad={c ? '' : undefined}
+                        >
+                          {c === '?' ? '¿?' : c === 'r' ? '#N/A' : ''}
+                        </td>
+                      ))}
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="p-6">
+          <h3 class="text-xl font-bold">{p.cards[0].title}</h3>
+          <p class="mt-2 text-muted">{p.cards[0].text}</p>
+        </div>
+      </article>
+
+      <!-- 2. Cobros tardíos: bandeja de recordatorios -->
+      <article class="card-surface tilt flex flex-col overflow-hidden" data-tilt data-reveal>
+        <div class="relative h-64 overflow-hidden bg-paper-2/70 p-4" aria-hidden="true" data-inbox>
+          <div class="flex items-center justify-between rounded-t-xl border-b border-black/5 bg-white px-3 py-2 text-[11px] font-semibold text-ink">
+            <span>{p.inbox.title}</span>
+            <span class="tnum rounded-full bg-alert px-2 py-0.5 text-[10px] text-white" data-inbox-count aria-label={`${p.inbox.items.length} ${p.inbox.unread}`}>{p.inbox.items.length}</span>
+          </div>
+          <ul class="relative mt-2 flex flex-col gap-1.5">
+            {
+              p.inbox.items.map((name, i) => (
+                <li class="inbox-item flex items-center gap-2 rounded-lg bg-white px-2.5 py-2 shadow-sm" style={`--i:${i}`}>
+                  <span class="h-1.5 w-1.5 shrink-0 rounded-full bg-alert" />
+                  <span class="min-w-0 flex-1">
+                    <span class="block truncate text-[11px] font-semibold text-ink">{p.inbox.subject}</span>
+                    <span class="block truncate text-[10px] text-muted">{name}</span>
+                  </span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+        <div class="p-6">
+          <h3 class="text-xl font-bold">{p.cards[1].title}</h3>
+          <p class="mt-2 text-muted">{p.cards[1].text}</p>
+        </div>
+      </article>
+
+      <!-- 3. Caja en la niebla -->
+      <article class="card-surface tilt flex flex-col overflow-hidden" data-tilt data-reveal>
+        <div class="relative h-64 overflow-hidden bg-paper-2/70 p-4" aria-hidden="true" data-fog>
+          <div class="relative h-full rounded-xl border border-black/5 bg-white p-3">
+            <div class="flex items-center justify-between text-[11px] font-semibold">
+              <span>{p.fog.title}</span> <span class="text-muted">{p.fog.question}</span>
+            </div>
+            <svg viewBox="0 0 240 150" class="mt-2 h-[calc(100%-1.5rem)] w-full" preserveAspectRatio="none">
+              <path d="M0 40 H240 M0 80 H240 M0 120 H240" stroke="#0B1020" stroke-opacity=".06" />
+              <path class="fog-line" d="M0 90 C 30 70, 50 100, 80 80 S 110 60, 120 75" fill="none" stroke="#0B1020" stroke-width="2.5" stroke-linecap="round" />
+              <path
+                class="fog-guess"
+                d="M120 75 C 150 95, 165 40, 190 70 S 220 130, 240 110"
+                fill="none"
+                stroke="#FF6B6B"
+                stroke-width="2.5"
+                stroke-dasharray="5 6"
+                stroke-linecap="round"
+              />
+              <path
+                class="fog-guess"
+                d="M120 75 C 150 50, 170 30, 200 45 S 225 30, 240 20"
+                fill="none"
+                stroke="#6C5CE7"
+                stroke-opacity=".6"
+                stroke-width="2"
+                stroke-dasharray="5 6"
+                stroke-linecap="round"
+              />
+              <line x1="120" y1="0" x2="120" y2="150" stroke="#0B1020" stroke-opacity=".25" stroke-dasharray="2 4" />
+            </svg>
+            <div class="fog absolute inset-y-3 right-3 left-1/2 rounded-r-lg" />
+            <span class="fog-q absolute top-1/2 left-[72%] -translate-x-1/2 -translate-y-1/2 font-display text-6xl font-extrabold text-ink/80">?</span>
+          </div>
+        </div>
+        <div class="p-6">
+          <h3 class="text-xl font-bold">{p.cards[2].title}</h3>
+          <p class="mt-2 text-muted">{p.cards[2].text}</p>
+        </div>
+      </article>
+    </div>
+
+    <!-- Remate: una misma causa -->
+    <div class="mt-16 flex flex-col gap-6 border-t border-ink/10 pt-12 md:flex-row md:items-end md:justify-between sm:mt-20">
+      <div class="max-w-2xl">
+        <p class="font-display text-3xl leading-tight font-bold sm:text-4xl" data-reveal>{p.conclusion}</p>
+        <p class="mt-4 text-lg text-muted" data-reveal>{p.conclusionText}</p>
+      </div>
+      <a
+        href="#transformacion"
+        class="group inline-flex shrink-0 items-center gap-2 self-start rounded-full bg-ink px-5 py-3 font-semibold text-paper transition-colors hover:bg-ink-3 md:self-auto"
+        data-reveal
+      >
+        {p.conclusionLink}
+        <svg class="h-4 w-4 transition-transform group-hover:translate-y-0.5" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M8 3v10M4 9l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .sheet-cell.is-bad {
+    color: var(--color-alert-dark);
+    font-weight: 600;
+  }
+  :global(.js-motion) .sheet-cell.is-bad {
+    color: transparent;
+  }
+  .fog {
+    background: linear-gradient(90deg, rgb(255 255 255 / 0), rgb(247 247 242 / 0.85) 40%);
+    backdrop-filter: blur(3px);
+  }
+  .tilt {
+    background-image: radial-gradient(
+      circle at var(--mx, 50%) var(--my, 0%),
+      rgb(108 92 231 / 0.06),
+      transparent 45%
+    );
+  }
+</style>

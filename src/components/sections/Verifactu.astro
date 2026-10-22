@@ -1,0 +1,86 @@
+---
+import es from '../../content/es';
+import { VERIFACTU_DATE } from '../../config';
+
+const v = es.verifactu;
+// Valor inicial calculado en el build; el JS lo actualiza al cargar.
+const diff = Math.max(0, new Date(VERIFACTU_DATE).getTime() - Date.now());
+const s = Math.floor(diff / 1000);
+const pad = (n: number) => String(n).padStart(2, '0');
+const units = [
+  { key: 'days', value: String(Math.floor(s / 86400)), label: v.units.days },
+  { key: 'hours', value: pad(Math.floor((s % 86400) / 3600)), label: v.units.hours },
+  { key: 'minutes', value: pad(Math.floor((s % 3600) / 60)), label: v.units.minutes },
+  { key: 'seconds', value: pad(s % 60), label: v.units.seconds },
+];
+---
+
+<section id="verifactu" class="dark relative isolate overflow-hidden bg-ink py-24 text-paper sm:py-32" aria-labelledby="verifactu-title">
+  <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+    <div class="absolute -top-1/3 -left-1/4 h-[80vmax] w-[80vmax] rounded-full bg-violet/30 blur-[140px]"></div>
+    <div class="absolute -right-1/4 -bottom-1/2 h-[60vmax] w-[60vmax] rounded-full bg-money/15 blur-[140px]"></div>
+    <div class="grid-bg absolute inset-0"></div>
+  </div>
+
+  <div class="container-x grid items-center gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
+    <div>
+      <p class="eyebrow text-money" data-reveal>{v.eyebrow}</p>
+      <h2 id="verifactu-title" class="h-section mt-5" data-split>{v.title}</h2>
+      <p class="mt-6 max-w-xl text-lg leading-relaxed text-paper/75" data-reveal>{v.text}</p>
+      <p class="mt-4 max-w-xl text-lg leading-relaxed text-paper/75" data-reveal>{v.why}</p>
+      <blockquote class="mt-8 max-w-xl border-l-4 border-money pl-5 font-display text-2xl leading-snug font-bold sm:text-3xl" data-reveal>
+        {v.quote}
+      </blockquote>
+    </div>
+
+    <div data-reveal>
+      <div class="vf-card relative rounded-3xl border border-white/10 bg-white/[0.04] p-5 backdrop-blur-sm sm:p-8">
+        <p class="text-sm font-medium text-paper/70" id="vf-label">{v.countdownLabel}</p>
+        <div
+          class="mt-5 grid grid-cols-4 gap-2 sm:gap-3"
+          role="timer"
+          aria-labelledby="vf-label"
+          data-countdown
+          data-target={VERIFACTU_DATE}
+        >
+          {
+            units.map((u) => (
+              <div class="vf-unit rounded-2xl border border-white/10 bg-ink/60 px-1 py-4 text-center sm:py-6">
+                <span
+                  class="vf-num tnum block font-display text-[1.9rem] leading-none font-bold sm:text-5xl lg:text-6xl"
+                  data-unit={u.key}
+                >
+                  {u.value}
+                </span>
+                <span class="mt-2 block text-[11px] text-paper/60 sm:text-sm">{u.label}</span>
+              </div>
+            ))
+          }
+        </div>
+        <p class="vf-arrived mt-5 hidden font-semibold text-money">{v.arrived}</p>
+        <div class="mt-6 flex items-center gap-3 rounded-2xl border border-money/25 bg-money/10 px-4 py-3 text-sm">
+          <svg class="h-5 w-5 shrink-0 text-money" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M10 2l6 2.5v5c0 4-2.7 7-6 8.5C6.7 16.5 4 13.5 4 9.5v-5L10 2z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path>
+            <path d="M7 10l2 2 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+          <span class="text-paper/85">{v.badge}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  [data-countdown][data-arrived] ~ .vf-arrived {
+    display: block;
+  }
+  .vf-num:global(.tick) {
+    animation: tick 0.5s var(--ease-out-expo);
+  }
+  @keyframes tick {
+    from {
+      transform: translateY(-30%);
+      opacity: 0.2;
+    }
+  }
+</style>

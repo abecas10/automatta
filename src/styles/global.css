@@ -1,35 +1,24 @@
 @import 'tailwindcss';
 
-/*
-  Sistema visual de Automatta: papel y tinta.
-  - Una sola familia (Archivo Variable) con tres anchuras: ancha para titulares,
-    normal para texto y condensada para los datos de los documentos.
-  - Una tinta verde-negra, un verde "libro mayor" para lo que está en orden y
-    un rojo "sello" solo para lo que va mal.
-*/
 @theme {
-  --color-ink: #14201b;
-  --color-ink-2: #1c2a24;
-  --color-ink-3: #27382f;
-  --color-paper: #f5f6f3;
-  --color-paper-2: #e9ece7;
-  --color-paper-3: #dde2dc;
-  --color-green: #1f6b4a;
-  --color-green-2: #2a8a61;
-  --color-green-soft: #d8ebe0;
-  --color-mint: #8fd3b2;
-  --color-red: #c8372d;
-  --color-red-soft: #f5dbd8;
-  --color-muted: #5f6b65;
-  --color-muted-dark: #9aa8a1;
-  --color-line: rgb(20 32 27 / 0.12);
-  --color-line-dark: rgb(245 246 243 / 0.14);
+  --color-ink: #0b1020;
+  --color-ink-2: #121a33;
+  --color-ink-3: #1b2547;
+  --color-paper: #f7f7f2;
+  --color-paper-2: #eeeee6;
+  --color-money: #2bd67b;
+  --color-money-dark: #0b7a40;
+  --color-violet: #6c5ce7;
+  --color-violet-light: #a29bfe;
+  --color-alert: #ff6b6b;
+  --color-alert-dark: #b02a2a;
+  --color-muted: #5b6275;
+  --color-muted-dark: #9aa3b8;
 
-  --font-sans: 'Archivo Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Bricolage Grotesque Variable', 'Space Grotesk', system-ui, sans-serif;
+  --font-sans: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
-  --ease-stamp: cubic-bezier(0.7, 0, 0.2, 1.4);
 }
 
 @layer base {
@@ -39,41 +28,32 @@
   }
   body {
     @apply bg-paper text-ink font-sans antialiased;
-    font-size: 1.0625rem;
-    line-height: 1.6;
-    font-variant-numeric: tabular-nums;
     overflow-x: clip;
   }
   ::selection {
-    background: var(--color-green);
-    color: var(--color-paper);
+    background: var(--color-money);
+    color: var(--color-ink);
   }
   h1,
   h2,
-  h3,
-  h4 {
-    font-stretch: 112%;
-    font-weight: 560;
-    letter-spacing: -0.025em;
-    line-height: 1.02;
+  h3 {
+    @apply font-display;
+    letter-spacing: -0.03em;
     text-wrap: balance;
   }
   p {
     text-wrap: pretty;
   }
-  strong {
-    font-weight: 600;
-  }
   :focus-visible {
-    outline: 2px solid var(--color-green);
+    outline: 3px solid var(--color-violet);
     outline-offset: 3px;
-    border-radius: 4px;
+    border-radius: 6px;
   }
   .dark :focus-visible {
-    outline-color: var(--color-mint);
+    outline-color: var(--color-money);
   }
   [id] {
-    scroll-margin-top: 4.5rem;
+    scroll-margin-top: 5rem;
   }
 }
 
@@ -81,231 +61,206 @@
   .container-x {
     @apply mx-auto w-full max-w-[1200px] px-5 sm:px-8;
   }
-
-  /* Anchuras de Archivo según el papel del texto */
-  .t-display {
-    font-stretch: 112%;
-    font-weight: 560;
-    letter-spacing: -0.025em;
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-xs font-semibold tracking-[0.14em] uppercase;
   }
-  .t-data {
-    font-stretch: 90%;
-    letter-spacing: 0.005em;
+  .eyebrow::before {
+    content: '';
+    @apply inline-block h-1.5 w-1.5 rounded-full bg-current;
+  }
+  .h-section {
+    @apply font-display text-[2.25rem] leading-[1.02] font-bold sm:text-5xl lg:text-6xl;
   }
   .tnum {
     font-variant-numeric: tabular-nums;
   }
-
-  /* Escala tipográfica */
-  .h-hero {
-    font-size: clamp(2.5rem, 1rem + 4.3vw, 4.25rem);
-    line-height: 0.98;
+  .tag-illus {
+    @apply inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-medium tracking-wide;
   }
-  .h-section {
-    font-size: clamp(1.95rem, 1.05rem + 2.9vw, 3.25rem);
-    line-height: 1.02;
+  .card-surface {
+    @apply rounded-2xl border border-black/5 bg-white shadow-[0_1px_0_rgba(11,16,32,0.04),0_12px_40px_-12px_rgba(11,16,32,0.18)];
   }
-  .h-sub {
-    font-size: clamp(1.5rem, 1.1rem + 1.3vw, 2.1rem);
-    line-height: 1.1;
-  }
-  .lead {
-    font-size: clamp(1.125rem, 1rem + 0.4vw, 1.3rem);
-    line-height: 1.5;
-  }
-
-  /* Cada sección arranca con una regla y el nombre de la sección en la columna izquierda */
-  .section {
-    @apply border-t border-line py-20 sm:py-28;
-  }
-  .dark .section,
-  .section.dark {
-    border-color: var(--color-line-dark);
-  }
-  .section-head {
-    @apply grid gap-6 lg:grid-cols-12 lg:gap-8;
-  }
-  .section-name {
-    @apply text-green text-[0.9375rem] font-medium lg:col-span-3;
-    line-height: 1.5;
-    padding-top: 0.35rem;
-  }
-  .dark .section-name {
-    color: var(--color-mint);
-  }
-  .section-body {
-    @apply lg:col-span-9;
-  }
-
-  /* Documentos: lo único que lleva sombra en toda la web */
-  .doc {
-    @apply rounded-lg bg-white text-ink;
-    box-shadow:
-      0 0 0 1px rgb(20 32 27 / 0.08),
-      0 1px 2px rgb(20 32 27 / 0.06),
-      0 14px 32px -16px rgb(20 32 27 / 0.28);
-  }
-  .doc-ink {
-    @apply rounded-lg bg-ink-2 text-paper;
-    box-shadow:
-      0 0 0 1px rgb(245 246 243 / 0.1),
-      0 24px 60px -24px rgb(20 32 27 / 0.6);
-  }
-  /* Panel de fondo donde se apoyan los documentos */
-  .desk-surface {
-    @apply bg-paper-2 rounded-xl;
-    background-image: radial-gradient(rgb(20 32 27 / 0.09) 1px, transparent 1px);
-    background-size: 14px 14px;
-  }
-
-  /* Ventana de producto (demos de cada módulo) */
-  .window {
-    @apply overflow-hidden rounded-lg bg-white text-ink;
-    box-shadow:
-      0 0 0 1px rgb(20 32 27 / 0.08),
-      0 1px 2px rgb(20 32 27 / 0.06),
-      0 14px 32px -16px rgb(20 32 27 / 0.28);
-  }
-  .window-bar {
-    @apply border-line flex items-center justify-between gap-3 border-b px-4 py-2.5 text-[0.8125rem] text-muted;
-  }
-
-  /* Etiqueta informativa pequeña */
-  .tag {
-    @apply inline-flex items-center gap-1.5 rounded-md px-2 py-0.5 text-[0.75rem] font-medium;
-    background: rgb(20 32 27 / 0.06);
-    color: var(--color-muted);
-  }
-  .dark .tag {
-    background: rgb(245 246 243 / 0.1);
-    color: var(--color-muted-dark);
-  }
-  .pill {
-    @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[0.75rem] font-medium whitespace-nowrap;
-  }
-  .pill-red {
-    background: var(--color-red-soft);
-    color: var(--color-red);
-  }
-  .pill-green {
-    background: var(--color-green-soft);
-    color: var(--color-green);
-  }
-  .pill-ink {
-    background: rgb(20 32 27 / 0.08);
-    color: var(--color-ink);
-  }
-
-  /* Botones */
-  .btn {
-    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-lg px-5 text-[0.9375rem] font-medium whitespace-nowrap;
-    transition:
-      background-color 0.25s,
-      color 0.25s,
-      border-color 0.25s,
-      transform 0.25s var(--ease-out-quart);
-  }
-  .btn:active {
-    transform: translateY(1px);
-  }
-  .btn-lg {
-    @apply min-h-14 px-7 text-base;
-  }
-  .btn-primary {
-    background: var(--color-ink);
-    color: var(--color-paper);
-  }
-  .btn-primary:hover {
-    background: var(--color-green);
-  }
-  .dark .btn-primary {
-    background: var(--color-paper);
-    color: var(--color-ink);
-  }
-  .dark .btn-primary:hover {
-    background: var(--color-mint);
-  }
-  .btn-secondary {
-    border: 1px solid rgb(20 32 27 / 0.22);
-    color: var(--color-ink);
-  }
-  .btn-secondary:hover {
-    border-color: var(--color-ink);
-    background: rgb(20 32 27 / 0.04);
-  }
-  .dark .btn-secondary {
-    border-color: rgb(245 246 243 / 0.3);
-    color: var(--color-paper);
-  }
-  .dark .btn-secondary:hover {
-    border-color: var(--color-paper);
-    background: rgb(245 246 243 / 0.06);
-  }
-
-  /* Enlace de texto con subrayado fino */
-  .link {
-    @apply font-medium underline decoration-1 underline-offset-[0.2em];
-    text-decoration-color: rgb(20 32 27 / 0.3);
-    transition: text-decoration-color 0.2s;
-  }
-  .link:hover {
-    text-decoration-color: currentColor;
+  .card-dark {
+    @apply rounded-2xl border border-white/10 bg-ink-2/80 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.6)];
   }
 }
 
-/* Sello de caucho: el elemento que marca el estado final en toda la web */
-.stamp {
-  --stamp-color: var(--color-green);
-  --rot: -7deg;
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.1em;
-  padding: 0.38em 0.7em 0.42em;
-  border: 0.16em solid var(--stamp-color);
-  border-radius: 0.35em;
-  color: var(--stamp-color);
-  font-stretch: 112%;
-  font-weight: 700;
-  font-size: 1em;
-  letter-spacing: 0.06em;
-  line-height: 1;
-  text-transform: uppercase;
-  white-space: nowrap;
-  transform: rotate(var(--rot));
-  transform-origin: 50% 50%;
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 7 0 0 0 -2.6'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
-  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 7 0 0 0 -2.6'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
-  -webkit-mask-size: 120px 120px;
-  mask-size: 120px 120px;
+/* Botones con brillo que recorre el borde */
+@property --shine-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@layer components {
+.btn {
+  @apply relative inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 py-3 text-[15px] font-semibold whitespace-nowrap transition-[transform,background-color,box-shadow] duration-300;
+  isolation: isolate;
+}
+.btn:active {
+  transform: scale(0.97);
+}
+.btn-primary {
+  @apply bg-money text-ink;
+  box-shadow: 0 10px 30px -10px rgb(43 214 123 / 0.7);
+}
+.btn-primary:hover {
+  box-shadow: 0 14px 40px -10px rgb(43 214 123 / 0.9);
+}
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  padding: 2px;
+  background: conic-gradient(
+    from var(--shine-angle),
+    transparent 0deg,
+    transparent 280deg,
+    rgb(255 255 255 / 0.95) 320deg,
+    transparent 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: shine 3.2s linear infinite;
+  z-index: -1;
   pointer-events: none;
 }
-.stamp small {
-  font-size: 0.5em;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  font-stretch: 100%;
+@keyframes shine {
+  to {
+    --shine-angle: 360deg;
+  }
 }
-.stamp-red {
-  --stamp-color: var(--color-red);
+.btn-ghost {
+  @apply border border-current/20 hover:border-current/50;
 }
-.stamp-ink {
-  --stamp-color: var(--color-ink);
+.btn-ghost:hover {
+  background: color-mix(in oklab, currentColor 6%, transparent);
 }
-.dark .stamp {
-  --stamp-color: var(--color-mint);
-}
-/* Con animación, los sellos se "estampan" por JS; sin ella, ya están puestos */
-.js-motion .stamp[data-press] {
-  opacity: 0;
 }
 
-/* Estado inicial de los bloques que se revelan (solo con JS y sin movimiento reducido) */
+/* Fondo de malla que se mueve lentamente */
+.mesh {
+  position: absolute;
+  inset: -20%;
+  filter: blur(60px);
+  opacity: 0.55;
+  pointer-events: none;
+}
+.mesh span {
+  position: absolute;
+  border-radius: 9999px;
+  will-change: transform;
+}
+.mesh span:nth-child(1) {
+  width: 45vmax;
+  height: 45vmax;
+  background: radial-gradient(circle, rgb(43 214 123 / 0.55), transparent 65%);
+  top: 0;
+  left: 45%;
+  animation: drift1 26s ease-in-out infinite alternate;
+}
+.mesh span:nth-child(2) {
+  width: 50vmax;
+  height: 50vmax;
+  background: radial-gradient(circle, rgb(108 92 231 / 0.6), transparent 65%);
+  top: 20%;
+  left: -10%;
+  animation: drift2 32s ease-in-out infinite alternate;
+}
+.mesh span:nth-child(3) {
+  width: 35vmax;
+  height: 35vmax;
+  background: radial-gradient(circle, rgb(108 92 231 / 0.35), transparent 65%);
+  top: 50%;
+  left: 60%;
+  animation: drift3 22s ease-in-out infinite alternate;
+}
+@keyframes drift1 {
+  to {
+    transform: translate(-12%, 18%) scale(1.15);
+  }
+}
+@keyframes drift2 {
+  to {
+    transform: translate(16%, -10%) scale(0.9);
+  }
+}
+@keyframes drift3 {
+  to {
+    transform: translate(-20%, -15%) scale(1.2);
+  }
+}
+
+.grid-bg {
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.05) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
+}
+
+/* Cinta infinita */
+.marquee {
+  mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 38s linear infinite;
+}
+.marquee-track.reverse {
+  animation-direction: reverse;
+  animation-duration: 46s;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Inclinación 3D */
+.tilt {
+  transform-style: preserve-3d;
+  transition: transform 0.4s var(--ease-out-expo);
+  will-change: transform;
+}
+
+/* Cursor personalizado (solo escritorio) */
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  border-radius: 9999px;
+  background: var(--color-money);
+  pointer-events: none;
+  z-index: 100;
+  mix-blend-mode: difference;
+  opacity: 0;
+  transition:
+    width 0.25s,
+    height 0.25s,
+    margin 0.25s,
+    opacity 0.3s;
+}
+.cursor-dot.is-active {
+  width: 44px;
+  height: 44px;
+  margin: -22px 0 0 -22px;
+}
+
+/* Estado inicial de los elementos a revelar (solo con JS y sin reduced-motion) */
 .js-motion [data-reveal] {
   opacity: 0;
-}
-.js-motion [data-rise] {
-  visibility: hidden;
 }
 
 /* ---------------------------------------------------------------
@@ -785,6 +740,9 @@
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
+  }
+  .btn-primary::before {
+    display: none;
   }
 }
 

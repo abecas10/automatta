@@ -1,0 +1,131 @@
+---
+// Facturas → cobros que entran en el banco → previsión de caja que se dibuja.
+import es from '../../content/es';
+
+const invoices = [
+  { id: 'F-2041', amount: '4.000 €', y: 78 },
+  { id: 'F-2038', amount: '6.000 €', y: 132 },
+  { id: 'F-2033', amount: '2.500 €', y: 186 },
+];
+const bank = { x: 352, y: 132 };
+const chart = 'M40 392 C 80 380, 100 384, 130 370 S 190 360, 220 346 S 280 340, 310 318 S 380 300, 440 270';
+---
+
+<figure class="hero-flow relative w-full" aria-label={es.hero.illustrationLabel} role="img">
+  <svg viewBox="0 0 480 440" class="h-auto w-full" aria-hidden="true">
+    <defs>
+      <linearGradient id="hf-area" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#2BD67B" stop-opacity=".35"></stop>
+        <stop offset="1" stop-color="#2BD67B" stop-opacity="0"></stop>
+      </linearGradient>
+      <linearGradient id="hf-line" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#6C5CE7"></stop>
+        <stop offset="1" stop-color="#2BD67B"></stop>
+      </linearGradient>
+      <radialGradient id="hf-glow">
+        <stop offset="0" stop-color="#2BD67B" stop-opacity=".55"></stop>
+        <stop offset="1" stop-color="#2BD67B" stop-opacity="0"></stop>
+      </radialGradient>
+    </defs>
+
+    <!-- Tarjeta base -->
+    <rect x="1" y="1" width="478" height="438" rx="26" fill="#121A33" fill-opacity=".72" stroke="#fff" stroke-opacity=".1"></rect>
+    <g font-family="Inter Variable, system-ui, sans-serif">
+      <rect x="24" y="22" width="104" height="24" rx="12" fill="#fff" fill-opacity=".06" stroke="#fff" stroke-opacity=".12"></rect>
+      <circle cx="38" cy="34" r="3" fill="#2BD67B"></circle>
+      <text x="48" y="38.5" fill="#C9CFDD" font-size="11" font-weight="500">{es.common.illustrationTag}</text>
+      <text x="456" y="38.5" fill="#9AA3B8" font-size="11" text-anchor="end">{es.hero.company}</text>
+    </g>
+
+    <!-- Conectores -->
+    {
+      invoices.map((inv, i) => (
+        <path
+          id={`hf-path-${i}`}
+          class="hf-path"
+          d={`M188 ${inv.y} C 250 ${inv.y}, 270 ${bank.y}, ${bank.x - 40} ${bank.y}`}
+          fill="none"
+          stroke="#fff"
+          stroke-opacity=".14"
+          stroke-width="1.5"
+          stroke-dasharray="4 6"
+        />
+      ))
+    }
+
+    <!-- Facturas -->
+    {
+      invoices.map((inv, i) => (
+        <g class="hf-invoice" data-i={i} font-family="Inter Variable, system-ui, sans-serif">
+          <rect x="24" y={inv.y - 21} width="164" height="42" rx="12" fill="#1B2547" stroke="#fff" stroke-opacity=".08" />
+          <rect x="36" y={inv.y - 11} width="18" height="22" rx="4" fill="#fff" fill-opacity=".1" />
+          <path d={`M40 ${inv.y - 4}h10M40 ${inv.y + 1}h10M40 ${inv.y + 6}h6`} stroke="#fff" stroke-opacity=".45" stroke-width="1.5" stroke-linecap="round" />
+          <text x="64" y={inv.y - 2} fill="#F7F7F2" font-size="12" font-weight="600">{inv.id}</text>
+          <text x="64" y={inv.y + 13} fill="#9AA3B8" font-size="11" class="tnum">{inv.amount}</text>
+          <g class="hf-status-due">
+            <rect x="124" y={inv.y - 9} width="54" height="18" rx="9" fill="#FF6B6B" fill-opacity=".16" />
+            <text x="151" y={inv.y + 3.5} fill="#FF8C8C" font-size="9.5" font-weight="600" text-anchor="middle">Vencida</text>
+          </g>
+          <g class="hf-status-paid" opacity="0">
+            <rect x="124" y={inv.y - 9} width="54" height="18" rx="9" fill="#2BD67B" fill-opacity=".18" />
+            <text x="151" y={inv.y + 3.5} fill="#2BD67B" font-size="9.5" font-weight="600" text-anchor="middle">Cobrada</text>
+          </g>
+        </g>
+      ))
+    }
+
+    <!-- Monedas que viajan -->
+    {invoices.map((_, i) => <circle class="hf-coin" data-i={i} r="6" fill="#2BD67B" opacity="0" />)}
+
+    <!-- Banco -->
+    <g class="hf-bank">
+      <circle cx={bank.x} cy={bank.y} r="70" fill="url(#hf-glow)" class="hf-bank-glow" opacity=".25"></circle>
+      <rect x={bank.x - 40} y={bank.y - 40} width="80" height="80" rx="20" fill="#0B1020" stroke="#2BD67B" stroke-opacity=".5"></rect>
+      <path
+        d={`M${bank.x - 18} ${bank.y - 6} L${bank.x} ${bank.y - 18} L${bank.x + 18} ${bank.y - 6} Z M${bank.x - 14} ${bank.y - 2} v16 M${bank.x - 5} ${bank.y - 2} v16 M${bank.x + 5} ${bank.y - 2} v16 M${bank.x + 14} ${bank.y - 2} v16 M${bank.x - 20} ${bank.y + 18} h40`}
+        fill="none"
+        stroke="#F7F7F2"
+        stroke-width="2.2"
+        stroke-linejoin="round"
+        stroke-linecap="round"></path>
+      <text x={bank.x} y={bank.y + 62} fill="#9AA3B8" font-size="11" text-anchor="middle" font-family="Inter Variable, system-ui, sans-serif">Banco</text>
+    </g>
+
+    <!-- Avisos de cobro -->
+    {
+      invoices.map((inv, i) => (
+        <g class="hf-toast" data-i={i} opacity="0" font-family="Inter Variable, system-ui, sans-serif">
+          <rect x={bank.x - 44} y={bank.y - 82} width="88" height="26" rx="13" fill="#2BD67B" />
+          <text x={bank.x} y={bank.y - 64.5} fill="#0B1020" font-size="12" font-weight="700" text-anchor="middle" class="tnum">
+            +{inv.amount}
+          </text>
+        </g>
+      ))
+    }
+
+    <!-- Previsión -->
+    <g font-family="Inter Variable, system-ui, sans-serif">
+      <line x1="24" y1="240" x2="456" y2="240" stroke="#fff" stroke-opacity=".08"></line>
+      <text x="24" y="266" fill="#F7F7F2" font-size="12" font-weight="600">{es.hero.forecastTitle}</text>
+      <text x="456" y="266" fill="#9AA3B8" font-size="11" text-anchor="end">{es.hero.forecastRange}</text>
+      {[300, 340, 380].map((y) => <line x1="40" y1={y} x2="440" y2={y} stroke="#fff" stroke-opacity=".05" />)}
+      {
+        es.hero.forecastLabels.map((l, i, all) => (
+          <text
+            x={40 + (i * 400) / (all.length - 1)}
+            y="418"
+            fill="#7A8299"
+            font-size="10"
+            text-anchor={i === 0 ? 'start' : i === all.length - 1 ? 'end' : 'middle'}
+          >
+            {l}
+          </text>
+        ))
+      }
+    </g>
+    <path class="hf-area" d={`${chart} L440 400 L40 400 Z`} fill="url(#hf-area)"></path>
+    <path class="hf-line" d={chart} fill="none" stroke="url(#hf-line)" stroke-width="3" stroke-linecap="round"></path>
+    <circle class="hf-end-pulse" cx="440" cy="270" r="12" fill="#2BD67B" opacity=".25"></circle>
+    <circle class="hf-end" cx="440" cy="270" r="5" fill="#2BD67B"></circle>
+  </svg>
+</figure>

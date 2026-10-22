@@ -1,5 +1,4 @@
 ---
-import SectionHead from '../SectionHead.astro';
 import Avatar from '../Avatar.astro';
 import es from '../../content/es';
 
@@ -8,30 +7,30 @@ const t = es.team;
 // y pasad photo={fotoAC} al <Avatar /> correspondiente.
 ---
 
-<section id="equipo" class="section" aria-labelledby="equipo-title">
-  <div class="container-x">
-    <SectionHead name={t.eyebrow} title={t.title} id="equipo-title" intro={t.text} />
-
-    <div class="mt-14 grid lg:mt-20 lg:grid-cols-12 lg:gap-8">
-      <div class="lg:col-span-9 lg:col-start-4">
-        <ul class="grid max-w-2xl grid-cols-2 gap-5 sm:gap-8">
-          {
-            t.founders.map((f) => (
-              <li>
-                <Avatar initials={f.initials} name={f.name} />
-                <p class="mt-4 text-[1.125rem] font-medium">{f.name}</p>
-                <p class="text-muted">{f.role}</p>
-              </li>
-            ))
-          }
-        </ul>
-        <p class="mt-10 inline-flex items-center gap-2 text-muted">
-          <svg class="h-4 w-4 text-green" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-            <path d="M8 0a5.5 5.5 0 00-5.5 5.5C2.5 9.6 8 16 8 16s5.5-6.4 5.5-10.5A5.5 5.5 0 008 0zm0 7.5a2 2 0 110-4 2 2 0 010 4z"></path>
-          </svg>
-          {t.place}
-        </p>
-      </div>
+<section id="equipo" class="relative bg-paper py-24 sm:py-32" aria-labelledby="equipo-title">
+  <div class="container-x grid gap-14 lg:grid-cols-[1fr_1fr] lg:items-center">
+    <div>
+      <p class="eyebrow text-violet" data-reveal>{t.eyebrow}</p>
+      <h2 id="equipo-title" class="h-section mt-5" data-split>{t.title}</h2>
+      <p class="mt-6 max-w-xl text-lg leading-relaxed text-muted sm:text-xl" data-reveal>{t.text}</p>
+      <p class="mt-8 inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white px-4 py-2 font-semibold" data-reveal>
+        <svg class="h-4 w-4 text-alert" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+          <path d="M8 0a5.5 5.5 0 00-5.5 5.5C2.5 9.6 8 16 8 16s5.5-6.4 5.5-10.5A5.5 5.5 0 008 0zm0 7.5a2 2 0 110-4 2 2 0 010 4z"></path>
+        </svg>
+        {t.place}
+      </p>
     </div>
+
+    <ul class="grid grid-cols-2 gap-3 sm:gap-5">
+      {
+        t.founders.map((f, i) => (
+          <li class="card-surface tilt flex flex-col items-center p-5 text-center sm:p-8" data-tilt data-reveal>
+            <Avatar initials={f.initials} name={f.name} variant={i === 0 ? 'green' : 'violet'} class="w-24 text-[12px] sm:w-32 sm:text-[16px]" />
+            <p class="mt-5 font-display text-lg font-bold sm:text-2xl">{f.name}</p>
+            <p class="mt-1 text-muted">{f.role}</p>
+          </li>
+        ))
+      }
+    </ul>
   </div>
 </section>

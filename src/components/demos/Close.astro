@@ -7,11 +7,11 @@ const bars = [6, 8, 5, 9, 7, 11];
 const max = 12;
 ---
 
-<div data-month-close>
-  <div class="flex items-center gap-2 text-sm font-medium">
+<div class="pt-8" data-month-close>
+  <div class="flex items-center gap-2 text-sm font-semibold">
     <span class="relative flex h-2.5 w-2.5">
-      <span class="cl-live absolute inset-0 rounded-full bg-green"></span>
-      <span class="relative h-2.5 w-2.5 rounded-full bg-green"></span>
+      <span class="cl-live absolute inset-0 rounded-full bg-money"></span>
+      <span class="relative h-2.5 w-2.5 rounded-full bg-money"></span>
     </span>
     {d.title}
   </div>
@@ -19,9 +19,9 @@ const max = 12;
   <div class="mt-4 grid grid-cols-3 gap-2">
     {
       d.kpis.map((k, i) => (
-        <div class:list={['rounded-md p-2.5 sm:p-3', i === 2 ? 'doc-ink !rounded-md' : 'bg-paper']}>
-          <p class:list={['t-data text-[11px]', i === 2 ? 'text-muted-dark' : 'text-muted']}>{k.label}</p>
-          <p class="cl-value t-display tnum mt-1 text-base sm:text-xl" data-value={k.value}>
+        <div class:list={['rounded-xl border border-black/8 p-2.5 sm:p-3', i === 2 ? 'bg-ink text-paper' : 'bg-paper']}>
+          <p class:list={['text-[11px]', i === 2 ? 'text-paper/60' : 'text-muted']}>{k.label}</p>
+          <p class="cl-value tnum mt-1 font-display text-base font-bold sm:text-xl" data-value={k.value}>
             {k.value}
           </p>
         </div>
@@ -31,13 +31,16 @@ const max = 12;
 
   <div class="mt-4 grid gap-4 sm:grid-cols-[1fr_1.1fr]">
     <!-- Beneficio por mes -->
-    <div class="rounded-md bg-paper p-3">
+    <div class="rounded-xl border border-black/8 bg-paper p-3">
       <div class="flex h-24 items-end gap-1.5">
         {
           bars.map((v, i) => (
             <div class="flex flex-1 flex-col items-center gap-1">
-              <span class:list={['cl-bar w-full rounded-t-sm', i === bars.length - 1 ? 'bg-green' : 'bg-green/20']} style={`height:${(v / max) * 80}px`} />
-              <span class="t-data text-[10px] text-muted">{d.months[i]}</span>
+              <span
+                class:list={['cl-bar w-full rounded-t-md', i === bars.length - 1 ? 'bg-money' : 'bg-violet/30']}
+                style={`height:${(v / max) * 80}px`}
+              />
+              <span class="text-[9px] text-muted">{d.months[i]}</span>
             </div>
           ))
         }
@@ -45,13 +48,13 @@ const max = 12;
     </div>
 
     <!-- Apuntes recurrentes -->
-    <div class="rounded-md border border-line p-3">
-      <p class="t-data text-[12px] text-muted">{d.recurringTitle}</p>
+    <div class="rounded-xl border border-black/8 bg-white p-3">
+      <p class="text-[11px] font-semibold tracking-wide text-muted uppercase">{d.recurringTitle}</p>
       <ul class="mt-2 flex flex-col gap-1.5">
         {
           d.recurring.map((r) => (
             <li class="cl-entry flex items-center gap-2 text-xs">
-              <span class="grid h-4 w-4 shrink-0 place-items-center rounded-full bg-green text-paper">
+              <span class="grid h-4 w-4 shrink-0 place-items-center rounded-full bg-money text-ink">
                 <svg viewBox="0 0 16 16" class="h-2.5 w-2.5" fill="none">
                   <path d="M3.5 8.5l3 3L12.5 5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
@@ -61,9 +64,13 @@ const max = 12;
           ))
         }
       </ul>
-      <p class="cl-link pill pill-ink mt-3">
+      <p class="cl-link mt-3 inline-flex items-center gap-1.5 rounded-full bg-violet/10 px-2.5 py-1 text-[11px] font-semibold text-violet">
         <svg class="h-3.5 w-3.5" viewBox="0 0 16 16" fill="none">
-          <path d="M6.5 9.5l3-3M7 4.5l1-1a2.8 2.8 0 014 4l-1 1M9 11.5l-1 1a2.8 2.8 0 01-4-4l1-1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path>
+          <path
+            d="M6.5 9.5l3-3M7 4.5l1-1a2.8 2.8 0 014 4l-1 1M9 11.5l-1 1a2.8 2.8 0 01-4-4l1-1"
+            stroke="currentColor"
+            stroke-width="1.6"
+            stroke-linecap="round"></path>
         </svg>
         {d.linked}
       </p>

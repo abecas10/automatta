@@ -3,9 +3,14 @@
 Web de una sola página para presentar Automatta y llevar a las pymes a la encuesta de 5 minutos.
 
 - **Astro** + **Tailwind CSS** + **TypeScript** (web estática, sin backend)
+<<<<<<< HEAD
 - **GSAP** (ScrollTrigger, SplitText, DrawSVG) + **Lenis** para las animaciones y el scroll suave
 - **three.js** para la experiencia 3D (materiales PBR, HDRI de estudio, sombras suaves y postproducción), que se descarga después de pintar el hero
 - Una sola fuente autoalojada con `@fontsource` (Archivo Variable, con eje de anchura). Sin cookies ni analítica.
+=======
+- **GSAP** (ScrollTrigger, SplitText, DrawSVG, MotionPath) + **Lenis** para las animaciones y el scroll suave
+- Fuentes autoalojadas con `@fontsource` (Bricolage Grotesque e Inter). Sin cookies ni analítica.
+>>>>>>> parent of 2a12ed5 (19/10/2026 21:47)
 
 ## Arrancarla en local
 
@@ -97,8 +102,7 @@ src/
   layouts/                  Base (SEO, fuentes, scripts) y Legal
   components/
     Navbar, Logo, Button, Avatar
-    illustrations/HeroDesk  Escritorio animado del hero (factura, banco, caja)
-    SectionHead, Stamp      Cabecera de sección y sello de caucho
+    illustrations/HeroFlow  Ilustración animada del hero
     sections/               Una sección de la landing por archivo
   scripts/
     motion.ts               Punto de entrada: Lenis + GSAP + movimiento reducido

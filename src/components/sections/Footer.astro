@@ -11,41 +11,55 @@ const { showCta = true } = Astro.props;
 const year = new Date().getFullYear();
 ---
 
-<footer class="dark bg-ink text-paper">
+<footer class="dark relative isolate overflow-hidden bg-ink text-paper">
   {
     showCta && (
-      <div class="container-x py-24 sm:py-32">
-        <div class="grid gap-8 lg:grid-cols-12">
-          <h2 class="h-section max-w-[20ch] lg:col-span-8" data-rise>
-            {es.finalCta.title}
-          </h2>
-          <div class="flex items-end lg:col-span-4 lg:justify-end">
-            <Button href={SURVEY_URL} external size="lg">
-              {es.finalCta.cta}
-            </Button>
-          </div>
+      <div class="container-x border-b border-white/10 py-24 text-center sm:py-32">
+        <h2 class="mx-auto max-w-4xl font-display text-4xl leading-[1.02] font-extrabold sm:text-6xl" data-split>
+          {es.finalCta.title}
+        </h2>
+        <div class="mt-10 flex justify-center" data-reveal>
+          <Button href={SURVEY_URL} external size="lg" arrow magnetic>
+            {es.finalCta.cta}
+          </Button>
         </div>
       </div>
     )
   }
 
-  <div class="container-x">
-    <div class="grid gap-10 border-t border-line-dark py-12 md:grid-cols-12">
-      <div class="md:col-span-5">
-        <a href="/" class="inline-block rounded-md" aria-label="Automatta, inicio"><Logo tone="light" class="text-[17px]" /></a>
-        <p class="mt-4 max-w-[30ch] text-paper/65">{es.footer.tagline}</p>
-      </div>
-      <div class="md:col-span-3">
-        <p class="text-sm text-muted-dark">{es.footer.contact}</p>
-        <a href={MAILTO} class="link mt-1 inline-block text-paper decoration-paper/30">{CONTACT_EMAIL}</a>
-      </div>
-      <nav aria-label="Legal" class="flex flex-col gap-1 md:col-span-4 md:items-end">
-        <a href="/aviso-legal" class="text-paper/70 hover:text-paper">{es.footer.legal}</a>
-        <a href="/privacidad" class="text-paper/70 hover:text-paper">{es.footer.privacy}</a>
-      </nav>
+  <div class="container-x flex flex-col gap-10 py-12 md:flex-row md:items-start md:justify-between">
+    <div class="max-w-xs">
+      <a href="/" class="inline-block rounded-md" aria-label="Automatta, inicio"><Logo class="h-8 w-auto" tone="light" /></a>
+      <p class="mt-4 text-paper/65">{es.footer.tagline}</p>
     </div>
-    <div class="border-t border-line-dark py-6 text-sm text-paper/55">
-      <p>© {year} Automatta. {es.footer.made}.</p>
+    <div class="flex flex-col gap-2">
+      <p class="text-sm font-semibold text-paper/50">{es.footer.contact}</p>
+      <a href={MAILTO} class="font-medium text-paper hover:text-money">{CONTACT_EMAIL}</a>
     </div>
   </div>
+
+  <div
+    class="container-x flex flex-col gap-4 border-t border-white/10 py-6 text-sm text-paper/60 sm:flex-row sm:items-center sm:justify-between"
+  >
+    <p>© {year} Automatta · {es.footer.made}</p>
+    <nav aria-label="Legal" class="flex gap-6">
+      <a href="/aviso-legal" class="hover:text-paper">{es.footer.legal}</a>
+      <a href="/privacidad" class="hover:text-paper">{es.footer.privacy}</a>
+    </nav>
+  </div>
+
+  <svg class="pointer-events-none block w-full select-none" viewBox="0 0 1000 190" aria-hidden="true">
+    <text
+      x="500"
+      y="190"
+      text-anchor="middle"
+      font-family="'Bricolage Grotesque Variable', system-ui, sans-serif"
+      font-weight="800"
+      font-size="250"
+      textLength="960"
+      lengthAdjust="spacingAndGlyphs"
+      fill="#fff"
+      fill-opacity=".04">automatta</text
+    >
+  </svg>
 </footer>

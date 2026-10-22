@@ -4,7 +4,7 @@
 
 const es = {
   meta: {
-    title: 'Automatta: tu departamento financiero, en piloto automático',
+    title: 'Automatta · Tu departamento financiero, en piloto automático',
     description:
       'Automatta pone en piloto automático la administración de pymes de 1 a 70 empleados: facturas, cobros, banco e impuestos. Ayúdanos a construirlo con una encuesta de 5 minutos.',
     ogAlt: 'Automatta: tu departamento financiero, en piloto automático.',
@@ -28,55 +28,21 @@ const es = {
   },
 
   hero: {
-    status: 'Startup de Barcelona, en fase de investigación.',
-    // Cada línea se muestra en su propia fila.
+    eyebrow: 'Startup de Barcelona · en fase de investigación',
+    // Cada línea se muestra en su propia fila; la última va en verde.
     titleLines: ['Tu departamento financiero,', 'en piloto automático.'],
     subtitle:
       'Automatta registra tus facturas, reclama a quien no paga, cuadra el banco y te prepara los impuestos. Dejas de pagar por trabajo de robot y sabes cómo va tu negocio hoy.',
     primary: 'Ayúdanos con 5 minutos',
     secondary: 'Ver cómo funciona',
-    note: 'Cinco minutos. Las respuestas son confidenciales.',
+    note: 'Encuesta de 5 minutos · respuestas confidenciales',
     illustrationLabel:
-      'Ilustración: una factura vencida se cobra, se concilia con el movimiento del banco y la previsión de caja a 90 días se actualiza.',
-    // Documentos del escritorio del hero
-    desk: {
-      invoice: {
-        kind: 'Factura',
-        number: 'F-2041',
-        issuer: 'Taller Puig SL',
-        client: 'Talleres Ejemplo SL',
-        date: '14 sep 2026',
-        concept: 'Reparación de maquinaria',
-        lines: [
-          { label: 'Base imponible', value: '3.305,79 €' },
-          { label: 'IVA 21 %', value: '694,21 €' },
-        ],
-        totalLabel: 'Total',
-        total: '4.000,00 €',
-        due: 'Venció el 14 oct',
-        overdue: 'Vencida',
-        paid: 'Cobrada',
-        paidNote: '19 oct',
-      },
-      bank: {
-        title: 'Banco',
-        subtitle: 'Movimientos de hoy',
-        rows: [
-          { label: 'Transferencia de Talleres Ejemplo SL', amount: '+4.000,00 €', match: true },
-          { label: 'Recibo de luz', amount: '−212,40 €', match: false },
-          { label: 'Transferencia de Distribuciones Muestra SA', amount: '+6.000,00 €', match: true },
-        ],
-        matched: 'Conciliada con su factura',
-      },
-      forecast: {
-        title: 'Caja a 90 días',
-        value: '35.000 €',
-        labels: ['Hoy', '30 d', '60 d', '90 d'],
-      },
-      toast: 'Cobrada y cuadrada con el banco. No has tocado nada.',
-    },
+      'Ilustración: tus facturas se registran solas, los cobros entran en el banco y se dibuja la previsión de caja a 90 días.',
+    company: 'Taller Puig SL',
+    forecastTitle: 'Previsión de caja',
+    forecastRange: 'próximos 90 días',
+    forecastLabels: ['Hoy', '30 días', '60 días', '90 días'],
   },
-
 
   problem: {
     eyebrow: 'El problema',
@@ -131,7 +97,8 @@ const es = {
       'Los datos se registran y se cuadran solos.',
       'Y ves tus números en tiempo real.',
     ],
-    tag: 'Datos de ejemplo',
+    tag: 'Así funcionará · datos de ejemplo',
+    tagShort: 'Datos de ejemplo',
     dashboard: {
       title: 'Panel de Automatta',
       kpis: [
@@ -146,7 +113,7 @@ const es = {
         { client: 'Ingeniería Ficticia SL', amount: '2.500 €', status: 'Conciliada' },
         { client: 'Logística Demo SL', amount: '3.000 €', status: 'Llamar hoy' },
       ],
-      chartTitle: 'Previsión de caja a 90 días',
+      chartTitle: 'Previsión de caja · 90 días',
       chartLabels: ['Hoy', '30 d', '60 d', '90 d'],
     },
     reducedNote: 'Antes: PDFs, emails, Excel y sorpresas. Después: un panel con todo en orden.',
@@ -157,7 +124,7 @@ const es = {
     title: 'Cinco módulos, un solo sistema.',
     intro:
       'Automatta hace el trabajo repetitivo y te pasa solo las excepciones. Lo que necesita criterio (decidir, negociar, los casos raros) lo sigue haciendo una persona.',
-    tag: 'Datos de ejemplo',
+    tag: 'Así funcionará · datos de ejemplo',
     startHere: 'Por aquí empezamos',
     excluded: 'Las nóminas y los contratos laborales no están incluidos por ahora.',
     pieces: [
@@ -213,7 +180,7 @@ const es = {
       fields: [
         { label: 'Proveedor', value: 'Maderas Ejemplo SL' },
         { label: 'Importe', value: '1.210 €' },
-        { label: 'IVA', value: '21 % (210 €)' },
+        { label: 'IVA', value: '21 % · 210 €' },
         { label: 'Vence', value: 'en 30 días' },
       ],
       checks: ['Pedido', 'Albarán'],
@@ -239,19 +206,19 @@ const es = {
       bankTitle: 'Banco',
       invoicesTitle: 'Facturas',
       pairs: [
-        { bank: 'Transf. Talleres Ejemplo', invoice: 'F-2041, Talleres Ejemplo SL', amount: '4.000 €' },
-        { bank: 'Transf. Distrib. Muestra', invoice: 'F-2038, Distribuciones Muestra SA', amount: '6.000 €' },
-        { bank: 'Transf. Ing. Ficticia', invoice: 'F-2033, Ingeniería Ficticia SL', amount: '2.500 €' },
+        { bank: 'Transf. Talleres Ejemplo', invoice: 'F-2041 · Talleres Ejemplo SL', amount: '4.000 €' },
+        { bank: 'Transf. Distrib. Muestra', invoice: 'F-2038 · Distribuciones Muestra SA', amount: '6.000 €' },
+        { bank: 'Transf. Ing. Ficticia', invoice: 'F-2033 · Ingeniería Ficticia SL', amount: '2.500 €' },
       ],
       done: 'Todo cuadrado',
     },
     demoForecast: {
-      title: 'Caja prevista a 90 días',
+      title: 'Caja prevista · 90 días',
       labels: ['Hoy', '30 días', '60 días', '90 días'],
       alert: 'Dentro de 7 semanas: caja ajustada',
     },
     demoClose: {
-      title: 'Este mes, en vivo',
+      title: 'Este mes · en vivo',
       kpis: [
         { label: 'Ventas', value: '42.000 €' },
         { label: 'Gastos', value: '31.000 €' },
@@ -263,10 +230,10 @@ const es = {
       months: ['Oct', 'Nov', 'Dic', 'Ene', 'Feb', 'Mar'],
     },
     demoTaxes: {
-      ticket: 'Ticket de gasolinera',
+      ticket: 'Ticket · Gasolinera',
       ticketAmount: '60 €',
       registered: 'Gasto registrado',
-      formTitle: 'Modelo 303, primer trimestre',
+      formTitle: 'Modelo 303 · 1.er trimestre',
       draft: 'Borrador listo',
       rows: [
         { label: 'IVA de tus ventas', value: '8.400 €' },
@@ -301,7 +268,7 @@ const es = {
         headline: 'Deja de pagar a la gestoría por teclear tus facturas.',
         text: 'Hoy pagas a una gestoría y no sabes cómo va tu negocio hasta que te pasa los números. Automatta se encarga de la contabilidad, la facturación compatible con Verifactu y los impuestos trimestrales y anuales, y tú ves tus números en tiempo real.',
         example: {
-          name: 'Taller Puig SL, 6 empleados',
+          name: 'Taller Puig SL · 6 empleados',
           text: 'Paga una gestoría cada mes y se entera de cómo van sus números semanas después.',
         },
       },
@@ -311,7 +278,7 @@ const es = {
         headline: 'Tu equipo deja de hacer trabajo de robot.',
         text: 'Tu equipo de administración se pasa horas copiando datos. Automatta les quita el trabajo repetitivo para que se dediquen a lo que necesita criterio, y la empresa puede crecer sin tener que contratar más gente para administración.',
         example: {
-          name: 'Muebles García SL, 50 empleados',
+          name: 'Muebles García SL · 50 empleados',
           text: 'Marta y Jorge pasan cada mes horas tecleando unas 200 facturas.',
         },
       },
@@ -365,7 +332,6 @@ const es = {
 
   survey: {
     eyebrow: 'La encuesta',
-    docTitle: 'Antes de empezar',
     title: 'Lo estamos construyendo contigo.',
     text: 'Antes de lanzar nada, queremos escuchar a empresas como la tuya. Cuéntanos cómo llevas hoy facturas, cobros e impuestos, y qué te quita tiempo.',
     program: {
@@ -570,7 +536,7 @@ const es = {
 
   common: {
     newTab: '(se abre en una pestaña nueva)',
-    illustrationTag: 'Datos de ejemplo',
+    illustrationTag: 'Así funcionará',
   },
 } as const;
 

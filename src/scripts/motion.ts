@@ -4,19 +4,26 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText } from 'gsap/SplitText';
+import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
 import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin';
 import Lenis from 'lenis';
 
 import { initUi } from './ui';
-import { initReveals } from './reveal';
+import { initReveals, initMicro } from './reveal';
 import { initHero } from './sections/hero';
 import { initProblem } from './sections/problem';
+<<<<<<< HEAD
 import { initHow } from './sections/how';
 import { initVerifactu } from './sections/misc';
 import { canUseWorld } from './world/support';
 import { initWorldScenes } from './world/scenes';
+=======
+import { initTransformation } from './sections/transformation';
+import { initHow, initRoadmap } from './sections/how';
+import { initVerifactu } from './sections/verifactu';
+>>>>>>> parent of 2a12ed5 (19/10/2026 21:47)
 
-gsap.registerPlugin(ScrollTrigger, SplitText, DrawSVGPlugin);
+gsap.registerPlugin(ScrollTrigger, SplitText, MotionPathPlugin, DrawSVGPlugin);
 
 initUi();
 
@@ -31,9 +38,10 @@ mm.add(
   {
     motion: '(prefers-reduced-motion: no-preference)',
     mobile: '(max-width: 767px)',
+    fine: '(hover: hover) and (pointer: fine)',
   },
   (ctx) => {
-    const { motion, mobile } = ctx.conditions as Record<string, boolean>;
+    const { motion, mobile, fine } = ctx.conditions as Record<string, boolean>;
     if (!motion) {
       root.classList.remove('js-motion');
       return;
@@ -43,13 +51,14 @@ mm.add(
     clearTimeout((window as unknown as { __motionFallback?: number }).__motionFallback);
 
     // Scroll suave con Lenis, sincronizado con ScrollTrigger.
-    const lenis = new Lenis({ duration: 1.0, anchors: { offset: -72 } });
+    const lenis = new Lenis({ duration: 1.1, anchors: { offset: -72 } });
     lenis.on('scroll', ScrollTrigger.update);
     const raf = (time: number) => lenis.raf(time * 1000);
     gsap.ticker.add(raf);
     gsap.ticker.lagSmoothing(0);
     (window as unknown as { lenis?: Lenis }).lenis = lenis;
 
+<<<<<<< HEAD
     const opts = { mobile: !!mobile };
     initHero(opts, useWorld);
     let stopScenes: (() => void) | undefined;
@@ -82,6 +91,22 @@ mm.add(
       // ctx.add mantiene estas animaciones dentro del contexto (se revierten con matchMedia).
       ctx.add(task);
       idle(runNext, { timeout: 600 });
+=======
+    const opts = { mobile: !!mobile, fine: !!fine };
+    initHero(opts);
+
+    // El resto de secciones está por debajo del primer pantallazo: se preparan cuando
+    // el navegador queda libre, para no bloquear la carga inicial.
+    const rest = () => {
+      initReveals();
+      initProblem(opts);
+      initTransformation(opts);
+      initHow(opts);
+      initRoadmap();
+      initVerifactu();
+      if (fine) initMicro();
+      ScrollTrigger.refresh();
+>>>>>>> parent of 2a12ed5 (19/10/2026 21:47)
     };
     idle(runNext, { timeout: 1200 });
 
