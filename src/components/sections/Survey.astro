@@ -1,81 +1,72 @@
 ---
+import SectionHead from '../SectionHead.astro';
 import Button from '../Button.astro';
 import es from '../../content/es';
 import { SURVEY_URL, MAILTO_CALL, CONTACT_EMAIL } from '../../config';
 
 const s = es.survey;
-const icons = [
-  'M12 7v5l3 2M12 21a9 9 0 100-18 9 9 0 000 18z',
-  'M6 10V8a6 6 0 1112 0v2M5 10h14v10H5z',
-  'M7 3h7l5 5v13H7zM14 3v5h5M10 13h6M10 17h6',
-  'M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z',
-];
 ---
 
-<section id="encuesta" class="dark relative isolate overflow-hidden bg-ink py-24 text-paper sm:py-36" aria-labelledby="encuesta-title">
-  <div class="survey-bg pointer-events-none absolute inset-0 -z-10" aria-hidden="true"></div>
-  <div class="mesh -z-10 !opacity-70" aria-hidden="true"><span></span><span></span><span></span></div>
-
+<section id="encuesta" class="section" aria-labelledby="encuesta-title">
   <div class="container-x">
-    <div class="mx-auto max-w-4xl text-center">
-      <p class="eyebrow text-money" data-reveal>{s.eyebrow}</p>
-      <h2 id="encuesta-title" class="mt-6 font-display text-[2.6rem] leading-[0.98] font-extrabold sm:text-6xl lg:text-[5.5rem]" data-split>
-        {s.title}
-      </h2>
-      <p class="mx-auto mt-7 max-w-2xl text-lg leading-relaxed text-paper/80 sm:text-xl" data-reveal>{s.text}</p>
-    </div>
+    <SectionHead name={s.eyebrow} title={s.title} id="encuesta-title" intro={s.text} />
 
-    <!-- Programa de primeras empresas -->
-    <div
-      class="program relative mx-auto mt-14 max-w-4xl overflow-hidden rounded-3xl border border-money/40 bg-money/10 p-6 text-center sm:p-10"
-      data-reveal
-    >
-      <span class="program-glow pointer-events-none absolute inset-0" aria-hidden="true"></span>
-      <p class="relative font-display text-2xl leading-tight font-bold sm:text-4xl">{s.program.title}</p>
-      <p class="relative mx-auto mt-4 max-w-2xl text-paper/80 sm:text-lg">{s.program.text}</p>
-    </div>
-
-    <ul class="mx-auto mt-6 grid max-w-5xl gap-3 sm:grid-cols-2 lg:grid-cols-4">
-      {
-        s.bullets.map((b, i) => (
-          <li class="rounded-2xl border border-white/10 bg-white/[0.05] p-5 backdrop-blur-sm" data-reveal>
-            <span class="grid h-10 w-10 place-items-center rounded-xl bg-money/15 text-money">
-              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d={icons[i]} />
-              </svg>
-            </span>
-            <p class="mt-4 font-display text-xl font-bold">{b.title}</p>
-            <p class="mt-1 text-paper/70">{b.text}</p>
-          </li>
-        ))
-      }
-    </ul>
-
-    <div class="mt-14 flex flex-col items-center gap-6" data-reveal>
-      <div class="magnet-zone grid place-items-center p-6 sm:p-10">
-        <Button href={SURVEY_URL} external size="lg" magnetic arrow class="survey-btn !min-h-[4.5rem] !px-10 !text-xl">
-          {s.cta}
-        </Button>
+    <div class="mt-14 grid gap-12 lg:mt-20 lg:grid-cols-12 lg:gap-8">
+      <div class="lg:col-span-5 lg:col-start-4">
+        <p class="h-sub max-w-[22ch]" data-rise>{s.program.title}</p>
+        <p class="mt-4 max-w-[46ch] text-muted">{s.program.text}</p>
+        <div class="mt-10 flex flex-col items-start gap-4">
+          <Button href={SURVEY_URL} external size="lg">{s.cta}</Button>
+          <p class="text-muted">
+            {s.altPrefix}
+            <a href={MAILTO_CALL} class="link text-ink">{s.altLink}</a>
+            <span class="block text-sm text-muted/80">{CONTACT_EMAIL}</span>
+          </p>
+        </div>
       </div>
-      <p class="text-center text-paper/75">
-        {s.altPrefix}{' '}
-        <a href={MAILTO_CALL} class="font-semibold text-money underline decoration-money/40 underline-offset-4 hover:decoration-money">
-          {s.altLink}
-        </a>
-        <span class="block text-sm text-paper/50 sm:inline sm:before:content-['_·_']">{CONTACT_EMAIL}</span>
-      </p>
+
+      <!-- La encuesta, como documento -->
+      <div class="lg:col-span-4 lg:col-start-9" data-survey-doc>
+        <div class="doc p-6 sm:p-7" data-reveal>
+          <p class="text-sm font-medium">{s.docTitle}</p>
+          <ul class="mt-5 flex flex-col divide-y divide-line">
+            {
+              s.bullets.map((b) => (
+                <li class="sv-item flex items-start gap-3.5 py-4 first:pt-0 last:pb-0">
+                  <span class="sv-box mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-[5px] border border-ink/30" aria-hidden="true">
+                    <svg class="sv-tick h-3 w-3" viewBox="0 0 12 12" fill="none">
+                      <path d="M2.5 6.5l2.3 2.3L9.5 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </span>
+                  <span>
+                    <span class="block font-medium">{b.title}</span>
+                    <span class="block text-[0.9375rem] text-muted">{b.text}</span>
+                  </span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
 <style>
-  .program-glow {
-    background: radial-gradient(60% 80% at 50% 0%, rgb(43 214 123 / 0.25), transparent 70%);
+  .sv-box {
+    transition:
+      background-color 0.3s,
+      border-color 0.3s;
   }
-  .survey-bg {
-    background:
-      radial-gradient(60% 50% at 50% 100%, rgb(43 214 123 / 0.28), transparent 70%),
-      radial-gradient(50% 60% at 15% 10%, rgb(108 92 231 / 0.45), transparent 70%),
-      linear-gradient(180deg, #0b1020, #141040);
+  .sv-tick {
+    color: var(--color-paper);
+  }
+  .sv-item.is-checked .sv-box {
+    background: var(--color-green);
+    border-color: var(--color-green);
+  }
+  :global(:root:not(.js-motion)) .sv-box {
+    background: var(--color-green);
+    border-color: var(--color-green);
   }
 </style>

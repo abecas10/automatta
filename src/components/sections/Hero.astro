@@ -1,53 +1,32 @@
 ---
 import Button from '../Button.astro';
-import HeroFlow from '../illustrations/HeroFlow.astro';
+import HeroDesk from '../illustrations/HeroDesk.astro';
 import es from '../../content/es';
 import { SURVEY_URL } from '../../config';
 
-// Cada línea del titular en su fila; la última, destacada en verde.
 const lines = es.hero.titleLines;
 ---
 
-<section class="dark relative isolate overflow-hidden bg-ink text-paper" aria-labelledby="hero-title">
-  <div class="mesh" aria-hidden="true"><span></span><span></span><span></span></div>
-  <div class="grid-bg absolute inset-0 -z-0" aria-hidden="true"></div>
-
-  <div
-    class="container-x relative grid min-h-[100svh] items-center gap-12 pt-28 pb-16 lg:grid-cols-[1.08fr_1fr] lg:gap-10 lg:pt-32 lg:pb-24"
-  >
-    <div class="relative max-w-2xl">
-      <p class="eyebrow hero-in text-money" data-hero-in>{es.hero.eyebrow}</p>
-      <h1
-        id="hero-title"
-        class="hero-title mt-6 font-display text-[2.4rem] leading-[0.98] font-extrabold min-[400px]:text-[2.6rem] sm:text-6xl lg:text-[3.9rem] xl:text-[4.2rem]"
-        data-hero-title
-      >
-        {
-          lines.map((t, i) => (
-            <span class:list={['block', i === lines.length - 1 && lines.length > 1 && 'text-money']}>
-              {t}{i < lines.length - 1 ? ' ' : ''}
-            </span>
-          ))
-        }
+<section class="relative overflow-hidden pt-28 pb-16 sm:pt-36 lg:pb-24" aria-labelledby="hero-title">
+  <div class="container-x grid items-center gap-14 lg:grid-cols-12 lg:gap-8">
+    <div class="lg:col-span-6">
+      <p class="text-[0.9375rem] font-medium text-muted" data-hero-in>{es.hero.status}</p>
+      <h1 id="hero-title" class="h-hero mt-6 max-w-[16ch]" data-hero-title>
+        {lines.map((t) => <span class="block">{t}</span>)}
       </h1>
-      <!-- Visible desde el primer pintado (es el elemento LCP): solo se desliza, no aparece con fundido -->
-      <p class="mt-7 max-w-xl text-lg leading-relaxed text-paper/75 sm:text-xl" data-hero-sub>
-        {es.hero.subtitle}
-      </p>
-      <div class="hero-in mt-10 flex flex-col gap-3 sm:flex-row sm:items-center" data-hero-in>
-        <Button href={SURVEY_URL} external size="lg" arrow magnetic>{es.hero.primary}</Button>
-        <Button href="#como-funciona" variant="ghost" size="lg">{es.hero.secondary}</Button>
+      <!-- Visible desde el primer pintado (elemento LCP): solo se desliza, no aparece con fundido -->
+      <p class="lead mt-7 max-w-[52ch] text-muted" data-hero-sub>{es.hero.subtitle}</p>
+      <div class="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center" data-hero-in>
+        <Button href={SURVEY_URL} external size="lg">{es.hero.primary}</Button>
+        <Button href="#como-funciona" variant="secondary" size="lg">{es.hero.secondary}</Button>
       </div>
-      <p class="hero-in mt-5 text-sm text-paper/55" data-hero-in>{es.hero.note}</p>
+      <p class="mt-4 text-sm text-muted" data-hero-in>{es.hero.note}</p>
     </div>
 
-    <div class="hero-in relative mx-auto w-full max-w-[520px] lg:max-w-none" data-hero-in data-hero-visual>
-      <div class="absolute -inset-8 -z-10 rounded-[40px] bg-violet/20 blur-3xl" aria-hidden="true"></div>
-      <HeroFlow />
+    <div class="lg:col-span-6" data-hero-visual>
+      <HeroDesk />
     </div>
   </div>
-
-  <div class="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-ink" aria-hidden="true"></div>
 </section>
 
 <style>

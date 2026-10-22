@@ -1,43 +1,24 @@
 ---
-// Logotipo: símbolo (ciclo de automatización que termina en una flecha hacia arriba: dinero que entra) + "automatta".
+// Logotipo: símbolo (ciclo que termina en una flecha hacia arriba: dinero que entra) + "automatta".
 interface Props {
   class?: string;
   symbolOnly?: boolean;
   tone?: 'dark' | 'light';
 }
 const { class: className = '', symbolOnly = false, tone = 'dark' } = Astro.props;
-const uid = `lg-${Math.random().toString(36).slice(2, 8)}`;
-const text = tone === 'light' ? '#F7F7F2' : '#0B1020';
 ---
 
-<svg
-  class={className}
-  viewBox={symbolOnly ? '0 0 32 32' : '0 0 168 32'}
-  role="img"
-  aria-label="Automatta"
-  xmlns="http://www.w3.org/2000/svg"
->
-  <defs>
-    <linearGradient id={uid} x1="0" y1="32" x2="32" y2="0" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#6C5CE7"></stop>
-      <stop offset="1" stop-color="#2BD67B"></stop>
-    </linearGradient>
-  </defs>
-  <rect width="32" height="32" rx="9" fill={`url(#${uid})`}></rect>
-  <path d="M20.33 13.58A7 7 0 1 1 8.87 13.58L13.17 7.44M8.69 8.48L13.17 7.44L13.73 12.01" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" transform="translate(1.8 -0.6)"></path>
-  {
-    !symbolOnly && (
-      <text
-        x="42"
-        y="23.5"
-        fill={text}
-        font-family="'Bricolage Grotesque Variable','Space Grotesk',system-ui,sans-serif"
-        font-size="24"
-        font-weight="700"
-        letter-spacing="-1"
-      >
-        automatta
-      </text>
-    )
-  }
-</svg>
+<span class:list={['logo inline-flex items-center gap-2.5', tone === 'light' ? 'text-paper' : 'text-ink', className]}>
+  <svg class="logo-mark h-[1.6em] w-[1.6em] shrink-0" viewBox="0 0 32 32" role="img" aria-label="Automatta" xmlns="http://www.w3.org/2000/svg">
+    <rect width="32" height="32" rx="7" fill={tone === 'light' ? '#F5F6F3' : '#1F6B4A'}></rect>
+    <path
+      d="M20.33 13.58A7 7 0 1 1 8.87 13.58L13.17 7.44M8.69 8.48L13.17 7.44L13.73 12.01"
+      fill="none"
+      stroke={tone === 'light' ? '#14201B' : '#F5F6F3'}
+      stroke-width="3.2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      transform="translate(1.8 -0.6)"></path>
+  </svg>
+  {!symbolOnly && <span class="logo-word t-display text-[1.35em] leading-none font-semibold" aria-hidden="true">automatta</span>}
+</span>

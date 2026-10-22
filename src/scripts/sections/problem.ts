@@ -46,24 +46,15 @@ export function initProblem({ mobile }: Opts) {
       .timeline({ scrollTrigger: { trigger: sheet, start: 'top 80%', end: mobile ? 'top 30%' : 'bottom 45%', scrub: 0.6 } })
       .fromTo(
         bad,
-        { backgroundColor: 'rgba(255,107,107,0)', color: 'rgba(176,42,42,0)' },
-        {
-          backgroundColor: 'rgba(255,107,107,0.16)',
-          color: 'rgba(176,42,42,1)',
-          stagger: { each: 0.12, from: 'random' },
-          duration: 0.3,
-        },
+        { backgroundColor: 'rgba(200,55,45,0)', color: 'rgba(200,55,45,0)' },
+        { backgroundColor: 'rgba(200,55,45,0.12)', color: 'rgba(200,55,45,1)', stagger: { each: 0.12, from: 'random' }, duration: 0.3 },
       );
   }
 
-  // Niebla: las previsiones bailan y el "?" late.
+  // Niebla: las previsiones bailan y el "?" aparece.
   if (fog) {
     const guesses = fog.querySelectorAll('.fog-guess');
-    gsap.fromTo(
-      guesses,
-      { strokeDashoffset: 0 },
-      { strokeDashoffset: -44, duration: 2, ease: 'none', repeat: -1 },
-    );
+    gsap.fromTo(guesses, { strokeDashoffset: 0 }, { strokeDashoffset: -44, duration: 2, ease: 'none', repeat: -1 });
     gsap.to(guesses, {
       scaleY: (i) => (i ? 1.25 : 0.8),
       transformOrigin: '50% 50%',
@@ -75,13 +66,7 @@ export function initProblem({ mobile }: Opts) {
     gsap.fromTo(
       fog.querySelector('.fog-q'),
       { scale: 0.6, opacity: 0 },
-      {
-        scale: 1,
-        opacity: 1,
-        ease: 'elastic.out(1, 0.5)',
-        duration: 1.2,
-        scrollTrigger: { trigger: fog, start: 'top 70%', once: true },
-      },
+      { scale: 1, opacity: 1, ease: 'elastic.out(1, 0.5)', duration: 1.2, scrollTrigger: { trigger: fog, start: 'top 70%', once: true } },
     );
   }
 }
